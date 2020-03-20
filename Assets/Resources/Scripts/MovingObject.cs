@@ -18,8 +18,8 @@ public class MovingObject : MonoBehaviour
     protected virtual void Start()
     {
         this.boxCollider = GetComponent<BoxCollider2D>();
-        this.groundTilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
         this.encounterTilemap = GameObject.Find("Encounter").GetComponent<Tilemap>();
+        this.groundTilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
         this.wallTilemap = GameObject.Find("Wall").GetComponent<Tilemap>();
         this.tavernTilemap = GameObject.Find("Tavern").GetComponent<Tilemap>();
     }

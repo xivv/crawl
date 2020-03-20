@@ -8,7 +8,13 @@ public class TargetSelector : TurnOrderObject
     [HideInInspector]
     public List<UnitOrderObject> selectedTargets = new List<UnitOrderObject>();
 
-    private Ability ability;
+    [HideInInspector]
+    public List<UnitOrderObject> participants = new List<UnitOrderObject>();
+
+    public Encounter encounter;
+
+    [HideInInspector]
+    public Ability ability;
     private UnitOrderObject source;
 
     private Vector2 startingPosition;
@@ -16,14 +22,67 @@ public class TargetSelector : TurnOrderObject
     public Tilemap selectedTargetsTileMap;
     public TileBase selectedTargetTileBase;
 
+    public bool IsValidTarget(UnitOrderObject unitOrderObject)
+    {
+        // We need to check if atleast one effect can target the target
+
+        Boolean isValid = false;
+
+        foreach (AbilityEffect abilityEffect in ability.effects)
+        {
+            if (abilityEffect.targetType.Equals(TargetType.ALL))
+            {
+                isValid = true;
+            }
+            else if (abilityEffect.targetType.Equals(TargetType.ALLY))
+            {
+                isValid = encounter.IsAlly(source, unitOrderObject) || unitOrderObject.Equals(source);
+            }
+            else if (abilityEffect.targetType.Equals(TargetType.ENEMY))
+            {
+                isValid = !encounter.IsAlly(source, unitOrderObject);
+            }
+            else if (abilityEffect.targetType.Equals(TargetType.SELF))
+            {
+                isValid = unitOrderObject.Equals(source);
+            }
+            else if (abilityEffect.targetType.Equals(TargetType.OTHER))
+            {
+                isValid = !unitOrderObject.Equals(source);
+            }
+
+            if (isValid)
+            {
+                return isValid;
+            }
+        }
+
+        return false;
+    }
+
     // At least one target and correct number of targets
     public bool TargetSelectionValid()
     {
         return selectedTargets.Count > 0 && (selectedTargets.Count >= ability.minTargets || ability.minTargets == null || ability.maxTargets == null);
     }
 
+    public void SelectAOETargets(Ability ability)
+    {
+        // Check the distance for everyboady and set the list of the targetselector to the units we got
+        foreach (UnitOrderObject unitOrderObject in participants)
+        {
+            float distance = Vector2.Distance(startingPosition, unitOrderObject.transform.position);
+            if (distance <= ability.reach + 1)
+            {
+                this.AddTarget(unitOrderObject);
+            }
+        }
+    }
+
     public void StartTargetSelection(UnitOrderObject source, Ability ability, Vector2 startingPosition, List<UnitOrderObject> participants)
     {
+        this.selectedTargets.Clear();
+        this.participants = participants;
         this.source = source;
         this.source.pausedMovement = true;
         this.pausedMovement = false;
@@ -33,39 +92,20 @@ public class TargetSelector : TurnOrderObject
         this.gameObject.SetActive(true);
 
         // If its an AOE Effect where we dont need to target anybody
-        if (ability.minTargets == null && ability.maxTargets == null)
+        if (ability.IsAOE())
         {
-            // Check the distance for everybody and set the list of the targetselector to the units we got
-            foreach (UnitOrderObject unitOrderObject in participants)
-            {
-                float distance = Vector2.Distance(startingPosition, unitOrderObject.transform.position);
-                if (distance <= ability.reach + 1)
-                {
-                    selectedTargets.Add(unitOrderObject);
-                }
-            }
+            this.SelectAOETargets(ability);
         }
         // If we can only target ourself
-        else if (ability.reach == 0)
+        else if (ability.IsSelfTargeting())
         {
-            selectedTargets.Add(source);
+            this.AddTarget(source);
         }
+        // Draw where targets can be selected
         else
         {
-            // Draw where targets can be selected
-            Vector2 startPosition = new Vector2(source.transform.position.x - ability.reach, source.transform.position.y + ability.reach);
-
-            if (ability.targetPolygon == TargetPolygon.RECTANGLE)
-            {
-                MapTools.DrawReach(startPosition, startingPosition, ability.reach);
-            }
+            ability.DrawReach(source, startingPosition);
         }
-    }
-
-    public void StopAbilityExecution()
-    {
-        this.selectedTargets.Clear();
-        this.pausedMovement = false;
     }
 
     public void AllowAbilityExecution()
@@ -73,13 +113,12 @@ public class TargetSelector : TurnOrderObject
         this.pausedMovement = true;
     }
 
-    public Ability EndTargetSelection()
+    public List<UnitOrderObject> EndTargetSelection()
     {
         this.pausedMovement = true;
         this.gameObject.SetActive(false);
-        this.selectedTargets.Clear();
         this.selectedTargetsTileMap.ClearAllTiles();
-        return this.ability;
+        return this.selectedTargets;
     }
 
 
@@ -127,23 +166,29 @@ public class TargetSelector : TurnOrderObject
                 selectedUnit = this.rayCastToUnit(position).transform.gameObject.GetComponent<UnitOrderObject>();
             }
 
-            Vector3Int toCheckPosition3Int = new Vector3Int((int)selectedUnit.transform.position.x, (int)selectedUnit.transform.position.y, 0);
-
-            // Check if we already selected the target thus removing it
-            if (this.selectedTargets.Contains(selectedUnit))
-            {
-                this.selectedTargets.Remove(selectedUnit);
-                MapTools.placeTile(null, selectedTargetsTileMap, toCheckPosition3Int);
-            }
-
-            // If the list is not full already or we have no limit
-            else if (this.selectedTargets.Count < ability.maxTargets || ability.maxTargets == null)
-            {
-                this.selectedTargets.Add(selectedUnit);
-                MapTools.placeTile(selectedTargetTileBase, selectedTargetsTileMap, toCheckPosition3Int);
-            }
+            this.AddTarget(selectedUnit);
         }
     }
+
+    public void AddTarget(UnitOrderObject unitOrderObject)
+    {
+        Vector3Int toCheckPosition3Int = new Vector3Int((int)unitOrderObject.transform.position.x, (int)unitOrderObject.transform.position.y, 0);
+
+        if (this.selectedTargets.Contains(unitOrderObject))
+        {
+            this.selectedTargets.Remove(unitOrderObject);
+            MapTools.placeTile(null, selectedTargetsTileMap, toCheckPosition3Int);
+        }
+
+        // If the list is not full already or we have no limit
+        else if ((this.selectedTargets.Count < ability.maxTargets || ability.maxTargets == null) && this.IsValidTarget(unitOrderObject))
+        {
+            this.selectedTargets.Add(unitOrderObject);
+            MapTools.placeTile(selectedTargetTileBase, selectedTargetsTileMap, toCheckPosition3Int);
+        }
+    }
+
+
     protected override void AfterMovement()
     {
         base.AfterMovement();
@@ -231,28 +276,35 @@ public class TargetSelector : TurnOrderObject
             if (Event.current.Equals(Event.KeyboardEvent(KeyCode.KeypadEnter.ToString())) || Event.current.Equals(Event.KeyboardEvent(KeyCode.Return.ToString())))
             {
 
-                if (ability.targetStartPoint == TargetStartPoint.REGION)
+                if (ability.IsAOE())
+                {
+                    this.SelectAOETargets(ability);
+                }
+                else if (ability.IsSelfTargeting())
+                {
+                    this.AddTarget(source);
+                }
+                else
                 {
 
-                    if (ability.targetPolygon == TargetPolygon.RECTANGLE)
+                    if (ability.targetStartPoint == TargetStartPoint.REGION)
                     {
-                        CheckRectanglePosition();
+
+                        if (ability.targetPolygon == TargetPolygon.RECTANGLE)
+                        {
+                            CheckRectanglePosition();
+                        }
+                        else if (ability.targetPolygon == TargetPolygon.CONE)
+                        {
+                            CheckConePosition();
+                        }
                     }
-                    else if (ability.targetPolygon == TargetPolygon.CONE)
+                    else if (ability.targetStartPoint == TargetStartPoint.SELF)
                     {
-                        CheckConePosition();
+                        AddTargetAtPosition(this.transform.position);
                     }
                 }
-                else if (ability.targetStartPoint == TargetStartPoint.SELF)
-                {
-                    AddTargetAtPosition(this.transform.position);
-                }
 
-            }
-
-            if (Event.current.Equals(Event.KeyboardEvent(KeyCode.Escape.ToString())))
-            {
-                this.StopAbilityExecution();
             }
         }
     }

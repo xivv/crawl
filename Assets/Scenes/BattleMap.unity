@@ -1159,7 +1159,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1831153740}
-        m_MethodName: finishSelection
+        m_MethodName: StopAbilitySelection
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3756,6 +3756,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9f32ba7a749c9fa4b9f561ba759c815a,
         type: 2}
+    - target: {fileID: 813237448, guid: 13e8d28811b228c46bbffde89cc6bca6, type: 3}
+      propertyPath: encounter
+      value: 
+      objectReference: {fileID: 1831153740}
     - target: {fileID: 8040624556654360745, guid: 13e8d28811b228c46bbffde89cc6bca6,
         type: 3}
       propertyPath: m_LocalPosition.x

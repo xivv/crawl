@@ -26,6 +26,16 @@ public class ActionMenu : MonoBehaviour
 
     }
 
+    public void noStandardAction()
+    {
+        this.act.SetActive(false);
+        this.stop.SetActive(false);
+        this.defend.SetActive(false);
+        this.flee.SetActive(false);
+        this.end.SetActive(true);
+        this.finishSelection.SetActive(false);
+    }
+
     public void abilitySelection()
     {
         this.act.SetActive(false);

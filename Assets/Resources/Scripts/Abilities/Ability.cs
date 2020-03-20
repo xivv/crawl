@@ -15,7 +15,7 @@ public class Ability
 
     public int targetArea;
 
-    List<AbilityEffect> effects = new List<AbilityEffect>();
+    public List<AbilityEffect> effects = new List<AbilityEffect>();
 
     public Ability(string name, string description, int? minTargets, int? maxTargets, int reach, List<AbilityEffect> effects)
     {
@@ -82,6 +82,26 @@ public class Ability
                 }
             }
         }
+    }
+
+    public void DrawReach(UnitOrderObject source, Vector2 startingPosition)
+    {
+        Vector2 startPosition = new Vector2(source.transform.position.x - this.reach, source.transform.position.y + this.reach);
+
+        if (this.targetPolygon == TargetPolygon.RECTANGLE)
+        {
+            MapTools.DrawReach(startPosition, startingPosition, this.reach);
+        }
+    }
+
+    public bool IsSelfTargeting()
+    {
+        return this.reach == 0;
+    }
+
+    public bool IsAOE()
+    {
+        return this.minTargets == null && this.maxTargets == null;
     }
 
     public void executeAbility(Unit source, List<Unit> targets)

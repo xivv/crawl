@@ -6,7 +6,8 @@ public class MainMenu : MonoBehaviour
 
     public void NewGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene("WorldMap", LoadSceneMode.Single);
+        PlayerController.position = new Vector2(0.5f, 0.5f);
     }
 
     public void QuitGame()

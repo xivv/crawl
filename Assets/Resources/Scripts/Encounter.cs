@@ -7,7 +7,6 @@ using Random = UnityEngine.Random;
 
 public class Encounter : MonoBehaviour
 {
-
     public static Encounter instance;
 
     public List<UnitOrderObject> participants = new List<UnitOrderObject>();
@@ -53,6 +52,21 @@ public class Encounter : MonoBehaviour
     public List<UnitOrderObject> possibleEnemies = new List<UnitOrderObject>();
     public TileBase groundTile;
     public TileBase wallTile;
+
+    public Boolean IsAlly(UnitOrderObject source, UnitOrderObject target)
+    {
+
+        if (this.monster.Contains(source))
+        {
+            return this.monster.Contains(target);
+        }
+        else if (this.heroes.Contains(source))
+        {
+            return this.heroes.Contains(target);
+        }
+
+        return false;
+    }
 
     void GenerateEncounter(int challengeRating, int width, int height)
     {
@@ -121,7 +135,7 @@ public class Encounter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GenerateEncounter(0, 5, 5);
+        GenerateEncounter(0, 25, 25);
         StartEncounter();
     }
 
@@ -173,14 +187,15 @@ public class Encounter : MonoBehaviour
     void ToggleActions()
     {
         bool unitCanActAndIsAbleToMove = this.unitToAct.unit.hasStandardAction && !this.unitToAct.pausedMovement;
+        bool unitIsAbleToMoveNoStandardAction = !this.unitToAct.unit.hasStandardAction && !this.unitToAct.pausedMovement;
 
-        if (unitCanActAndIsAbleToMove)
+        if (unitIsAbleToMoveNoStandardAction)
+        {
+            this.actionMenu.noStandardAction();
+        }
+        else if (unitCanActAndIsAbleToMove)
         {
             this.actionMenu.open();
-        }
-        else
-        {
-            this.actionMenu.abilitySelection();
         }
     }
 
@@ -210,10 +225,21 @@ public class Encounter : MonoBehaviour
     }
 
 
-    void ExecuteAbility(Ability ability, UnitOrderObject source, List<UnitOrderObject> selectedTargets)
+    void ExecuteAbility(Ability ability, UnitOrderObject source)
     {
 
+        ability.executeAbility(this.unitToAct.unit, this.UnitOrderObjectsToUnits(this.targetSelector.EndTargetSelection()));
 
+        this.unitToAct.pausedMovement = false;
+
+        if (this.unitToAct.remainingMovementSpeed <= 0)
+        {
+            this.unitToAct.canAct = false;
+        }
+        else
+        {
+            this.unitToAct.unit.hasStandardAction = false;
+        }
     }
 
     // Update is called once per frame
@@ -252,45 +278,6 @@ public class Encounter : MonoBehaviour
                 unitInfo.unitOrderObject = unitToAct;
                 CheckConditions(unitToAct.unit);
                 unitToAct.BeforeTurn();
-            }
-
-            // If we are done with the selection we reactivate the units movement or resume to take action
-            if (this.unitToAct.pausedMovement == true && this.targetSelector.pausedMovement == true && !this.abilityMenu.canAct)
-            {
-
-                // We use the ability and remove the standard action
-                if (this.targetSelector.TargetSelectionValid())
-                {
-
-                    List<Unit> targets = new List<Unit>();
-                    foreach (UnitOrderObject unitOrderObject in this.targetSelector.selectedTargets)
-                    {
-                        targets.Add(unitOrderObject.unit);
-                    }
-
-                    this.targetSelector.EndTargetSelection().executeAbility(this.unitToAct.unit, targets);
-
-                    this.unitToAct.pausedMovement = false;
-                    this.abilityMenu.selectedAbility = null;
-                    if (this.unitToAct.remainingMovementSpeed <= 0)
-                    {
-                        this.unitToAct.canAct = false;
-                    }
-                    else
-                    {
-                        this.unitToAct.unit.hasStandardAction = false;
-                    }
-                }
-                // We cancle the action
-                else
-                {
-                    Debug.Log("No valid targets selected or the action was canceld.>");
-                    this.targetSelector.EndTargetSelection();
-                    this.unitToAct.pausedMovement = false;
-                    this.abilityMenu.selectedAbility = null;
-                }
-
-                targetUndergroundTilemap.ClearAllTiles();
             }
         }
     }
@@ -342,6 +329,8 @@ public class Encounter : MonoBehaviour
         this.abilityMenu.source = unitToAct;
         this.abilityMenu.setAbilities(this.unitToAct.unit.abilities);
         this.abilityMenu.canAct = true;
+
+        this.actionMenu.abilitySelection();
     }
 
     public void StopAbilitySelection()
@@ -352,14 +341,14 @@ public class Encounter : MonoBehaviour
         // Add the abilities of the unit to the panel
         this.abilityMenu.gameObject.SetActive(false);
         this.abilityMenu.canAct = false;
-
-        this.targetSelector.StopAbilityExecution();
+        this.targetUndergroundTilemap.ClearAllTiles();
+        this.targetSelector.EndTargetSelection();
     }
 
     public void finishSelection()
     {
         this.StopAbilitySelection();
-        this.targetSelector.AllowAbilityExecution();
+        this.ExecuteAbility(this.targetSelector.ability, this.unitToAct);
     }
 
     public void defendAction()
@@ -544,7 +533,7 @@ public class Encounter : MonoBehaviour
 
     private void moveUnitCamera(TurnOrderObject observingUnit)
     {
-        Vector3 offsetPosition = observingUnit.transform.position + offset;
+        Vector3 offsetPosition = new Vector3(observingUnit.transform.position.x, observingUnit.transform.position.y, observingUnit.transform.position.z + offset.z);
         unitCamera.transform.position = Vector3.SmoothDamp(unitCamera.transform.position, offsetPosition, ref velocity, smoothTime);
     }
 
@@ -595,6 +584,17 @@ public class Encounter : MonoBehaviour
 
         }
         return living;
+    }
+
+    public List<Unit> UnitOrderObjectsToUnits(List<UnitOrderObject> unitOrderObjects)
+    {
+        List<Unit> targets = new List<Unit>();
+        foreach (UnitOrderObject unitOrderObject in unitOrderObjects)
+        {
+            targets.Add(unitOrderObject.unit);
+        }
+
+        return targets;
     }
 
 }
