@@ -9,7 +9,7 @@ public class AbilityMenu : MonoBehaviour
 
     private Text[] abilityTextFields;
     public Ability selectedAbility;
-    public TurnOrderObject source;
+    public UnitOrderObject source;
 
     private bool isMoving = false;
     [HideInInspector]
@@ -18,6 +18,26 @@ public class AbilityMenu : MonoBehaviour
     public float movementDelay = 0.2f;
     private int index = 0;
     private int maxItems = 8;
+
+    public bool HasTargetSelected()
+    {
+        return canAct == true && selectedAbility != null;
+    }
+
+    public void StartAbilitySelection(UnitOrderObject unitToAct)
+    {
+        gameObject.SetActive(true);
+        source = unitToAct;
+        setAbilities(unitToAct.unit.abilities);
+        canAct = true;
+    }
+
+    public void StopAbilitySelection()
+    {
+        gameObject.SetActive(false);
+        canAct = false;
+        selectedAbility = null;
+    }
 
 
     public void setAbilities(List<Ability> list)

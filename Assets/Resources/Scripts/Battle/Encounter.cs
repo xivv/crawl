@@ -262,12 +262,10 @@ public class Encounter : MonoBehaviour
             RemoveDeadUnits();
 
             // If we selected an ability we grab it here and first activate the target selection
-            if (this.abilityMenu.canAct == true && this.abilityMenu.selectedAbility != null)
+            if (abilityMenu.HasTargetSelected())
             {
-                this.abilityMenu.canAct = false;
-                this.abilityMenu.gameObject.SetActive(false);
-                Ability selectedAbility = this.abilityMenu.selectedAbility;
-                SelectTargets(this.unitToAct.transform.position, selectedAbility);
+                SelectTargets(unitToAct.transform.position, abilityMenu.selectedAbility);
+                abilityMenu.StopAbilitySelection();
             }
 
             // We enable - disable actions
@@ -346,11 +344,7 @@ public class Encounter : MonoBehaviour
 
         // Show the panel for the abilities
         // Add the abilities of the unit to the panel
-        this.abilityMenu.gameObject.SetActive(true);
-        this.abilityMenu.source = unitToAct;
-        this.abilityMenu.setAbilities(this.unitToAct.unit.abilities);
-        this.abilityMenu.canAct = true;
-
+        this.abilityMenu.StartAbilitySelection(unitToAct);
         this.actionMenu.abilitySelection();
     }
 
@@ -360,9 +354,7 @@ public class Encounter : MonoBehaviour
 
         // Hide the panel for the abilities
         // Add the abilities of the unit to the panel
-        this.abilityMenu.gameObject.SetActive(false);
-        this.abilityMenu.canAct = false;
-        this.abilityMenu.selectedAbility = null;
+        this.abilityMenu.StopAbilitySelection();
         this.unitToAct.pausedMovement = false;
         this.targetUndergroundTilemap.ClearAllTiles();
         this.targetSelector.EndTargetSelection();
@@ -395,8 +387,7 @@ public class Encounter : MonoBehaviour
     public void endTurnAction()
     {
         this.unitToAct.canAct = false;
-        this.abilityMenu.gameObject.SetActive(false);
-        this.abilityMenu.selectedAbility = null;
+        this.abilityMenu.StopAbilitySelection();
         this.targetSelector.pausedMovement = true;
         this.targetSelector.gameObject.SetActive(false);
         this.actButton.SetActive(true);
