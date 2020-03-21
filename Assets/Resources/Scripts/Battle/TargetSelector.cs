@@ -113,6 +113,11 @@ public class TargetSelector : TurnOrderObject
         this.pausedMovement = true;
     }
 
+    public void ClearSelectedTargets()
+    {
+
+    }
+
     public List<UnitOrderObject> EndTargetSelection()
     {
         this.pausedMovement = true;

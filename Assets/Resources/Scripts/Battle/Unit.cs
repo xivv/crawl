@@ -58,10 +58,8 @@ public class Unit
         {
             change = change * 2;
         }
-        else
-        {
-            this.encounterStats.health += change;
-        }
+
+        this.encounterStats.health -= change;
 
         if (this.encounterStats.health <= 0)
         {

@@ -53,6 +53,9 @@ public class Encounter : MonoBehaviour
     public TileBase groundTile;
     public TileBase wallTile;
 
+    // Vision
+    public bool isDay = true;
+
     public Boolean IsAlly(UnitOrderObject source, UnitOrderObject target)
     {
 
@@ -70,6 +73,14 @@ public class Encounter : MonoBehaviour
 
     void GenerateEncounter(int challengeRating, int width, int height)
     {
+
+        int number = Random.Range(0, 10);
+        // isDay = number >= 5;
+
+        if (isDay)
+        {
+            Instantiate(Resources.Load("Prefabs/Vision/Sunlight"), new Vector2(0, 0), Quaternion.identity);
+        }
 
         for (int i = 0; i < width; i++)
         {
@@ -351,6 +362,8 @@ public class Encounter : MonoBehaviour
         // Add the abilities of the unit to the panel
         this.abilityMenu.gameObject.SetActive(false);
         this.abilityMenu.canAct = false;
+        this.abilityMenu.selectedAbility = null;
+        this.unitToAct.pausedMovement = false;
         this.targetUndergroundTilemap.ClearAllTiles();
         this.targetSelector.EndTargetSelection();
     }
