@@ -27,6 +27,11 @@ public class TurnOrderObject : MovingObject
         base.Update();
     }
 
+    public virtual void AfterTurn()
+    {
+        // See inheritation
+    }
+
     public virtual void BeforeTurn()
     {
         this.canAct = true;

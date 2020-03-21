@@ -7,7 +7,7 @@ public class Unit
 {
     /** Encounter Variables **/
     [HideInInspector]
-    public String unitName;
+    public string unitName;
     public Sprite sprite;
     [HideInInspector]
     public MetaInformation metaInformation = new MetaInformation();
@@ -16,6 +16,7 @@ public class Unit
     public Stats encounterStats;
     public TypeClass typeClass;
 
+    public List<Vision> visions = new List<Vision>();
     public List<Ability> abilities = new List<Ability>();
     public List<DamageType> resistances = new List<DamageType>();
     public List<DamageType> weaknesses = new List<DamageType>();
@@ -31,7 +32,6 @@ public class Unit
         this.metaInformation = metaInformation;
         this.baseStats = baseStats;
         this.encounterStats = this.baseStats;
-        conditions = new List<Condition>();
         this.typeClass = typeClass;
         this.sprite = Resources.Load<Sprite>("Sprites/" + spriteName);
     }
@@ -171,4 +171,11 @@ public enum Direction
     WEST,
     NORTH,
     SOUTH
+}
+
+public enum Vision
+{
+    DARKVISION,
+    LOWLIGHTVISION,
+    BLIND
 }

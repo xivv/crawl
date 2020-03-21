@@ -49,5 +49,6 @@ public class Cleric : Hero
 
         this.abilities.Add(clw);
         this.abilities.Add(bless);
+        this.visions.Add(Vision.DARKVISION);
     }
 }

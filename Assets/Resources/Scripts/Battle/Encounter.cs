@@ -135,7 +135,7 @@ public class Encounter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GenerateEncounter(0, 25, 25);
+        GenerateEncounter(0, 10, 10);
         StartEncounter();
     }
 
@@ -265,6 +265,8 @@ public class Encounter : MonoBehaviour
             // Apply Conditions
             if (!unitToAct.canAct)
             {
+                unitToAct.AfterTurn();
+
                 initiativeCounter++;
 
                 // If one turn ends and we need to start over again
@@ -276,10 +278,18 @@ public class Encounter : MonoBehaviour
                 // We give the unit all its previous state (movement etc.)
                 unitToAct = initiative[initiativeCounter];
                 unitInfo.unitOrderObject = unitToAct;
+
                 CheckConditions(unitToAct.unit);
                 unitToAct.BeforeTurn();
             }
         }
+    }
+
+    void CreateTorch()
+    {
+        // Create a vision object for the unit
+        GameObject torch = Resources.Load<GameObject>("Prefabs/Torch");
+        Instantiate(torch, unitToAct.gameObject.transform.position, Quaternion.identity);
     }
 
     void LateUpdate()

@@ -42,5 +42,6 @@ public class Skeleton : Unit
             }
         ));
         this.abilities.Add(ability);
+        this.visions.Add(Vision.DARKVISION);
     }
 }
