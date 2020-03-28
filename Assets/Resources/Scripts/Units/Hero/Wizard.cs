@@ -35,8 +35,8 @@ public class Wizard : Hero
     {
 
         AbilityEffect firebreathEffect = new AbilityEffect(new List<Condition>(new Condition[] {
-                new Condition(ConditionType.CURSED,2,this)
-            }), TargetType.ALL, 10, "reflex", false, "charisma");
+                new Condition(ConditionType.CURSED,2)
+            }), TargetType.ALL, 10, SavingThrow.REFLEX, false, AbilityScore.CHARISMA);
 
         Ability fireBreath = new Ability("Firebreath", "Description", 1, null, 1, TargetStartPoint.REGION, TargetPolygon.CONE, 2, new List<AbilityEffect>(
             new AbilityEffect[] {
@@ -44,7 +44,7 @@ public class Wizard : Hero
             }
         ));
 
-        AbilityEffect abilityEffect = new AbilityEffect(TargetType.ALL, 10, 6, DamageType.FIRE, false, "intelligence");
+        AbilityEffect abilityEffect = new AbilityEffect(TargetType.ALL, 10, 6, DamageType.FIRE, false, AbilityScore.INTELLIGENCE);
         Ability ability = new Ability("Fireball", "Description", 1, null, 3, TargetStartPoint.REGION, 2, new List<AbilityEffect>(
             new AbilityEffect[] {
                 abilityEffect

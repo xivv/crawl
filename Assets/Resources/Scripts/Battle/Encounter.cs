@@ -75,7 +75,7 @@ public class Encounter : MonoBehaviour
     {
 
         int number = Random.Range(0, 10);
-        // isDay = number >= 5;
+        isDay = false;
 
         if (isDay)
         {

@@ -54,7 +54,7 @@ public class Ability
         this.targetPolygon = targetPolygon;
     }
 
-    private void ApplyCondition(AbilityEffect effect, Unit target)
+    private void ApplyCondition(AbilityEffect effect, Unit source, Unit target)
     {
         if (effect.conditions.Count > 0)
         {
@@ -77,7 +77,7 @@ public class Ability
 
                 if (!alreadyHasCondition)
                 {
-                    target.conditions.Add(condition);
+                    target.conditions.Add(new Condition(condition.conditionType, condition.duration, source));
                     Debug.Log(target.unitName + ":> new condition " + condition.ToString());
                 }
             }
@@ -164,12 +164,12 @@ public class Ability
                     {
                         Debug.Log(target.unitName + ":> saving throw failed");
 
-                        ApplyCondition(effect, target);
+                        ApplyCondition(effect, source, target);
                     }
                 }
                 else if (effect.conditions != null && effect.conditions.Count > 0 && effect.dc == null)
                 {
-                    ApplyCondition(effect, target);
+                    ApplyCondition(effect, source, target);
                 }
             }
         }

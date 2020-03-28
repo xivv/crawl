@@ -33,8 +33,8 @@ public class Cleric : Hero
             }))
     {
         AbilityEffect blessEffect = new AbilityEffect(new List<Condition>(new Condition[] {
-                new Condition(ConditionType.BLESSED,2,this)
-            }), TargetType.ALL);
+                new Condition(ConditionType.BLESSED,2)
+            }), TargetType.ALLY);
 
         Ability bless = new Ability("Bless", "Description", null, null, 6, new List<AbilityEffect>(
             new AbilityEffect[] {

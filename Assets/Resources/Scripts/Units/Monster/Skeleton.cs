@@ -33,8 +33,8 @@ public class Skeleton : Unit
        , TypeClass.MONSTER)
     {
         AbilityEffect abilityEffect = new AbilityEffect(new List<Condition>(new Condition[] {
-                new Condition(ConditionType.BLEEDING,2,this)
-            }), TargetType.ENEMY, 10, "fortitude", false, "constitution");
+                new Condition(ConditionType.BLEEDING,2)
+            }), TargetType.ENEMY, 10, SavingThrow.FORITUDE, false, AbilityScore.CONSTITUTION);
 
         Ability ability = new Ability("Skelettons Curse", "Description", 1, 1, 1, new List<AbilityEffect>(
             new AbilityEffect[] {
@@ -43,5 +43,6 @@ public class Skeleton : Unit
         ));
         this.abilities.Add(ability);
         this.visions.Add(Vision.DARKVISION);
+        this.EquipItem(new HeavyShield());
     }
 }

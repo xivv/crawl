@@ -39,14 +39,14 @@ public class Barbar : Hero
 
         Ability smash = new Ability("Smash", "Description", 1, 1, 1, new List<AbilityEffect>(
            new AbilityEffect[] {
-            new AbilityEffect(TargetType.ALL, 2, -6, DamageType.UNTYPED, true, "strength")
+            new AbilityEffect(TargetType.ALL, 2, -6, DamageType.UNTYPED, true, AbilityScore.STRENGTH)
            }
        ));
 
         Ability rage = new Ability("Barbarians Rage", "Description", 1, 1, 0, new List<AbilityEffect>(
             new AbilityEffect[] {
                 new AbilityEffect(new List<Condition>(new Condition[] {
-                new Condition(ConditionType.RAGE,4,this)
+                new Condition(ConditionType.RAGE,4)
             }), TargetType.SELF)
             }
         ));

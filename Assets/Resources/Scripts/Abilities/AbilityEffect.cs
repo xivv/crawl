@@ -7,7 +7,7 @@ public class AbilityEffect
     public List<Condition> conditions = new List<Condition>();
     public TargetType targetType;
     public int? dc;
-    public string savingThrow;
+    public SavingThrow savingThrow;
 
     // Damage
     public int? damageDie;
@@ -16,7 +16,7 @@ public class AbilityEffect
     public bool confirmHit;
 
     // Bonus on either DC of ability or to hit
-    public string abilityScoreBonus;
+    public AbilityScore abilityScoreBonus;
 
     public AbilityEffect(List<Condition> conditions, TargetType targetType)
     {
@@ -24,7 +24,7 @@ public class AbilityEffect
         this.targetType = targetType;
     }
 
-    public AbilityEffect(List<Condition> conditions, TargetType targetType, int? dc, string savingThrow, bool confirmHit, string abilityScoreBonus)
+    public AbilityEffect(List<Condition> conditions, TargetType targetType, int? dc, SavingThrow savingThrow, bool confirmHit, AbilityScore abilityScoreBonus)
     {
         this.conditions = conditions;
         this.targetType = targetType;
@@ -34,7 +34,7 @@ public class AbilityEffect
         this.abilityScoreBonus = abilityScoreBonus;
     }
 
-    public AbilityEffect(TargetType targetType, int damageDie, int damageDice, DamageType damageType, bool confirmHit, string abilityScoreBonus)
+    public AbilityEffect(TargetType targetType, int damageDie, int damageDice, DamageType damageType, bool confirmHit, AbilityScore abilityScoreBonus)
     {
         this.targetType = targetType;
         this.damageDie = damageDie;
@@ -44,7 +44,7 @@ public class AbilityEffect
         this.abilityScoreBonus = abilityScoreBonus;
     }
 
-    public AbilityEffect(List<Condition> conditions, TargetType targetType, int? dc, string savingThrow, int damageDie, int damageDice, DamageType damageType, bool confirmHit, string abilityScoreBonus)
+    public AbilityEffect(List<Condition> conditions, TargetType targetType, int? dc, SavingThrow savingThrow, int damageDie, int damageDice, DamageType damageType, bool confirmHit, AbilityScore abilityScoreBonus)
     {
         this.conditions = conditions;
         this.targetType = targetType;
@@ -71,16 +71,64 @@ public class AbilityEffect
         return rollDie(damageDice, damageDie);
     }
 
+    public int GetAbilityScoreBonus(Unit unit, AbilityScore abilityScore)
+    {
+        switch (abilityScoreBonus)
+        {
+            case AbilityScore.STRENGTH:
+                return unit.encounterStats.strength;
+            case AbilityScore.DEXTERITY:
+                return unit.encounterStats.dexterity;
+            case AbilityScore.CONSTITUTION:
+                return unit.encounterStats.constitution;
+            case AbilityScore.INTELLIGENCE:
+                return unit.encounterStats.intelligence;
+            case AbilityScore.WISDOM:
+                return unit.encounterStats.wisdom;
+            case AbilityScore.CHARISMA:
+                return unit.encounterStats.charisma;
+            default:
+                return 0;
+        }
+    }
+
+    public int GetSavingThrowBonus(Unit unit, SavingThrow savingThrow)
+    {
+        switch (savingThrow)
+        {
+            case SavingThrow.FORITUDE:
+                return unit.encounterStats.fortitude;
+            case SavingThrow.REFLEX:
+                return unit.encounterStats.reflex;
+            case SavingThrow.WILL:
+                return unit.encounterStats.will;
+            default:
+                return 0;
+        }
+    }
+
     public bool hitSucceded(Unit source, Unit target)
     {
-        return this.rollDie(1, 20) + (int)typeof(Stats).GetField(this.abilityScoreBonus).GetValue(source.encounterStats) >=
+
+        int rolled = rollDie(1, 20);
+        int hitBonus = GetAbilityScoreBonus(source, abilityScoreBonus);
+
+        return rolled + hitBonus + hitBonus >=
             target.encounterStats.ac + target.encounterStats.dexterity;
     }
 
     public bool SavingThrowSucceded(Unit source, Unit target)
     {
-        if (this.dc == null) return false;
-        return this.rollDie(1, 20) + (int)typeof(Stats).GetField(this.savingThrow).GetValue(target.encounterStats) >=
-            this.dc + (int)typeof(Stats).GetField(this.abilityScoreBonus).GetValue(source.encounterStats);
+        // No saving throw allowed
+        if (this.dc == null)
+        {
+            return false;
+        }
+
+        int rolled = rollDie(1, 20);
+        int saveBonus = GetSavingThrowBonus(target, savingThrow);
+        int dcBonus = GetAbilityScoreBonus(source, abilityScoreBonus);
+
+        return rolled + saveBonus >= this.dc + dcBonus;
     }
 }

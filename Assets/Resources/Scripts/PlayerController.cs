@@ -23,4 +23,12 @@ public class PlayerController : MonoBehaviour
             DontDestroyOnLoad(this.gameObject);
         }
     }
+
+    private void OnGUI()
+    {
+        if (Event.current.Equals(Event.KeyboardEvent(KeyCode.Escape.ToString())))
+        {
+            MainMenu.instance.IngameMenu();
+        }
+    }
 }
