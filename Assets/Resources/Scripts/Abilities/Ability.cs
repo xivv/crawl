@@ -8,8 +8,8 @@ public class Ability
 {
     public string name;
     public string description;
-    public int? minTargets; // If null we do AOE
-    public int? maxTargets; // If null we do AOE
+    public int minTargets;
+    public int maxTargets;
     public int reach;
 
     public TargetStartPoint targetStartPoint;
@@ -19,7 +19,7 @@ public class Ability
 
     public List<AbilityEffect> effects = new List<AbilityEffect>();
 
-    public Ability(string name, string description, int? minTargets, int? maxTargets, int reach, List<AbilityEffect> effects)
+    public Ability(string name, string description, int minTargets, int maxTargets, int reach, List<AbilityEffect> effects)
     {
         this.name = name;
         this.description = description;
@@ -30,7 +30,7 @@ public class Ability
         this.targetStartPoint = TargetStartPoint.SELF;
     }
 
-    public Ability(string name, string description, int? minTargets, int? maxTargets, int reach, TargetStartPoint targetStartPoint, int targetArea, List<AbilityEffect> effects)
+    public Ability(string name, string description, int minTargets, int maxTargets, int reach, TargetStartPoint targetStartPoint, int targetArea, List<AbilityEffect> effects)
     {
         this.name = name;
         this.description = description;
@@ -43,7 +43,7 @@ public class Ability
         this.targetPolygon = TargetPolygon.RECTANGLE;
     }
 
-    public Ability(string name, string description, int? minTargets, int? maxTargets, int reach, TargetStartPoint targetStartPoint, TargetPolygon targetPolygon, int targetArea, List<AbilityEffect> effects)
+    public Ability(string name, string description, int minTargets, int maxTargets, int reach, TargetStartPoint targetStartPoint, TargetPolygon targetPolygon, int targetArea, List<AbilityEffect> effects)
     {
         this.name = name;
         this.description = description;
@@ -56,32 +56,28 @@ public class Ability
         this.targetPolygon = targetPolygon;
     }
 
-    private void ApplyCondition(AbilityEffect effect, Unit source, Unit target)
+    private void ApplyConditions(List<Condition> conditions, Unit source, Unit target)
     {
-        if (effect.conditions.Count > 0)
+        foreach (Condition condition in conditions)
         {
-            foreach (Condition condition in effect.conditions)
+
+            bool alreadyHasCondition = false;
+
+            // We check first if the character already has the condition and if yes we do nothing
+            foreach (Condition targetCondition in target.conditions)
             {
-
-                bool alreadyHasCondition = false;
-
-                // We check first if the character already has the condition and if yes we try to make the duration longer
-                foreach (Condition targetCondition in target.conditions)
+                if (targetCondition.conditionType == condition.conditionType)
                 {
-                    if (targetCondition.conditionType == condition.conditionType)
-                    {
-                        targetCondition.duration += condition.duration;
-                        targetCondition.remainingTime += condition.duration;
-                        Debug.Log(target.unitName + ":> already has condition " + condition.ToString());
-                        alreadyHasCondition = true;
-                    }
+                    Debug.Log(target.unitName + ":> already has condition " + condition.ToString());
+                    alreadyHasCondition = true;
+                    return;
                 }
+            }
 
-                if (!alreadyHasCondition)
-                {
-                    target.conditions.Add(new Condition(condition.conditionType, condition.duration, source));
-                    Debug.Log(target.unitName + ":> new condition " + condition.ToString());
-                }
+            if (!alreadyHasCondition)
+            {
+                target.conditions.Add(new Condition(condition.conditionType, condition.duration, source));
+                Debug.Log(target.unitName + ":> new condition " + condition.ToString());
             }
         }
     }
@@ -103,75 +99,56 @@ public class Ability
 
     public bool IsAOE()
     {
-        return this.minTargets == null && this.maxTargets == null;
+        return this.minTargets < 0 && this.maxTargets < 0;
     }
 
-    public void executeAbility(Unit source, List<Unit> targets)
+    public void Execute(Unit source, List<Unit> targets)
     {
         foreach (Unit target in targets)
         {
             foreach (AbilityEffect effect in effects)
             {
-                // If we cannot target this unit    
-                if (effect.targetType == TargetType.SELF && source != target)
-                {
-                    Debug.Log(target.unitName + ":> cant be targeted by ability because target is not SELF");
-                    break;
-                }
-                else if (effect.targetType == TargetType.OTHER && source == target)
-                {
-                    Debug.Log(target.unitName + ":> cant be targeted by ability because target is not OTHER");
-                    break;
-                }
-                else if (effect.targetType == TargetType.ALLY && source.typeClass != target.typeClass)
-                {
-                    Debug.Log(target.unitName + ":> cant be targeted by ability because target is not an ALLY");
-                    break;
-                }
-                else if (effect.targetType == TargetType.ENEMY && source.typeClass == target.typeClass)
-                {
-                    Debug.Log(target.unitName + ":> cant be targeted by ability because target is not an ENEMY");
-                    break;
-                }
 
-                // If the ability needs to hit first
+                // This means we need to hit first, if we dont hit we exit this effect
                 if (effect.confirmHit)
                 {
-                    if (!effect.hitSucceded(source, target))
+
+                    bool isHit = effect.hitSucceded(source, target);
+                    if (!isHit)
                     {
-                        Debug.Log(target.unitName + ":> did not get hit by ability");
+                        Debug.Log(target.unitName + ":> did not get hit by the ability");
                         break;
                     }
                     else
                     {
-                        target.handleHealthChange(effect.rollDamage(), effect.damageType);
-                        Debug.Log(target.unitName + ":> did get hit by the ability");
+                        Debug.Log(target.unitName + ":> got hit by the ability");
                     }
                 }
-                else if (effect.damageDice != null && effect.damageDie != null)
+
+                // If the ability makes damage
+                if (effect.damageDie > 0 && effect.damageDice > 0)
                 {
                     target.handleHealthChange(effect.rollDamage(), effect.damageType);
-                    Debug.Log(target.unitName + ":> takes damage automatically");
+                    Debug.Log(target.unitName + ":> takes damage");
                 }
 
-                // We first check if we need to do a saving throw
-                if (effect.dc != null)
+                // This means that the conditions dont apply automatically and need a saving throw
+                // We make a simple version of saving here, we just apply the conditions on a failed save
+                if (effect.conditions.Count > 0)
                 {
-                    if (effect.SavingThrowSucceded(source, target))
+                    if (effect.dc > 0)
                     {
-                        Debug.Log(target.unitName + ":> saving throw succeded");
-                        break;
+                        bool didSave = effect.SavingThrowSucceded(source, target);
+
+                        if (!didSave)
+                        {
+                            ApplyConditions(effect.conditions, source, target);
+                        }
                     }
                     else
                     {
-                        Debug.Log(target.unitName + ":> saving throw failed");
-
-                        ApplyCondition(effect, source, target);
+                        ApplyConditions(effect.conditions, source, target);
                     }
-                }
-                else if (effect.conditions != null && effect.conditions.Count > 0 && effect.dc == null)
-                {
-                    ApplyCondition(effect, source, target);
                 }
             }
         }

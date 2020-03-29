@@ -239,7 +239,7 @@ public class Encounter : MonoBehaviour
     void ExecuteAbility(Ability ability, UnitOrderObject source)
     {
 
-        ability.executeAbility(this.unitToAct.unit, this.UnitOrderObjectsToUnits(this.targetSelector.EndTargetSelection()));
+        ability.Execute(this.unitToAct.unit, this.UnitOrderObjectsToUnits(this.targetSelector.EndTargetSelection()));
 
         this.unitToAct.pausedMovement = false;
 

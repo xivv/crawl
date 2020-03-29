@@ -21,7 +21,7 @@ public class AbilityMenu : MonoBehaviour
 
     public bool HasTargetSelected()
     {
-        return canAct == true && selectedAbility.name != null;
+        return canAct == true && selectedAbility != null;
     }
 
     public void StartAbilitySelection(UnitOrderObject unitToAct)
