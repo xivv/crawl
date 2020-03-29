@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-public class Skeleton : Unit
+﻿public class Skeleton : Unit
 {
     public Skeleton() : base(
         "Skeleton",
@@ -32,16 +30,6 @@ public class Skeleton : Unit
         }
        , TypeClass.MONSTER)
     {
-        AbilityEffect abilityEffect = new AbilityEffect(new List<Condition>(new Condition[] {
-                new Condition(ConditionType.BLEEDING,2)
-            }), TargetType.ENEMY, 10, SavingThrow.FORITUDE, false, AbilityScore.CONSTITUTION);
-
-        Ability ability = new Ability("Skelettons Curse", "Description", 1, 1, 1, new List<AbilityEffect>(
-            new AbilityEffect[] {
-                abilityEffect
-            }
-        ));
-        this.abilities.Add(ability);
         this.visions.Add(Vision.DARKVISION);
         this.EquipItem(ItemLoader.GetItem("HeavyShield"));
     }

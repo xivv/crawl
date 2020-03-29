@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Random = UnityEngine.Random;
 
 [Serializable]
@@ -9,56 +8,17 @@ public class AbilityEffect
     // Conditions
     public List<Condition> conditions = new List<Condition>();
     public TargetType targetType;
-    public int? dc;
+    public int dc;
     public SavingThrow savingThrow;
 
     // Damage
-    public int? damageDie;
-    public int? damageDice;
+    public int damageDie;
+    public int damageDice;
     public DamageType damageType;
     public bool confirmHit;
 
     // Bonus on either DC of ability or to hit
     public AbilityScore abilityScoreBonus;
-
-    public AbilityEffect(List<Condition> conditions, TargetType targetType)
-    {
-        this.conditions = conditions;
-        this.targetType = targetType;
-    }
-
-    public AbilityEffect(List<Condition> conditions, TargetType targetType, int? dc, SavingThrow savingThrow, bool confirmHit, AbilityScore abilityScoreBonus)
-    {
-        this.conditions = conditions;
-        this.targetType = targetType;
-        this.dc = dc;
-        this.savingThrow = savingThrow;
-        this.confirmHit = confirmHit;
-        this.abilityScoreBonus = abilityScoreBonus;
-    }
-
-    public AbilityEffect(TargetType targetType, int damageDie, int damageDice, DamageType damageType, bool confirmHit, AbilityScore abilityScoreBonus)
-    {
-        this.targetType = targetType;
-        this.damageDie = damageDie;
-        this.damageDice = damageDice;
-        this.damageType = damageType;
-        this.confirmHit = confirmHit;
-        this.abilityScoreBonus = abilityScoreBonus;
-    }
-
-    public AbilityEffect(List<Condition> conditions, TargetType targetType, int? dc, SavingThrow savingThrow, int damageDie, int damageDice, DamageType damageType, bool confirmHit, AbilityScore abilityScoreBonus)
-    {
-        this.conditions = conditions;
-        this.targetType = targetType;
-        this.dc = dc;
-        this.savingThrow = savingThrow;
-        this.damageDie = damageDie;
-        this.damageDice = damageDice;
-        this.damageType = damageType;
-        this.confirmHit = confirmHit;
-        this.abilityScoreBonus = abilityScoreBonus;
-    }
 
     public int rollDie(int? dice, int? die)
     {

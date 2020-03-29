@@ -19,43 +19,6 @@ public class Ability
 
     public List<AbilityEffect> effects = new List<AbilityEffect>();
 
-    public Ability(string name, string description, int minTargets, int maxTargets, int reach, List<AbilityEffect> effects)
-    {
-        this.name = name;
-        this.description = description;
-        this.minTargets = minTargets;
-        this.maxTargets = maxTargets;
-        this.reach = reach;
-        this.effects = effects;
-        this.targetStartPoint = TargetStartPoint.SELF;
-    }
-
-    public Ability(string name, string description, int minTargets, int maxTargets, int reach, TargetStartPoint targetStartPoint, int targetArea, List<AbilityEffect> effects)
-    {
-        this.name = name;
-        this.description = description;
-        this.minTargets = minTargets;
-        this.maxTargets = maxTargets;
-        this.reach = reach;
-        this.effects = effects;
-        this.targetStartPoint = targetStartPoint;
-        this.targetArea = targetArea;
-        this.targetPolygon = TargetPolygon.RECTANGLE;
-    }
-
-    public Ability(string name, string description, int minTargets, int maxTargets, int reach, TargetStartPoint targetStartPoint, TargetPolygon targetPolygon, int targetArea, List<AbilityEffect> effects)
-    {
-        this.name = name;
-        this.description = description;
-        this.minTargets = minTargets;
-        this.maxTargets = maxTargets;
-        this.reach = reach;
-        this.effects = effects;
-        this.targetStartPoint = targetStartPoint;
-        this.targetArea = targetArea;
-        this.targetPolygon = targetPolygon;
-    }
-
     private void ApplyConditions(List<Condition> conditions, Unit source, Unit target)
     {
         foreach (Condition condition in conditions)
