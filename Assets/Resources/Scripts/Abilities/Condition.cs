@@ -1,4 +1,7 @@
-﻿public class Condition
+﻿using System;
+
+[Serializable]
+public class Condition
 {
     public ConditionType conditionType;
 

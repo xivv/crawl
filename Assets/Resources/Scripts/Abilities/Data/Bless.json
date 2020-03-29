@@ -1,28 +1,30 @@
 {
 	"name" : "Bless",
 	"description" : "Bless buffs your teammates with a nice buff that gives you +1 to all stats blabla",
-	"minTargets" : null, 
-	"maxTargets" : null,
+	"minTargets" : 0, 
+	"maxTargets" : 0,
 	"reach" : 0,
-	"targetStartPoint" : null,
-	"targetPolygon" : null,
+	"targetStartPoint" : 0,
+	"targetPolygon" : 0,
 	"targetArea" : 0,
 	"effects" : [
 		{
 			"conditions" : [
 				{
-					"conditionType" : null,
-					"duration": 0,									
+					"conditionType" : 0,
+					"duration": 0,			
+					"source" : null,
+					"remainingTime" : 0
 				}
 			],
-			"targetType": null,
+			"targetType": 0,
 			"dc" : 0,
-			"savingThrow" : "intelligence",
+			"savingThrow" : 0,
 			"damageDie" : 0,
 			"damageDice" : 0,
-			"damageType" : null,
+			"damageType" : 0,
 			"confirmHit" : false,
-			"abilityScoreBonus" : "charisma"
+			"abilityScoreBonus" : 0
 		}
 	]
 
