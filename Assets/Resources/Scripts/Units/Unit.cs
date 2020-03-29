@@ -132,7 +132,15 @@ public class Unit
             change = change * 2;
         }
 
-        this.encounterStats.health -= change;
+        // TODO: People can overheal from this
+        if (damageType == DamageType.HEALING)
+        {
+            this.encounterStats.health += change;
+        }
+        else
+        {
+            this.encounterStats.health -= change;
+        }
 
         if (this.encounterStats.health <= 0)
         {
