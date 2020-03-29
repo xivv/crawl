@@ -51,6 +51,7 @@ public class Barbar : Hero
             }
         ));
 
+        this.visions.Add(Vision.DARKVISION);
         this.abilities.Add(rage);
         this.abilities.Add(smash);
     }

@@ -8,7 +8,7 @@ public class AbilityMenu : MonoBehaviour
     public List<Ability> abilities = new List<Ability>();
 
     private Text[] abilityTextFields;
-    public Ability selectedAbility;
+    public Ability selectedAbility = null;
     public UnitOrderObject source;
 
     private bool isMoving = false;
@@ -21,7 +21,7 @@ public class AbilityMenu : MonoBehaviour
 
     public bool HasTargetSelected()
     {
-        return canAct == true && selectedAbility != null;
+        return canAct == true && selectedAbility.name != null;
     }
 
     public void StartAbilitySelection(UnitOrderObject unitToAct)

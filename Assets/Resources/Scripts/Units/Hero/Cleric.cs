@@ -32,23 +32,8 @@ public class Cleric : Hero
                 HeroClass.CLERIC
             }))
     {
-        AbilityEffect blessEffect = new AbilityEffect(new List<Condition>(new Condition[] {
-                new Condition(ConditionType.BLESSED,2)
-            }), TargetType.ALLY);
 
-        Ability bless = new Ability("Bless", "Description", null, null, 6, new List<AbilityEffect>(
-            new AbilityEffect[] {
-                blessEffect
-            }
-        ));
-        Ability clw = new Ability("Cure Light Wounds", "Description", null, null, 6, new List<AbilityEffect>(
-           new AbilityEffect[] {
-                blessEffect
-           }
-       ));
-
-        this.abilities.Add(clw);
-        this.abilities.Add(bless);
         this.visions.Add(Vision.DARKVISION);
+        this.EquipItem(ItemLoader.GetItem("Longsword"));
     }
 }
