@@ -18,7 +18,7 @@ public class CharacterInventory : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            this.character = new Cleric("Herbert");
+            this.character = PlayerController.instance.heroes[0];
         }
         else
         {
@@ -39,6 +39,8 @@ public class CharacterInventory : MonoBehaviour
                 equippedItems.Add(inventorySlot.itemSlot, inventorySlot);
             }
         }
+
+        LoadItems();
     }
 
     // Update is called once per frame
@@ -50,7 +52,31 @@ public class CharacterInventory : MonoBehaviour
 
     public void Close()
     {
+
+        // Update our character
+        character.items.Clear();
+        character.equippedItems.Clear();
+
+        foreach (KeyValuePair<ItemSlot, InventorySlot> entry in equippedItems)
+        {
+            if (entry.Value.inventoryItem != null)
+            {
+                character.equippedItems.Add(entry.Key, entry.Value.inventoryItem.item);
+            }
+        }
+
+        // We shouldnt organize what players did this could become a feature
+        // TODO: option to make organizing not automatic
+        foreach (var entry in inventoryItems)
+        {
+            if (entry.inventoryItem != null)
+            {
+                character.items.Add(entry.inventoryItem.item);
+            }
+        }
+
         SceneManager.UnloadSceneAsync("CharacterInventory");
+        Encounter.instance.Resume();
     }
 
     void LoadItems()
@@ -60,9 +86,7 @@ public class CharacterInventory : MonoBehaviour
             if (equippedItems.ContainsKey(entry.Key))
             {
                 InventorySlot slot = equippedItems[entry.Key];
-                GameObject item = Resources.Load<GameObject>("Prefabs/InventoryItem");
-                Instantiate(item, new Vector3(0, 0, 0), Quaternion.identity);
-                item.transform.parent = slot.gameObject.transform;
+                slot.AddNewChild(entry.Value);
             }
         }
 
@@ -72,7 +96,8 @@ public class CharacterInventory : MonoBehaviour
             {
                 if (possibleSlot.inventoryItem == null)
                 {
-
+                    possibleSlot.AddNewChild(entry);
+                    break;
                 }
             }
         }

@@ -16,7 +16,7 @@ public class InventoryItem : DragAndDrop
     protected override void OnDrag()
     {
         base.OnDrag();
-        gameObject.transform.parent = GetComponentInParent<Canvas>().transform;
+        gameObject.transform.SetParent(GetComponentInParent<Canvas>().transform);
     }
 
     protected override void OnDrop()

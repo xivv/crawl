@@ -18,35 +18,52 @@ public class InventorySlot : MonoBehaviour
     {
     }
 
-    // Exchange items with this beeing the drop zone
-    public void Exchange(InventorySlot inventorySlot)
+    public void AddNewChild(Item newItem)
     {
+        GameObject newGameObject = new GameObject();
+        newGameObject = Instantiate(gameObject, gameObject.transform.position, Quaternion.identity);
+        newGameObject.AddComponent(typeof(InventoryItem));
 
-        Transform t = inventorySlot.inventoryItem.gameObject.transform.parent;
+        newGameObject.transform.SetParent(gameObject.transform);
 
-        if (inventorySlot.inventoryItem != null)
+        if (newItem != null)
         {
-            inventorySlot.inventoryItem.gameObject.transform.parent = gameObject.transform;
-            inventorySlot.inventoryItem = null;
+            newGameObject.GetComponent<InventoryItem>().item = newItem;
         }
 
-        if (inventoryItem != null)
-        {
-            inventoryItem.gameObject.transform.parent = inventorySlot.gameObject.transform;
-            inventoryItem = null;
-        }
+    }
+    public void AddNewChild()
+    {
+        AddNewChild(null);
+    }
 
+    public void ReloadChild()
+    {
         // @TODO: Children are empty but it finds items
         foreach (Transform child in transform)
         {
             inventoryItem = child.GetComponent<InventoryItem>();
         }
+    }
 
-        // @TODO: Children are empty but it finds items
-        foreach (Transform child in inventorySlot.transform)
+    // Exchange items with this beeing the drop zone
+    public void Exchange(InventorySlot inventorySlot)
+    {
+
+        if (inventorySlot.inventoryItem != null)
         {
-            inventorySlot.inventoryItem = child.GetComponent<InventoryItem>();
+            inventorySlot.inventoryItem.gameObject.transform.SetParent(gameObject.transform);
+            inventorySlot.inventoryItem = null;
         }
+
+        if (inventoryItem != null)
+        {
+            inventoryItem.gameObject.transform.SetParent(inventorySlot.gameObject.transform);
+            inventoryItem = null;
+        }
+
+        ReloadChild();
+        inventorySlot.ReloadChild();
     }
 
     // Checks if we can exchange items with this beeing the drop zone

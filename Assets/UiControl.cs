@@ -18,5 +18,6 @@ public class UiControl : MonoBehaviour
     public static void ShowCharacterInventory()
     {
         SceneManager.LoadScene("CharacterInventory", LoadSceneMode.Additive);
+        Encounter.instance.Pause();
     }
 }

@@ -24,7 +24,7 @@ public class DragAndDrop : MonoBehaviour, IDragHandler, IDropHandler, IBeginDrag
 
     protected void GoToOldParent()
     {
-        gameObject.transform.parent = GetOldParent().transform;
+        gameObject.transform.SetParent(GetOldParent().transform);
     }
 
     protected virtual void OnDrag()

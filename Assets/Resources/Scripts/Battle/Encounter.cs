@@ -33,6 +33,9 @@ public class Encounter : MonoBehaviour
     [HideInInspector]
     public bool alive = false;
 
+    // Controlling encounter states like pausing
+    public bool isRunning = false;
+
     // TurnOrder
     private UnitOrderObject unitToAct;
     private int initiativeCounter = 0;
@@ -129,7 +132,6 @@ public class Encounter : MonoBehaviour
         newObject.GetComponent<SpriteRenderer>().sortingLayerName = "Units";
         newObject.layer = 9;
         this.participants.Add(newObject.GetComponent<UnitOrderObject>());
-        Debug.Log("Hero " + unit.unitName + " charges into battle!");
     }
 
     private void Awake()
@@ -137,10 +139,14 @@ public class Encounter : MonoBehaviour
         if (instance != null)
         {
             Debug.LogWarning("More than one encounter instance found");
+            Destroy(this);
         }
-        instance = this;
-        this.targetUndergroundTilemap = GameObject.Find("Target").GetComponent<Tilemap>();
-        Debug.Log("INIT");
+        else
+        {
+            instance = this;
+            this.targetUndergroundTilemap = GameObject.Find("Target").GetComponent<Tilemap>();
+            isRunning = true;
+        }
     }
 
     // Start is called before the first frame update
@@ -257,7 +263,7 @@ public class Encounter : MonoBehaviour
     void Update()
     {
 
-        if (alive && bothPartiesLive())
+        if (isRunning && alive && bothPartiesLive())
         {
             RemoveDeadUnits();
 
@@ -611,4 +617,17 @@ public class Encounter : MonoBehaviour
         return targets;
     }
 
+    public void Pause()
+    {
+        isRunning = false;
+
+        // TODO: Disable all UI elements
+    }
+
+    public void Resume()
+    {
+        isRunning = true;
+
+        // TODO: Disable all UI elements
+    }
 }

@@ -43,7 +43,7 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 11
+  serializedVersion: 12
   m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
@@ -94,10 +94,12 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaDirect: 0.5
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
-    m_ShowResolutionOverlay: 1
     m_ExportTrainingData: 0
+    m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 1641c61916bb75649a18fd58fe18d4e9,
+    type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -117,6 +119,8 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
+    maxJobWorkers: 0
+    preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
@@ -166,17 +170,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 226233256}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 7c1fbb3bfb213ab4e8ec981134fe4527, type: 3}
     m_FontSize: 100
@@ -232,7 +235,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 376816686}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1077351063, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_HorizontalAxis: Horizontal
@@ -251,7 +254,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 376816686}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -619905303, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_FirstSelected: {fileID: 0}
@@ -278,11 +281,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2010577918}
     m_Modifications:
-    - target: {fileID: 8138283628145272847, guid: 28b2038652d06d2459716f1ed18a946a,
-        type: 3}
-      propertyPath: m_Name
-      value: CharacterSlot (1)
-      objectReference: {fileID: 0}
     - target: {fileID: 8138283628145272846, guid: 28b2038652d06d2459716f1ed18a946a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -388,6 +386,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 8138283628145272847, guid: 28b2038652d06d2459716f1ed18a946a,
+        type: 3}
+      propertyPath: m_Name
+      value: CharacterSlot (1)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28b2038652d06d2459716f1ed18a946a, type: 3}
 --- !u!224 &453747745 stripped
@@ -403,11 +406,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2010577918}
     m_Modifications:
-    - target: {fileID: 8138283628145272847, guid: 28b2038652d06d2459716f1ed18a946a,
-        type: 3}
-      propertyPath: m_Name
-      value: CharacterSlot (2)
-      objectReference: {fileID: 0}
     - target: {fileID: 8138283628145272846, guid: 28b2038652d06d2459716f1ed18a946a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -513,6 +511,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 8138283628145272847, guid: 28b2038652d06d2459716f1ed18a946a,
+        type: 3}
+      propertyPath: m_Name
+      value: CharacterSlot (2)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28b2038652d06d2459716f1ed18a946a, type: 3}
 --- !u!224 &470142155 stripped
@@ -528,11 +531,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2010577918}
     m_Modifications:
-    - target: {fileID: 8138283628145272847, guid: 28b2038652d06d2459716f1ed18a946a,
-        type: 3}
-      propertyPath: m_Name
-      value: CharacterSlot (3)
-      objectReference: {fileID: 0}
     - target: {fileID: 8138283628145272846, guid: 28b2038652d06d2459716f1ed18a946a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -638,6 +636,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 8138283628145272847, guid: 28b2038652d06d2459716f1ed18a946a,
+        type: 3}
+      propertyPath: m_Name
+      value: CharacterSlot (3)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28b2038652d06d2459716f1ed18a946a, type: 3}
 --- !u!224 &982711377 stripped
@@ -674,7 +677,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1199475887}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreReversedGraphics: 1
@@ -691,7 +694,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1199475887}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 1
@@ -878,7 +881,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2010577917}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -2095666955, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
@@ -950,18 +953,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 2020467198}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 2
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -970,6 +972,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!222 &2020467201
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -999,10 +1002,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2010577918}
     m_Modifications:
-    - target: {fileID: 8138283628145272847, guid: 28b2038652d06d2459716f1ed18a946a,
+    - target: {fileID: 8138283628145272844, guid: 28b2038652d06d2459716f1ed18a946a,
         type: 3}
-      propertyPath: m_Name
-      value: CharacterSlot
+      propertyPath: m_Colors.m_HighlightedColor.a
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8138283628145272846, guid: 28b2038652d06d2459716f1ed18a946a,
         type: 3}
@@ -1109,10 +1112,10 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 8138283628145272844, guid: 28b2038652d06d2459716f1ed18a946a,
+    - target: {fileID: 8138283628145272847, guid: 28b2038652d06d2459716f1ed18a946a,
         type: 3}
-      propertyPath: m_Colors.m_HighlightedColor.a
-      value: 0
+      propertyPath: m_Name
+      value: CharacterSlot
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28b2038652d06d2459716f1ed18a946a, type: 3}

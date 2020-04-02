@@ -35,5 +35,6 @@ public class Cleric : Hero
 
         this.visions.Add(Vision.DARKVISION);
         this.EquipItem(ItemLoader.GetItem("Longsword"));
+        this.items.Add(ItemLoader.GetItem("HeavyShield"));
     }
 }
