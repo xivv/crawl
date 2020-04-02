@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class AbilityLoader : MonoBehaviour
+public class AbilityLoader : Loadable
 {
 
     public static AbilityLoader instance;
@@ -44,16 +44,19 @@ public class AbilityLoader : MonoBehaviour
         foreach (var file in info)
         {
             string json = File.ReadAllText(file.FullName);
-            Ability ability = JsonUtility.FromJson<Ability>(json);
+            AbilityWrapper abilityWrapper = JsonUtility.FromJson<AbilityWrapper>(json); ;
+            Ability ability = abilityWrapper;
 
             try
             {
                 loadedAbilities.Add(ability.name, ability);
             }
-            catch (ArgumentException)
+            catch (ArgumentException a)
             {
                 Debug.LogError("Ability " + ability.name + " found duplicated! Check the folder in Assets/Resources/Scripts/Abilities/Data");
             }
         }
+
+        SetLoaded();
     }
 }

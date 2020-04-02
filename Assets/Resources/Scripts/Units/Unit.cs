@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
-[Serializable]
 public class Unit
 {
     /** Encounter Variables **/

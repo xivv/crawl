@@ -264,7 +264,7 @@ public class Encounter : MonoBehaviour
             // If we selected an ability we grab it here and first activate the target selection
             if (abilityMenu.HasTargetSelected())
             {
-                SelectTargets(unitToAct.transform.position, abilityMenu.selectedAbility);
+                SelectTargets(unitToAct.transform.position, abilityMenu.GetSelectedAbility());
                 abilityMenu.StopAbilitySelection();
             }
 

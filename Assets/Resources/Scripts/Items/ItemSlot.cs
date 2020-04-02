@@ -10,5 +10,6 @@
     WEAPON,
     SHOULDERS,
     RING,
-    AMULET
+    AMULET,
+    INVENTORY
 }

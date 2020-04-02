@@ -36,5 +36,6 @@ public class Barbar : Hero
     {
 
         this.visions.Add(Vision.DARKVISION);
+        this.EquipItem(ItemLoader.GetItem("Longsword"));
     }
 }

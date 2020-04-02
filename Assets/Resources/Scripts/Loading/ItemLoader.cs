@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class ItemLoader : MonoBehaviour
+public class ItemLoader : Loadable
 {
 
     public static ItemLoader instance;
@@ -44,7 +44,8 @@ public class ItemLoader : MonoBehaviour
         foreach (var file in info)
         {
             string json = File.ReadAllText(file.FullName);
-            Item item = JsonUtility.FromJson<Item>(json);
+            ItemWrapper itemWrapper = JsonUtility.FromJson<ItemWrapper>(json);
+            Item item = itemWrapper;
 
             foreach (string abilityName in item.abilityNames)
             {
@@ -69,5 +70,7 @@ public class ItemLoader : MonoBehaviour
                 Debug.LogError("Item " + item.name + " found duplicated! Check the folder in Assets/Resources/Scripts/Items/Data");
             }
         }
+
+        SetLoaded();
     }
 }

@@ -8,7 +8,10 @@ public class AbilityMenu : MonoBehaviour
     public List<Ability> abilities = new List<Ability>();
 
     private Text[] abilityTextFields;
-    public Ability selectedAbility = null;
+
+    [HideInInspector]
+    private Ability selectedAbility;
+
     public UnitOrderObject source;
 
     private bool isMoving = false;
@@ -19,9 +22,15 @@ public class AbilityMenu : MonoBehaviour
     private int index = 0;
     private int maxItems = 8;
 
+    public Ability GetSelectedAbility()
+    {
+        return selectedAbility;
+    }
+
+
     public bool HasTargetSelected()
     {
-        return canAct == true && selectedAbility != null && selectedAbility.name != null;
+        return canAct == true && selectedAbility != null;
     }
 
     public void StartAbilitySelection(UnitOrderObject unitToAct)
@@ -88,6 +97,7 @@ public class AbilityMenu : MonoBehaviour
     void Awake()
     {
         abilityTextFields = this.GetComponentsInChildren<Text>();
+        selectedAbility = null;
     }
 
     // Update is called once per frame

@@ -31,6 +31,6 @@
        , TypeClass.MONSTER)
     {
         this.visions.Add(Vision.DARKVISION);
-        this.EquipItem(ItemLoader.GetItem("HeavyShield"));
+        this.EquipItem(ItemLoader.GetItem("Longsword"));
     }
 }

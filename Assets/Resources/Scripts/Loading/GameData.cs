@@ -14,10 +14,18 @@ public class GameData : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!dataLoaded && AbilityLoader.instance != null && ItemLoader.instance != null)
+        if (AbilityLoader.instance != null && ItemLoader.instance != null)
         {
-            AbilityLoader.instance.Load();
-            ItemLoader.instance.Load();
+
+            if (!AbilityLoader.instance.IsLoaded())
+            {
+                AbilityLoader.instance.Load();
+            }
+
+            if (!ItemLoader.instance.IsLoaded())
+            {
+                ItemLoader.instance.Load();
+            }
 
             dataLoaded = true;
         }
