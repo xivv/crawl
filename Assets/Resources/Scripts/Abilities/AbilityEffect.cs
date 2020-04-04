@@ -83,7 +83,7 @@ public class AbilityEffect
     public bool SavingThrowSucceded(Unit source, Unit target)
     {
         // No saving throw allowed
-        if (this.dc == null)
+        if (this.dc == 0)
         {
             return false;
         }

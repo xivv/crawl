@@ -63,7 +63,9 @@ public class TargetSelector : TurnOrderObject
     // At least one target and correct number of targets
     public bool TargetSelectionValid()
     {
-        return selectedTargets.Count > 0 && (selectedTargets.Count >= ability.minTargets || ability.minTargets == null || ability.maxTargets == null);
+        // evtl. muss hier statt == 0 noch was anderes 
+        // Dies kam durch die EInführung nicht entfernung von serializable
+        return selectedTargets.Count > 0 && (selectedTargets.Count >= ability.minTargets || ability.minTargets == 0 || ability.maxTargets == 0);
     }
 
     public void SelectAOETargets(Ability ability)
@@ -91,7 +93,6 @@ public class TargetSelector : TurnOrderObject
         this.transform.position = startingPosition;
         this.gameObject.SetActive(true);
 
-        // If its an AOE Effect where we dont need to target anybody
         if (ability.IsAOE())
         {
             this.SelectAOETargets(ability);
@@ -186,7 +187,7 @@ public class TargetSelector : TurnOrderObject
         }
 
         // If the list is not full already or we have no limit
-        else if ((this.selectedTargets.Count < ability.maxTargets || ability.maxTargets == null) && this.IsValidTarget(unitOrderObject))
+        else if ((this.selectedTargets.Count < ability.maxTargets || ability.maxTargets == 0) && this.IsValidTarget(unitOrderObject))
         {
             this.selectedTargets.Add(unitOrderObject);
             MapTools.placeTile(selectedTargetTileBase, selectedTargetsTileMap, toCheckPosition3Int);

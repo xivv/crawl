@@ -31,6 +31,8 @@ public class InventorySlot : MonoBehaviour
             newGameObject.GetComponent<InventoryItem>().item = newItem;
         }
 
+        ReloadChild();
+
     }
     public void AddNewChild()
     {

@@ -11,7 +11,6 @@ public class GameData : MonoBehaviour
 
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (AbilityLoader.instance != null && ItemLoader.instance != null)

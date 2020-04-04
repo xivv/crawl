@@ -51,7 +51,7 @@ public class AbilityLoader : Loadable
             {
                 loadedAbilities.Add(ability.name, ability);
             }
-            catch (ArgumentException a)
+            catch (ArgumentException)
             {
                 Debug.LogError("Ability " + ability.name + " found duplicated! Check the folder in Assets/Resources/Scripts/Abilities/Data");
             }
