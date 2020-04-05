@@ -57,9 +57,10 @@ public class TurnOrderObject : MovingObject
 
     protected bool hitsUnit(Vector2 end)
     {
-        bool hit = rayCastToUnit(end).transform != null;
-        boxCollider.enabled = true;
-        return hit;
+        /*    bool hit = rayCastToUnit(end).transform != null;
+            boxCollider.enabled = true;
+            return hit; */
+        return IsUnitAtPosition(end) == true;
     }
 
     protected override void resetMovement()

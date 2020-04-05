@@ -108,10 +108,11 @@ public class Encounter : MonoBehaviour
 
         for (int i = 0; i < enemyCount; i++)
         {
-            UnitOrderObject newObject = Instantiate(possibleEnemies[0], new Vector2(Convert.ToSingle(Random.Range(1, width - 1) + 0.5), Convert.ToSingle(Random.Range(1, height - 1) + 0.5)), Quaternion.identity);
-            newObject.unit = new Skeleton();
-            this.participants.Add(newObject);
-
+            //Vector2 randomPosition = new Vector2(Convert.ToSingle(Random.Range(1, width - 1) + 0.5), Convert.ToSingle(Random.Range(1, height - 1) + 0.5));
+            Vector2 randomPosition = new Vector2(Convert.ToSingle(Random.Range(1, width - 1)), Convert.ToSingle(Random.Range(1, height - 1)));
+            GameObject monster = MonsterBreeder.Breed("Dragon", randomPosition);
+            UnitOrderObject unitOrderObject = monster.GetComponent<UnitOrderObject>();
+            this.participants.Add(unitOrderObject);
         }
 
         for (int i = 0; i < PlayerController.instance.heroes.Count; i++)
@@ -128,7 +129,7 @@ public class Encounter : MonoBehaviour
         newObject.AddComponent<BoxCollider2D>();
         newObject.GetComponent<UnitOrderObject>().unit = unit;
         newObject.AddComponent<SpriteRenderer>();
-        newObject.GetComponent<SpriteRenderer>().sprite = unit.sprite;
+        newObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/" + unit.name);
         newObject.GetComponent<SpriteRenderer>().sortingLayerName = "Units";
         newObject.layer = 9;
         this.participants.Add(newObject.GetComponent<UnitOrderObject>());

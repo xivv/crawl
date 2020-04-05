@@ -22,7 +22,7 @@ public class UnitInfo : MonoBehaviour
 
         if (unitOrderObject != null && unitOrderObject.unit != null)
         {
-            unitName.text = unitOrderObject.unit.unitName;
+            unitName.text = unitOrderObject.unit.name;
 
             health.GetComponent<Slider>().maxValue = unitOrderObject.unit.baseStats.health;
             health.GetComponent<Slider>().value = unitOrderObject.unit.encounterStats.health;

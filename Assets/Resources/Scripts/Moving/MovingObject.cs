@@ -15,6 +15,12 @@ public class MovingObject : MonoBehaviour
     protected Tilemap encounterTilemap;
     protected Tilemap tavernTilemap;
 
+    // called when the cube hits the floor
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        Debug.Log("OnCollisionEnter2D");
+    }
+
     protected virtual void Start()
     {
         this.boxCollider = GetComponent<BoxCollider2D>();

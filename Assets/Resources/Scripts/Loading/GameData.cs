@@ -13,7 +13,7 @@ public class GameData : MonoBehaviour
 
     void Update()
     {
-        if (AbilityLoader.instance != null && ItemLoader.instance != null)
+        if (AbilityLoader.instance != null && ItemLoader.instance != null && MonsterLoader.instance != null)
         {
 
             if (!AbilityLoader.instance.IsLoaded())
@@ -24,6 +24,11 @@ public class GameData : MonoBehaviour
             if (!ItemLoader.instance.IsLoaded())
             {
                 ItemLoader.instance.Load();
+            }
+
+            if (!MonsterLoader.instance.IsLoaded())
+            {
+                MonsterLoader.instance.Load();
             }
 
             dataLoaded = true;

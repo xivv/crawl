@@ -7,8 +7,8 @@ public class Unit
 {
     /** Encounter Variables **/
     [HideInInspector]
-    public string unitName;
-    public Sprite sprite;
+    public string name;
+
     [HideInInspector]
     public MetaInformation metaInformation = new MetaInformation();
 
@@ -32,12 +32,11 @@ public class Unit
 
     public Unit(String unitName, String spriteName, MetaInformation metaInformation, Stats baseStats, TypeClass typeClass)
     {
-        this.unitName = unitName;
+        this.name = unitName;
         this.metaInformation = metaInformation;
         this.baseStats = baseStats;
         this.encounterStats = this.baseStats;
         this.typeClass = typeClass;
-        this.sprite = Resources.Load<Sprite>("Sprites/" + spriteName);
     }
 
     public void CalculateStats(Stats stats, bool apply)
@@ -143,7 +142,7 @@ public class Unit
 
         if (this.encounterStats.health <= 0)
         {
-            Debug.Log(this.unitName + " died.");
+            Debug.Log(this.name + " died.");
             this.isDead = true;
         }
     }

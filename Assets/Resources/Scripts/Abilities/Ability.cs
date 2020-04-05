@@ -28,7 +28,7 @@ public class Ability
             {
                 if (targetCondition.conditionType == condition.conditionType)
                 {
-                    Debug.Log(target.unitName + ":> already has condition " + condition.ToString());
+                    Debug.Log(target.name + ":> already has condition " + condition.ToString());
                     alreadyHasCondition = true;
                     return;
                 }
@@ -37,7 +37,7 @@ public class Ability
             if (!alreadyHasCondition)
             {
                 target.conditions.Add(new Condition(condition.conditionType, condition.duration, source));
-                Debug.Log(target.unitName + ":> new condition " + condition.ToString());
+                Debug.Log(target.name + ":> new condition " + condition.ToString());
             }
         }
     }
@@ -76,12 +76,12 @@ public class Ability
                     bool isHit = effect.hitSucceded(source, target);
                     if (!isHit)
                     {
-                        Debug.Log(target.unitName + ":> did not get hit by the ability");
+                        Debug.Log(target.name + ":> did not get hit by the ability");
                         break;
                     }
                     else
                     {
-                        Debug.Log(target.unitName + ":> got hit by the ability");
+                        Debug.Log(target.name + ":> got hit by the ability");
                     }
                 }
 
@@ -89,7 +89,7 @@ public class Ability
                 if (effect.damageDie > 0 && effect.damageDice > 0)
                 {
                     target.handleHealthChange(effect.rollDamage(), effect.damageType);
-                    Debug.Log(target.unitName + ":> takes damage");
+                    Debug.Log(target.name + ":> takes damage");
                 }
 
                 // This means that the conditions dont apply automatically and need a saving throw

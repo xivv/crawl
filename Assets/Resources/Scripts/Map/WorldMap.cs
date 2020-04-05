@@ -23,6 +23,7 @@ public class WorldMap : MonoBehaviour
     void Update()
     {
         PlayerController.position = player.transform.position;
+        Camera.main.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10);
     }
 
     // LateUpdate is called after Update each frame

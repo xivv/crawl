@@ -277,7 +277,7 @@ public class TargetSelector : TurnOrderObject
 
     void OnGUI()
     {
-        if (this.canAct && !this.pausedMovement)
+        if (canAct && !this.pausedMovement)
         {
             if (Event.current.Equals(Event.KeyboardEvent(KeyCode.KeypadEnter.ToString())) || Event.current.Equals(Event.KeyboardEvent(KeyCode.Return.ToString())))
             {

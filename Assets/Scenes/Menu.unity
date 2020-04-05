@@ -619,6 +619,7 @@ GameObject:
   - component: {fileID: 573601403}
   - component: {fileID: 573601401}
   - component: {fileID: 573601404}
+  - component: {fileID: 573601405}
   m_Layer: 0
   m_Name: GameData
   m_TagString: Untagged
@@ -674,6 +675,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee892bac3fa312e4b8181b3e06292352, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &573601405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 573601400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7839e9913c7983468af90a21094527e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &761638985
@@ -1723,7 +1736,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d946e8a5c91033408c0bb49ab7565e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heroes: []
   playerPrefab: {fileID: 0}
 --- !u!4 &1957958128
 Transform:

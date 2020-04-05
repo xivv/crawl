@@ -18,10 +18,7 @@ public class CharacterSlot : MonoBehaviour
     public void InsertHero(Hero hero)
     {
         this.hero = hero;
-        if (hero.sprite != null)
-        {
-            this.image.sprite = hero.sprite;
-        }
+        this.image.sprite = Resources.Load<Sprite>("Sprites/" + hero.name);
         this.text.text = hero.heroClasses[0].ToString();
     }
 

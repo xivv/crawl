@@ -23,7 +23,10 @@ public class UnitOrderObject : TurnOrderObject
     {
         base.BeforeTurn();
         // if the unit is stunned we skip our turn
-        if (unit.IsStunned()) this.canAct = false;
+        if (unit.IsStunned())
+        {
+            canAct = false;
+        }
         this.remainingMovementSpeed = this.unit.encounterStats.speed;
         this.unit.hasStandardAction = true;
 
