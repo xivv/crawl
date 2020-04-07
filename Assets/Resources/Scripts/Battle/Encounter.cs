@@ -104,7 +104,7 @@ public class Encounter : MonoBehaviour
             }
         }
 
-        int enemyCount = 1;
+        int enemyCount = 3;
 
         for (int i = 0; i < enemyCount; i++)
         {
@@ -195,13 +195,16 @@ public class Encounter : MonoBehaviour
             }
         });
 
-        // Initiate turn order
+        // Initiate turnorder
         alive = true;
         unitToAct = initiative[initiativeCounter];
         unitInfo.unitOrderObject = unitToAct;
         unitToAct.BeforeTurn();
         canvas.gameObject.SetActive(true);
         offset = unitCamera.transform.position - unitToAct.transform.position;
+
+        // Load turnorder ui
+        TurnOrder.instance.Reload(unitToAct, initiative);
     }
 
     void ToggleActions()
@@ -239,8 +242,9 @@ public class Encounter : MonoBehaviour
 
     void RemoveDeadUnit(UnitOrderObject unitOrderObject)
     {
-        this.participants.Remove(unitOrderObject);
-        this.initiative.Remove(unitOrderObject);
+        participants.Remove(unitOrderObject);
+        initiative.Remove(unitOrderObject);
+        TurnOrder.instance.Reload(unitToAct, initiative);
         Destroy(unitOrderObject.gameObject);
     }
 
@@ -295,6 +299,7 @@ public class Encounter : MonoBehaviour
 
                 // We give the unit all its previous state (movement etc.)
                 unitToAct = initiative[initiativeCounter];
+                TurnOrder.instance.Reload(unitToAct, initiative);
                 unitInfo.unitOrderObject = unitToAct;
 
                 CheckConditions(unitToAct.unit);
