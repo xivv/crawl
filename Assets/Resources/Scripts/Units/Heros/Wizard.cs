@@ -31,7 +31,8 @@ public class Wizard : Hero
       }
       , new List<HeroClass>(new HeroClass[] {
                 HeroClass.WIZARD
-          }))
+          }),
+       RaceLoader.GetRace("Human"))
     {
 
     }

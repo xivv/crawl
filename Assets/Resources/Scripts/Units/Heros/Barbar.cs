@@ -29,10 +29,10 @@ public class Barbar : Hero
            fortitude = 1,
            reflex = 0,
            will = 0
-       }
-       , new List<HeroClass>(new HeroClass[] {
+       }, new List<HeroClass>(new HeroClass[] {
                 HeroClass.BARBAR
-           }))
+           }),
+       RaceLoader.GetRace("Demon"))
     {
 
         this.visions.Add(Vision.DARKVISION);

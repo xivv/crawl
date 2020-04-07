@@ -30,7 +30,8 @@ public class Cleric : Hero
         }
         , new List<HeroClass>(new HeroClass[] {
                 HeroClass.CLERIC
-            }))
+            }),
+         RaceLoader.GetRace("Human"))
     {
 
         this.visions.Add(Vision.DARKVISION);

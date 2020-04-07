@@ -6,7 +6,8 @@ public class CharacterSlot : MonoBehaviour
 {
 
     public Image image;
-    public Text text;
+    public Text clazz;
+    public Text race;
 
     Hero hero;
 
@@ -19,14 +20,16 @@ public class CharacterSlot : MonoBehaviour
     {
         this.hero = hero;
         this.image.sprite = Resources.Load<Sprite>("Sprites/" + hero.name);
-        this.text.text = hero.heroClasses[0].ToString();
+        this.clazz.text = hero.heroClasses[0].ToString();
+        this.race.text = hero.race.name;
     }
 
     public void ClearHero()
     {
         this.hero = null;
         this.image.sprite = null;
-        this.text.text = "";
+        this.clazz.text = "";
+        this.race.text = "";
     }
 
     public void OnSelectHeroButton()

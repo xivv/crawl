@@ -32,6 +32,12 @@ public class GameData : MonoBehaviour
                 MonsterLoader.instance.Load();
             }
 
+            if (!RaceLoader.instance.IsLoaded())
+            {
+                RaceLoader.instance.Load();
+            }
+
+
             dataLoaded = true;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
