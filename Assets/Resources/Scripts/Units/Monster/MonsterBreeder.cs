@@ -35,6 +35,7 @@ public class MonsterBreeder : MonoBehaviour
         newObject.layer = 9;
         newObject.transform.position = position;
         newObject.AddComponent<BoxCollider2D>();
+        newObject.name = monster.name;
 
         return newObject;
     }

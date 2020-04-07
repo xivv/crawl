@@ -109,7 +109,7 @@ public class Encounter : MonoBehaviour
         for (int i = 0; i < enemyCount; i++)
         {
             //Vector2 randomPosition = new Vector2(Convert.ToSingle(Random.Range(1, width - 1) + 0.5), Convert.ToSingle(Random.Range(1, height - 1) + 0.5));
-            Vector2 randomPosition = new Vector2(Convert.ToSingle(Random.Range(1, width - 1) + 0.5), Convert.ToSingle(Random.Range(1, height - 1) + 0.5));
+            Vector2 randomPosition = new Vector2(Convert.ToSingle(Random.Range(1, width - 1)), Convert.ToSingle(Random.Range(1, height - 1)));
             GameObject monster = MonsterBreeder.Breed("Dragon", randomPosition);
             UnitOrderObject unitOrderObject = monster.GetComponent<UnitOrderObject>();
             this.participants.Add(unitOrderObject);
@@ -132,6 +132,8 @@ public class Encounter : MonoBehaviour
         newObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/" + unit.name);
         newObject.GetComponent<SpriteRenderer>().sortingLayerName = "Units";
         newObject.layer = 9;
+        newObject.name = unit.name;
+
         this.participants.Add(newObject.GetComponent<UnitOrderObject>());
     }
 
