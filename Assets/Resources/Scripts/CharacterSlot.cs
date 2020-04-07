@@ -33,6 +33,6 @@ public class CharacterSlot : MonoBehaviour
     {
         PlayerController.instance.heroes.Add(this.hero);
         ClearHero();
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("WorldMap");
     }
 }

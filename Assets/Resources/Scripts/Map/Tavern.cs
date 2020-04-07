@@ -29,7 +29,8 @@ public class Tavern : MonoBehaviour
         for (var i = 0; i < maxHeroesAvailable; i++)
         {
             int random = Random.Range(0, Enum.GetNames(typeof(HeroClass)).Length);
-            characterSlots[i].InsertHero(generateRandomHero((HeroClass)random));
+            characterSlots[i].InsertHero(new Cleric("Gans"));
+            // characterSlots[i].InsertHero(generateRandomHero((HeroClass)random));
         }
     }
 

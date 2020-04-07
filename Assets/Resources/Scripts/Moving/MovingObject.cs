@@ -75,7 +75,7 @@ public class MovingObject : MonoBehaviour
         Vector2 startCell = transform.position;
         Vector2 targetCell = startCell + new Vector2(xDir, yDir);
 
-        Debug.DrawLine(startCell, targetCell, Color.red, 5f);
+        //   Debug.DrawLine(startCell, targetCell, Color.red, 5f);
 
         bool isOnGround = getCell(groundTilemap, startCell) != null; //If the player is on the ground
         bool hasEncounterTile = getCell(encounterTilemap, targetCell) != null; //if target Tile is an encounter
@@ -106,12 +106,12 @@ public class MovingObject : MonoBehaviour
             if (hasTavernTile)
             {
                 // Load the hero selection
-                SceneManager.LoadScene(3);
+                SceneManager.LoadScene("Tavern");
             }
             else if (hasEncounterTile)
             {
                 // Load the encounter
-                SceneManager.LoadScene(2);
+                SceneManager.LoadScene("BattleMap");
             }
         }
     }

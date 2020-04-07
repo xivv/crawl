@@ -4,7 +4,7 @@
 		"level" : 10,
 		"exp" : 10000
 	},
-	"size" : 3,
+	"size" : 2,
 	"baseStats": {
 	  "health": 68,
       "ac":0,

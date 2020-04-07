@@ -28,13 +28,13 @@ public class MonsterBreeder : MonoBehaviour
 
         newObject.AddComponent<UnitOrderObject>();
         newObject.AddComponent<SpriteRenderer>();
-        newObject.AddComponent<BoxCollider2D>();
 
         newObject.GetComponent<UnitOrderObject>().unit = monster;
         newObject.GetComponent<SpriteRenderer>().sortingLayerName = "Units";
         newObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Large");
         newObject.layer = 9;
         newObject.transform.position = position;
+        newObject.AddComponent<BoxCollider2D>();
 
         return newObject;
     }

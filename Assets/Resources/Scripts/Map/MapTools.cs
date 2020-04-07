@@ -29,6 +29,7 @@ public class MapTools : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
+
     // Update is called once per frame
     void Update()
     {
@@ -115,10 +116,4 @@ public class MapTools : MonoBehaviour
         }
     }
 
-}
-
-public enum TargetLayer
-{
-    REACH,
-    AREA
 }

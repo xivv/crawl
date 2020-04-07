@@ -141,6 +141,15 @@ public class TargetSelector : TurnOrderObject
         return base.allowMovement(targetCell) && distance < ability.reach + 1;
     }
 
+
+    private bool OverlapsUnit()
+    {
+        //  Collider2D col2d = Physics2D.OverlapCircle(transform.position, 1f, 9);
+        // return col2d.transform != null;
+
+        return boxCollider.IsTouchingLayers(9);
+    }
+
     void AddTargetAtPosition(Vector2 position)
     {
         Vector2 endPosition = position;
@@ -155,6 +164,8 @@ public class TargetSelector : TurnOrderObject
         }
         else
         {
+            Debug.DrawLine(transform.position, position, Color.cyan, 10f);
+            bool overlaps = OverlapsUnit();
             targetAquired = this.hitsUnit(position);
         }
 
