@@ -109,7 +109,7 @@ public class Encounter : MonoBehaviour
         for (int i = 0; i < enemyCount; i++)
         {
             //Vector2 randomPosition = new Vector2(Convert.ToSingle(Random.Range(1, width - 1) + 0.5), Convert.ToSingle(Random.Range(1, height - 1) + 0.5));
-            Vector2 randomPosition = new Vector2(Convert.ToSingle(Random.Range(1, width - 1)), Convert.ToSingle(Random.Range(1, height - 1)));
+            Vector2 randomPosition = new Vector2(Convert.ToSingle(Random.Range(1, width - 1) + 0.5), Convert.ToSingle(Random.Range(1, height - 1) + 0.5));
             GameObject monster = MonsterBreeder.Breed("Dragon", randomPosition);
             UnitOrderObject unitOrderObject = monster.GetComponent<UnitOrderObject>();
             this.participants.Add(unitOrderObject);
@@ -391,10 +391,10 @@ public class Encounter : MonoBehaviour
     public void fleeAction()
     {
         // Ends the encounter
-        this.alive = false;
+        alive = false;
         canvas.gameObject.SetActive(true);
-        this.endTurnAction();
-        SceneManager.LoadScene(1);
+        endTurnAction();
+        ExitEncounterAlive();
     }
 
     // Reset everything to starting state
@@ -589,6 +589,13 @@ public class Encounter : MonoBehaviour
         return false;
     }
 
+    public void ExitEncounterAlive()
+    {
+        isRunning = false;
+        Debug.Log("All of the enemies died. Returning to World Map.");
+        SceneManager.LoadScene("WorldMap");
+    }
+
     public bool bothPartiesLive()
     {
         bool living = heroesLive() && monstersLive();
@@ -601,8 +608,7 @@ public class Encounter : MonoBehaviour
 
             if (heroesLive())
             {
-                Debug.Log("All of the enemies died. Returning to World Map.");
-                SceneManager.LoadScene(1);
+                ExitEncounterAlive();
             }
             else
             {
