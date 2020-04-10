@@ -66,9 +66,9 @@ public class TurnOrderObject : MovingObject
     {
         base.resetMovement();
         this.remainingMovementSpeed--;
-        if (limitedMovement && this.remainingMovementSpeed <= 0)
+        if (limitedMovement && remainingMovementSpeed <= 0)
         {
-            this.canAct = false;
+            this.pausedMovement = true;
         }
     }
 

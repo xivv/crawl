@@ -12,7 +12,6 @@ public class Encounter : MonoBehaviour
     public List<UnitOrderObject> participants = new List<UnitOrderObject>();
     private List<UnitOrderObject> monster = new List<UnitOrderObject>();
     private List<UnitOrderObject> heroes = new List<UnitOrderObject>();
-    private List<UnitOrderObject> initiative = new List<UnitOrderObject>();
 
     // Camera Stuff
     public Camera unitCamera;
@@ -22,12 +21,7 @@ public class Encounter : MonoBehaviour
     [Range(0.5f, 2f)]
     public float smoothTime = 1f;
 
-    public Tilemap groundTilemap;
-    public Tilemap wallTilemap;
 
-    // Target Selection
-    protected Tilemap targetUndergroundTilemap;
-    public TileBase targetUnderground;
 
     // By fleeing we can destroy the turn cycle
     [HideInInspector]
@@ -37,23 +31,23 @@ public class Encounter : MonoBehaviour
     public bool isRunning = false;
 
     // TurnOrder
-    private UnitOrderObject unitToAct;
+    private List<UnitOrderObject> initiative = new List<UnitOrderObject>();
     private int initiativeCounter = 0;
+    private UnitOrderObject unitToAct;
+
+    // Menu
     public TargetSelector targetSelector;
     public AbilityMenu abilityMenu;
     public ActionMenu actionMenu;
     public UnitInfo unitInfo;
 
-    // UI
-    public Canvas canvas;
-    public GameObject actButton;
-    public GameObject defendActionButton;
-    public GameObject finishSelectionButton;
-    public GameObject stopSelectionButton;
-
     // Generating Encounter
     public List<UnitOrderObject> possibleEnemies = new List<UnitOrderObject>();
+
+    public Tilemap groundTilemap;
     public TileBase groundTile;
+
+    public Tilemap wallTilemap;
     public TileBase wallTile;
 
     // Vision
@@ -115,26 +109,16 @@ public class Encounter : MonoBehaviour
             this.participants.Add(unitOrderObject);
         }
 
-        for (int i = 0; i < PlayerController.instance.heroes.Count; i++)
+        heroes = PlayerController.GenerateHeroes();
+
+        // Set Random Position
+        foreach (UnitOrderObject unitOrderObject in heroes)
         {
-            CreateUnitOrderObject(PlayerController.instance.heroes[i], width, height);
+            Vector2 vector2 = new Vector2(Convert.ToSingle(Random.Range(1, width - 1) + 0.5), Convert.ToSingle(Random.Range(1, height - 1) + 0.5));
+            unitOrderObject.gameObject.transform.position = vector2;
+            this.participants.Add(unitOrderObject);
         }
-    }
 
-    private void CreateUnitOrderObject(Unit unit, int width, int height)
-    {
-        GameObject newObject = new GameObject();
-        newObject.transform.position = new Vector2(Convert.ToSingle(Random.Range(1, width - 1) + 0.5), Convert.ToSingle(Random.Range(1, height - 1) + 0.5));
-        newObject.AddComponent<UnitOrderObject>();
-        newObject.AddComponent<BoxCollider2D>();
-        newObject.GetComponent<UnitOrderObject>().unit = unit;
-        newObject.AddComponent<SpriteRenderer>();
-        newObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/" + unit.name);
-        newObject.GetComponent<SpriteRenderer>().sortingLayerName = "Units";
-        newObject.layer = 9;
-        newObject.name = unit.name;
-
-        this.participants.Add(newObject.GetComponent<UnitOrderObject>());
     }
 
     private void Awake()
@@ -147,7 +131,6 @@ public class Encounter : MonoBehaviour
         else
         {
             instance = this;
-            this.targetUndergroundTilemap = GameObject.Find("Target").GetComponent<Tilemap>();
             isRunning = true;
         }
     }
@@ -159,7 +142,7 @@ public class Encounter : MonoBehaviour
         StartEncounter();
     }
 
-    void StartEncounter()
+    void CreateInitiative()
     {
         // Add units to initiative
         foreach (UnitOrderObject unitOrderObject in participants)
@@ -194,17 +177,22 @@ public class Encounter : MonoBehaviour
                 return 1;
             }
         });
+    }
+
+    void StartEncounter()
+    {
+
+        CreateInitiative();
 
         // Initiate turnorder
         alive = true;
         unitToAct = initiative[initiativeCounter];
         unitInfo.unitOrderObject = unitToAct;
         unitToAct.BeforeTurn();
-        canvas.gameObject.SetActive(true);
         offset = unitCamera.transform.position - unitToAct.transform.position;
 
         // Load turnorder ui
-        TurnOrder.instance.Reload(unitToAct, initiative);
+        TurnOrder.Reload(unitToAct, initiative);
     }
 
     void ToggleActions()
@@ -244,7 +232,7 @@ public class Encounter : MonoBehaviour
     {
         participants.Remove(unitOrderObject);
         initiative.Remove(unitOrderObject);
-        TurnOrder.instance.Reload(unitToAct, initiative);
+        TurnOrder.Reload(unitToAct, initiative);
         Destroy(unitOrderObject.gameObject);
     }
 
@@ -299,7 +287,7 @@ public class Encounter : MonoBehaviour
 
                 // We give the unit all its previous state (movement etc.)
                 unitToAct = initiative[initiativeCounter];
-                TurnOrder.instance.Reload(unitToAct, initiative);
+                TurnOrder.Reload(unitToAct, initiative);
                 unitInfo.unitOrderObject = unitToAct;
 
                 CheckConditions(unitToAct.unit);
@@ -344,22 +332,20 @@ public class Encounter : MonoBehaviour
     private void SelectTargets(Vector2 startingPosition, Ability ability)
     {
         this.targetSelector.StartTargetSelection(unitToAct, ability, startingPosition, participants);
-        this.actButton.SetActive(false);
-        this.finishSelectionButton.SetActive(true);
     }
 
     public void StartAbilitySelection()
     {
         // If the character does not have abilities
-        if (this.unitToAct.unit.abilities.Count <= 0) return;
+        if (unitToAct.unit.abilities == null || unitToAct.unit.abilities.Count <= 0) return;
 
         // Stop the movement of the unit
-        this.unitToAct.pausedMovement = true;
+        unitToAct.pausedMovement = true;
 
         // Show the panel for the abilities
         // Add the abilities of the unit to the panel
-        this.abilityMenu.StartAbilitySelection(unitToAct);
-        this.actionMenu.abilitySelection();
+        abilityMenu.StartAbilitySelection(unitToAct);
+        actionMenu.abilitySelection();
     }
 
     public void StopAbilitySelection()
@@ -370,7 +356,7 @@ public class Encounter : MonoBehaviour
         // Add the abilities of the unit to the panel
         this.abilityMenu.StopAbilitySelection();
         this.unitToAct.pausedMovement = false;
-        this.targetUndergroundTilemap.ClearAllTiles();
+        GridTools.ClearTargetTileMap();
         this.targetSelector.EndTargetSelection();
     }
 
@@ -392,7 +378,6 @@ public class Encounter : MonoBehaviour
     {
         // Ends the encounter
         alive = false;
-        canvas.gameObject.SetActive(true);
         endTurnAction();
         ExitEncounterAlive();
     }
@@ -404,9 +389,7 @@ public class Encounter : MonoBehaviour
         this.abilityMenu.StopAbilitySelection();
         this.targetSelector.pausedMovement = true;
         this.targetSelector.gameObject.SetActive(false);
-        this.actButton.SetActive(true);
-        this.finishSelectionButton.SetActive(false);
-        this.targetUndergroundTilemap.ClearAllTiles();
+        GridTools.ClearTargetTileMap();
     }
 
     // -----------------
@@ -589,9 +572,58 @@ public class Encounter : MonoBehaviour
         return false;
     }
 
+    public int CalculateExperiencePointsReward()
+    {
+        int totalExperiencePoints = 0;
+
+        foreach (UnitOrderObject unitOrderObject in monster)
+        {
+            if (unitOrderObject.unit.isDead)
+            {
+                totalExperiencePoints += unitOrderObject.unit.metaInformation.exp;
+            }
+        }
+
+        return totalExperiencePoints;
+    }
+
+    public void AwardLoot()
+    {
+
+        List<Item> loot = new List<Item>();
+
+        foreach (UnitOrderObject unitOrderObject in monster)
+        {
+            if (unitOrderObject.unit.isDead)
+            {
+                foreach (Item item in unitOrderObject.unit.items)
+                {
+                    loot.Add(item);
+                }
+            }
+        }
+
+        PlayerController.AwardLoot(loot);
+    }
+
+    public void AwardHeroesExperiencePoints()
+    {
+        // Give the players experience points for killing even if fleeing a battle
+
+        foreach (UnitOrderObject unitOrderObject in heroes)
+        {
+            // Should dead heroes also get experience points?
+            // This could matter for reviving, on hard dont give
+            //     unitOrderObject.unit.AwardExperience(CalculateExperiencePointsReward() / heroes.Count);
+        }
+    }
+
     public void ExitEncounterAlive()
     {
         isRunning = false;
+        AwardHeroesExperiencePoints();
+        AwardLoot();
+
         Debug.Log("All of the enemies died. Returning to World Map.");
         SceneManager.LoadScene("WorldMap");
     }
@@ -604,7 +636,6 @@ public class Encounter : MonoBehaviour
         {
             this.unitToAct.canAct = false;
             this.alive = false;
-            canvas.gameObject.SetActive(true);
 
             if (heroesLive())
             {

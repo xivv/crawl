@@ -20,15 +20,15 @@ public class TurnOrder : MonoBehaviour
         }
     }
 
-    public void Reload(UnitOrderObject unitToAct, List<UnitOrderObject> units)
+    public static void Reload(UnitOrderObject unitToAct, List<UnitOrderObject> units)
     {
 
-        foreach (Transform child in transform)
+        foreach (Transform child in instance.transform)
         {
             Destroy(child.gameObject);
         }
 
-        gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(300, 75 * units.Count);
+        instance.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(300, 75 * units.Count);
 
         int indexOfUnitToAct = units.IndexOf(unitToAct);
 
@@ -38,7 +38,7 @@ public class TurnOrder : MonoBehaviour
 
             UnitOrderObject unit = units[i];
             GameObject slotPrefab = Resources.Load<GameObject>("Prefabs/Ui/TurnorderSlot");
-            GameObject newObject = Instantiate(slotPrefab, transform);
+            GameObject newObject = Instantiate(slotPrefab, instance.transform);
             newObject.GetComponent<TurnorderSlot>().text.text = unit.unit.name + " - " + unit.rolledInit;
 
             if (i == indexOfUnitToAct)
@@ -52,7 +52,7 @@ public class TurnOrder : MonoBehaviour
 
             UnitOrderObject unit = units[i];
             GameObject slotPrefab = Resources.Load<GameObject>("Prefabs/Ui/TurnorderSlot");
-            GameObject newObject = Instantiate(slotPrefab, transform);
+            GameObject newObject = Instantiate(slotPrefab, instance.transform);
             newObject.GetComponent<TurnorderSlot>().text.text = unit.unit.name + " - " + unit.rolledInit;
         }
     }

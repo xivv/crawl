@@ -1,16 +1,16 @@
 ﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class MapTools : MonoBehaviour
+public class GridTools : MonoBehaviour
 {
 
-    public static MapTools instance;
+    public static GridTools instance;
 
-    public Tilemap groundTilemap;
-    public Tilemap wallTilemap;
-    public Tilemap encounterTilemap;
-    public Tilemap tavernTilemap;
-    public Tilemap targetTilemap;
+    private Tilemap groundTilemap;
+    private Tilemap wallTilemap;
+    private Tilemap encounterTilemap;
+    private Tilemap tavernTilemap;
+    private Tilemap targetTilemap;
 
     public TileBase targetUnderground;
     public TileBase targetUndergroundRed;
@@ -18,15 +18,30 @@ public class MapTools : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        this.groundTilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
-        this.encounterTilemap = GameObject.Find("Encounter").GetComponent<Tilemap>();
-        this.wallTilemap = GameObject.Find("Wall").GetComponent<Tilemap>();
-        this.tavernTilemap = GameObject.Find("Tavern").GetComponent<Tilemap>();
-        this.targetTilemap = GameObject.Find("Target").GetComponent<Tilemap>();
-
         instance = this;
 
-        DontDestroyOnLoad(this.gameObject);
+
+        foreach (Transform child in transform)
+        {
+            switch (child.name)
+            {
+                case "Ground":
+                    groundTilemap = child.gameObject.GetComponent<Tilemap>();
+                    break;
+                case "Encounter":
+                    encounterTilemap = child.gameObject.GetComponent<Tilemap>();
+                    break;
+                case "Wall":
+                    wallTilemap = child.gameObject.GetComponent<Tilemap>();
+                    break;
+                case "Tavern":
+                    tavernTilemap = child.gameObject.GetComponent<Tilemap>();
+                    break;
+                case "Target":
+                    targetTilemap = child.gameObject.GetComponent<Tilemap>();
+                    break;
+            }
+        }
     }
 
 
@@ -49,7 +64,7 @@ public class MapTools : MonoBehaviour
     }
 
 
-    public static void placeTile(TileBase tileBase, Tilemap tileMap, Vector3Int position)
+    public static void PlaceTile(TileBase tileBase, Tilemap tileMap, Vector3Int position)
     {
         tileMap.SetTile(position, tileBase);
     }

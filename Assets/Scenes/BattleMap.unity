@@ -363,12 +363,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 151494353}
   m_CullTransparentMesh: 0
---- !u!1839735485 &174615811 stripped
-Tilemap:
-  m_CorrespondingSourceObject: {fileID: 174615811, guid: 0e58cc9d75469a04db29aaa9a79cbbf5,
-    type: 3}
-  m_PrefabInstance: {fileID: 8669133705849955426}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &241102989
 GameObject:
   m_ObjectHideFlags: 0
@@ -3274,7 +3268,6 @@ GameObject:
   - component: {fileID: 1831153738}
   - component: {fileID: 1831153737}
   - component: {fileID: 1831153740}
-  - component: {fileID: 1831153741}
   - component: {fileID: 1831153742}
   - component: {fileID: 1831153743}
   m_Layer: 0
@@ -3349,44 +3342,20 @@ MonoBehaviour:
   smoothTime: 1
   groundTilemap: {fileID: 1284508557}
   wallTilemap: {fileID: 1395071518}
-  targetUnderground: {fileID: 11400000, guid: 4960cb868c341d748bbae3f098f56b22, type: 2}
   alive: 0
   isRunning: 0
   targetSelector: {fileID: 813237448}
   abilityMenu: {fileID: 1766545524}
   actionMenu: {fileID: 1831153742}
   unitInfo: {fileID: 1989273240}
-  canvas: {fileID: 2074533091}
   actButton: {fileID: 1015826975}
-  defendActionButton: {fileID: 977825359}
   finishSelectionButton: {fileID: 679163597}
-  stopSelectionButton: {fileID: 632169365}
   possibleEnemies:
   - {fileID: 4735035235812846135, guid: d62473c5df339674b9733edb71f707d5, type: 3}
   - {fileID: 200007185854237793, guid: 62cbb2eb1a41f114cabc368cbcbd6e07, type: 3}
   groundTile: {fileID: 11400000, guid: 17876dac994721c4d9e64a03356d1052, type: 2}
   wallTile: {fileID: 11400000, guid: 0e77501d138a80c4b8e01e72274e4952, type: 2}
   isDay: 1
---- !u!114 &1831153741
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1831153736}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d86526b09dfc4c54499ca2b682b2d158, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groundTilemap: {fileID: 1284508557}
-  wallTilemap: {fileID: 1395071518}
-  encounterTilemap: {fileID: 8669133705849955429}
-  tavernTilemap: {fileID: 8669133705849955428}
-  targetTilemap: {fileID: 174615811}
-  targetUnderground: {fileID: 11400000, guid: 4960cb868c341d748bbae3f098f56b22, type: 2}
-  targetUndergroundRed: {fileID: 11400000, guid: 2627679855385f447b56a305743f6981,
-    type: 2}
 --- !u!114 &1831153742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4751,18 +4720,6 @@ PrefabInstance:
 --- !u!1839735485 &8669133705849955427 stripped
 Tilemap:
   m_CorrespondingSourceObject: {fileID: 1009200272, guid: 0e58cc9d75469a04db29aaa9a79cbbf5,
-    type: 3}
-  m_PrefabInstance: {fileID: 8669133705849955426}
-  m_PrefabAsset: {fileID: 0}
---- !u!1839735485 &8669133705849955428 stripped
-Tilemap:
-  m_CorrespondingSourceObject: {fileID: 559574953, guid: 0e58cc9d75469a04db29aaa9a79cbbf5,
-    type: 3}
-  m_PrefabInstance: {fileID: 8669133705849955426}
-  m_PrefabAsset: {fileID: 0}
---- !u!1839735485 &8669133705849955429 stripped
-Tilemap:
-  m_CorrespondingSourceObject: {fileID: 8669133706784425481, guid: 0e58cc9d75469a04db29aaa9a79cbbf5,
     type: 3}
   m_PrefabInstance: {fileID: 8669133705849955426}
   m_PrefabAsset: {fileID: 0}

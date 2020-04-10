@@ -20,7 +20,26 @@ public abstract class Hero : Unit
         }
     }
 
-    public int getLevelsOfClass(HeroClass targetHeroClass)
+
+    public void LevelUp()
+    {
+
+    }
+
+    public void AwardExperience(int experience)
+    {
+        metaInformation.exp += experience;
+
+        int experienceForNextlevel = Heroadvancement.table[this.metaInformation.level + 1];
+
+        if (metaInformation.exp >= experienceForNextlevel)
+        {
+            LevelUp();
+        }
+
+    }
+
+    public int GetClassLevel(HeroClass targetHeroClass)
     {
         int counter = 0;
 
@@ -31,11 +50,4 @@ public abstract class Hero : Unit
 
         return counter;
     }
-}
-
-public enum HeroClass
-{
-    CLERIC,
-    BARBAR,
-    WIZARD
 }

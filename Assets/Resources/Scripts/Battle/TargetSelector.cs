@@ -210,14 +210,14 @@ public class TargetSelector : TurnOrderObject
         if (this.selectedTargets.Contains(unitOrderObject))
         {
             this.selectedTargets.Remove(unitOrderObject);
-            MapTools.placeTile(null, selectedTargetsTileMap, toCheckPosition3Int);
+            GridTools.PlaceTile(null, selectedTargetsTileMap, toCheckPosition3Int);
         }
 
         // If the list is not full already or we have no limit
         else if ((this.selectedTargets.Count < ability.maxTargets || ability.maxTargets == 0) && this.IsValidTarget(unitOrderObject))
         {
             this.selectedTargets.Add(unitOrderObject);
-            MapTools.placeTile(selectedTargetTileBase, selectedTargetsTileMap, toCheckPosition3Int);
+            GridTools.PlaceTile(selectedTargetTileBase, selectedTargetsTileMap, toCheckPosition3Int);
         }
     }
 
@@ -229,15 +229,15 @@ public class TargetSelector : TurnOrderObject
         if (this.pausedMovement == false && ability.targetStartPoint == TargetStartPoint.REGION)
         {
             Vector2 startPosition = new Vector2(this.transform.position.x - ability.targetArea, this.transform.position.y + ability.targetArea);
-            MapTools.ClearTargetTileMap();
+            GridTools.ClearTargetTileMap();
 
             if (ability.targetPolygon == TargetPolygon.RECTANGLE)
             {
-                MapTools.DrawReach(startPosition, this.transform.position, ability.targetArea, TargetLayer.AREA);
+                GridTools.DrawReach(startPosition, this.transform.position, ability.targetArea, TargetLayer.AREA);
             }
             else if (ability.targetPolygon == TargetPolygon.CONE)
             {
-                MapTools.DrawCone(this.transform.position, Direction.WEST, ability.targetArea, TargetLayer.AREA);
+                GridTools.DrawCone(this.transform.position, Direction.WEST, ability.targetArea, TargetLayer.AREA);
             }
         }
     }

@@ -48,7 +48,7 @@ public class Ability
 
         if (this.targetPolygon == TargetPolygon.RECTANGLE)
         {
-            MapTools.DrawReach(startPosition, startingPosition, this.reach);
+            GridTools.DrawReach(startPosition, startingPosition, this.reach);
         }
     }
 

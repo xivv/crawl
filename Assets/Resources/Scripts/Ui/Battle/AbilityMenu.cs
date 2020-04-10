@@ -66,14 +66,14 @@ public class AbilityMenu : MonoBehaviour
     {
         this.abilityTextFields[index].GetComponentInParent<Image>().color = Color.green;
         Vector2 startPosition = new Vector2(source.transform.position.x - abilities[index].reach, source.transform.position.y + abilities[index].reach);
-        MapTools.ClearTargetTileMap();
+        GridTools.ClearTargetTileMap();
         if (abilities[index].targetPolygon == TargetPolygon.RECTANGLE)
         {
-            MapTools.DrawReach(startPosition, source.transform.position, abilities[index].reach);
+            GridTools.DrawReach(startPosition, source.transform.position, abilities[index].reach);
         }
         else if (abilities[index].targetPolygon == TargetPolygon.CONE)
         {
-            MapTools.DrawCone(source.transform.position, Direction.WEST, abilities[index].targetArea);
+            GridTools.DrawCone(source.transform.position, Direction.WEST, abilities[index].targetArea);
         }
     }
 
