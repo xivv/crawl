@@ -98,12 +98,12 @@ public class Encounter : MonoBehaviour
             }
         }
 
-        int enemyCount = 3;
+        int enemyCount = 1;
 
         for (int i = 0; i < enemyCount; i++)
         {
             //Vector2 randomPosition = new Vector2(Convert.ToSingle(Random.Range(1, width - 1) + 0.5), Convert.ToSingle(Random.Range(1, height - 1) + 0.5));
-            Vector2 randomPosition = new Vector2(Convert.ToSingle(Random.Range(1, width - 1) + 0.5), Convert.ToSingle(Random.Range(1, height - 1) + 0.5));
+            Vector2 randomPosition = new Vector2(Convert.ToSingle(Random.Range(1, width - 1)), Convert.ToSingle(Random.Range(1, height - 1)));
             GameObject monster = MonsterBreeder.Breed("Dragon", randomPosition);
             UnitOrderObject unitOrderObject = monster.GetComponent<UnitOrderObject>();
             this.participants.Add(unitOrderObject);
@@ -195,7 +195,7 @@ public class Encounter : MonoBehaviour
         TurnOrder.Reload(unitToAct, initiative);
     }
 
-    void ToggleActions()
+    void ToggleActionMenu()
     {
         bool unitCanActAndIsAbleToMove = this.unitToAct.unit.hasStandardAction && !this.unitToAct.pausedMovement;
         bool unitIsAbleToMoveNoStandardAction = !this.unitToAct.unit.hasStandardAction && !this.unitToAct.pausedMovement;
@@ -240,9 +240,9 @@ public class Encounter : MonoBehaviour
     void ExecuteAbility(Ability ability, UnitOrderObject source)
     {
 
-        ability.Execute(this.unitToAct.unit, this.UnitOrderObjectsToUnits(this.targetSelector.EndTargetSelection()));
-
         this.unitToAct.pausedMovement = false;
+
+        ability.Execute(this.unitToAct.unit, this.UnitOrderObjectsToUnits(this.targetSelector.EndTargetSelection()));
 
         if (this.unitToAct.remainingMovementSpeed <= 0)
         {
@@ -270,7 +270,7 @@ public class Encounter : MonoBehaviour
             }
 
             // We enable - disable actions
-            ToggleActions();
+            ToggleActionMenu();
 
             // Apply Conditions
             if (!unitToAct.canAct)
@@ -368,7 +368,8 @@ public class Encounter : MonoBehaviour
 
     public void defendAction()
     {
-        this.AddCondition(1, ConditionType.DEFENSE, unitToAct.unit, unitToAct.unit);
+        unitToAct.unit.AddCondition(1, ConditionType.DEFENSE, unitToAct.unit);
+
         // End the turn
         this.StopAbilitySelection();
         this.endTurnAction();
@@ -392,16 +393,9 @@ public class Encounter : MonoBehaviour
         GridTools.ClearTargetTileMap();
     }
 
-    // -----------------
-
-    public void AddCondition(int duration, ConditionType conditionType, Unit source, Unit target)
-    {
-        target.conditions.Add(new Condition(conditionType, duration, source));
-    }
-
     private void CheckConditions(Unit source)
     {
-        foreach (UnitOrderObject unitOrderObject in this.participants)
+        foreach (UnitOrderObject unitOrderObject in participants)
         {
 
             Unit unit = unitOrderObject.unit;
@@ -535,10 +529,7 @@ public class Encounter : MonoBehaviour
                         unit.encounterStats.speed = unit.baseStats.speed * 2;
                     }
                 }
-
-
             }
-
         }
     }
 
@@ -662,16 +653,16 @@ public class Encounter : MonoBehaviour
         return targets;
     }
 
-    public void Pause()
+    public static void Pause()
     {
-        isRunning = false;
+        instance.isRunning = false;
 
         // TODO: Disable all UI elements
     }
 
-    public void Resume()
+    public static void Resume()
     {
-        isRunning = true;
+        instance.isRunning = true;
 
         // TODO: Disable all UI elements
     }

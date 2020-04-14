@@ -32,9 +32,9 @@ public class Barbar : Hero
        }, new List<HeroClass>(new HeroClass[] {
                 HeroClass.BARBAR
            }),
-       RaceLoader.GetRace("Demon"))
+       RaceLoader.GetRace("Demon"),
+         Size.MEDIUM)
     {
-
         this.visions.Add(Vision.DARKVISION);
         this.EquipItem(ItemLoader.GetItem("Longsword"));
     }

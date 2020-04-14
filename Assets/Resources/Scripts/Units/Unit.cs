@@ -25,18 +25,21 @@ public class Unit
     public List<Item> items = new List<Item>();
     public Dictionary<ItemSlot, Item> equippedItems = new Dictionary<ItemSlot, Item>();
 
+    public Size size;
+
 
     [HideInInspector]
     public bool isDead = false;
     public bool hasStandardAction = true;
 
-    public Unit(String unitName, String spriteName, MetaInformation metaInformation, Stats baseStats, TypeClass typeClass)
+    public Unit(String unitName, String spriteName, MetaInformation metaInformation, Stats baseStats, TypeClass typeClass, Size size)
     {
         this.name = unitName;
         this.metaInformation = metaInformation;
         this.baseStats = baseStats;
         this.encounterStats = this.baseStats;
         this.typeClass = typeClass;
+        this.size = size;
     }
 
     public void CalculateStats(Stats stats, bool apply)
@@ -145,5 +148,15 @@ public class Unit
             Debug.Log(this.name + " died.");
             this.isDead = true;
         }
+    }
+
+    public Sprite GetSprite()
+    {
+        return Resources.Load<Sprite>("Sprites/" + name);
+    }
+
+    public void AddCondition(int duration, ConditionType conditionType, Unit source)
+    {
+        conditions.Add(new Condition(conditionType, duration, source));
     }
 }

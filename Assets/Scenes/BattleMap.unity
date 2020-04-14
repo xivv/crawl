@@ -2351,7 +2351,7 @@ MonoBehaviour:
     m_Right: 10
     m_Top: 10
     m_Bottom: 10
-  m_ChildAlignment: 1
+  m_ChildAlignment: 4
   m_Spacing: 10
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
@@ -3340,20 +3340,18 @@ MonoBehaviour:
   participants: []
   unitCamera: {fileID: 1492564707}
   smoothTime: 1
-  groundTilemap: {fileID: 1284508557}
-  wallTilemap: {fileID: 1395071518}
   alive: 0
   isRunning: 0
   targetSelector: {fileID: 813237448}
   abilityMenu: {fileID: 1766545524}
   actionMenu: {fileID: 1831153742}
   unitInfo: {fileID: 1989273240}
-  actButton: {fileID: 1015826975}
-  finishSelectionButton: {fileID: 679163597}
   possibleEnemies:
   - {fileID: 4735035235812846135, guid: d62473c5df339674b9733edb71f707d5, type: 3}
   - {fileID: 200007185854237793, guid: 62cbb2eb1a41f114cabc368cbcbd6e07, type: 3}
+  groundTilemap: {fileID: 1284508557}
   groundTile: {fileID: 11400000, guid: 17876dac994721c4d9e64a03356d1052, type: 2}
+  wallTilemap: {fileID: 1395071518}
   wallTile: {fileID: 11400000, guid: 0e77501d138a80c4b8e01e72274e4952, type: 2}
   isDay: 1
 --- !u!114 &1831153742
@@ -4056,7 +4054,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 1
-  m_ReferencePixelsPerUnit: 100
+  m_ReferencePixelsPerUnit: 1
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0

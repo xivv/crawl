@@ -65,7 +65,12 @@ public class TurnOrderObject : MovingObject
     protected override void resetMovement()
     {
         base.resetMovement();
-        this.remainingMovementSpeed--;
+
+        if (!lastMoveFailed)
+        {
+            remainingMovementSpeed--;
+        }
+
         if (limitedMovement && remainingMovementSpeed <= 0)
         {
             this.pausedMovement = true;

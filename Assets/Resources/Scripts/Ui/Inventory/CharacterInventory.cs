@@ -76,7 +76,11 @@ public class CharacterInventory : MonoBehaviour
         }
 
         SceneManager.UnloadSceneAsync("CharacterInventory");
-        Encounter.instance.Resume();
+
+        if (Encounter.instance != null && !Encounter.instance.isRunning)
+        {
+            Encounter.Resume();
+        }
     }
 
     void LoadItems()

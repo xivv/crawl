@@ -9,6 +9,9 @@ public class MovingObject : MonoBehaviour
     private static float moveTime = 0.1f;
     private static float movementDelay = 0.1f;
 
+    protected bool lastMoveFailed = true;
+    protected Vector2 direction;
+
     protected BoxCollider2D boxCollider;
     protected Tilemap groundTilemap;
     protected Tilemap wallTilemap;
@@ -34,7 +37,8 @@ public class MovingObject : MonoBehaviour
     {
         bool hasGroundTile = getCell(groundTilemap, targetCell) != null; //If target Tile has a ground
         bool hasObstacleTile = getCell(wallTilemap, targetCell) != null; //if target Tile has an obstacle
-        return hasGroundTile && !hasObstacleTile;
+        bool hitsWall = Physics2D.OverlapCircleAll(targetCell, 0.1f, 1 << 8).Length > 0;
+        return hasGroundTile && !hasObstacleTile && !hitsWall;
     }
 
     // Update is called once per frame
@@ -59,6 +63,7 @@ public class MovingObject : MonoBehaviour
         //If there's a direction, we are trying to move.
         if (horizontal != 0 || vertical != 0)
         {
+            direction = new Vector2(horizontal, vertical);
             StartCoroutine(Move(horizontal, vertical));
         }
     }
@@ -71,11 +76,13 @@ public class MovingObject : MonoBehaviour
     private IEnumerator Move(int xDir, int yDir)
     {
         isMoving = true;
+        lastMoveFailed = true;
 
         Vector2 startCell = transform.position;
         Vector2 targetCell = startCell + new Vector2(xDir, yDir);
 
-        //   Debug.DrawLine(startCell, targetCell, Color.red, 5f);
+        Debug.DrawLine(startCell, targetCell, Color.red, 5f);
+        Debug.Log("Moving in :" + GetDirection());
 
         bool isOnGround = getCell(groundTilemap, startCell) != null; //If the player is on the ground
         bool hasEncounterTile = getCell(encounterTilemap, targetCell) != null; //if target Tile is an encounter
@@ -89,6 +96,7 @@ public class MovingObject : MonoBehaviour
             if (allowMovement(targetCell))
             {
 
+                lastMoveFailed = false;
                 float sqrRemainingDistance = (transform.position - (Vector3)targetCell).sqrMagnitude;
                 while (sqrRemainingDistance > float.Epsilon)
                 {
@@ -125,4 +133,39 @@ public class MovingObject : MonoBehaviour
     {
         return tilemap.GetTile(tilemap.WorldToCell(cellWorldPos));
     }
+
+    public MovementDirection GetDirection()
+    {
+        if (direction.x == 0)
+        {
+            if (direction.y == -1)
+            {
+                return MovementDirection.SOUTH;
+            }
+            else
+            {
+                return MovementDirection.NORTH;
+            }
+        }
+        else
+        {
+            if (direction.x == -1)
+            {
+                return MovementDirection.WEST;
+            }
+            else
+            {
+                return MovementDirection.EAST;
+            }
+        }
+    }
+
+}
+
+public enum MovementDirection
+{
+    SOUTH,
+    NORTH,
+    EAST,
+    WEST
 }

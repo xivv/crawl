@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
             newObject.AddComponent<BoxCollider2D>();
             newObject.GetComponent<UnitOrderObject>().unit = unit;
             newObject.AddComponent<SpriteRenderer>();
-            newObject.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/" + unit.name);
+            newObject.GetComponent<SpriteRenderer>().sprite = unit.GetSprite();
             newObject.GetComponent<SpriteRenderer>().sortingLayerName = "Units";
             newObject.layer = 9;
             newObject.name = unit.name;

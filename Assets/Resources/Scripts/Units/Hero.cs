@@ -5,7 +5,7 @@ public abstract class Hero : Unit
     public List<HeroClass> heroClasses = new List<HeroClass>();
     public Race race;
 
-    public Hero(string unitName, string spriteName, MetaInformation metaInformation, Stats baseStats, List<HeroClass> heroClasses, Race race) : base(unitName, spriteName, metaInformation, baseStats, TypeClass.HERO)
+    public Hero(string unitName, string spriteName, MetaInformation metaInformation, Stats baseStats, List<HeroClass> heroClasses, Race race, Size size) : base(unitName, spriteName, metaInformation, baseStats, TypeClass.HERO, size)
     {
         this.heroClasses = heroClasses;
         this.race = race;

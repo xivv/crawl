@@ -1,0 +1,35 @@
+{
+	"name" : "Cleric",
+	"progress" : [
+			{
+				"abilities": [],
+				"visions" : [],
+				"stats" : {
+				}
+			},
+			{
+				"abilities": [],
+				"visions" : [],
+				"stats" : {
+				}
+			},
+			{
+				"abilities": [],
+				"visions" : [],
+				"stats" : {
+				}
+			},
+			{
+				"abilities": [],
+				"visions" : [],
+				"stats" : {
+				}
+			},
+			{
+				"abilities": [],
+				"visions" : [],
+				"stats" : {
+				}
+			}	
+	]
+}

@@ -28,7 +28,8 @@
             reflex = 0,
             will = 0
         }
-       , TypeClass.MONSTER)
+       , TypeClass.MONSTER,
+        Size.MEDIUM)
     {
         this.visions.Add(Vision.DARKVISION);
         this.EquipItem(ItemLoader.GetItem("Longsword"));

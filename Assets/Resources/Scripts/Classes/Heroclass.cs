@@ -1,18 +1,23 @@
-﻿using UnityEngine;
-using System.Collections;
-
-public class Heroclass : MonoBehaviour
+﻿public class Heroclass
 {
 
-    // Use this for initialization
-    void Start()
+
+
+    void ApplyLevelUp(Hero hero, int level)
     {
+        switch (level)
+        {
+            case 1:
+                _1(hero);
+                break;
+
+        }
+    }
+
+    protected virtual void _1(Hero hero)
+    {
+
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

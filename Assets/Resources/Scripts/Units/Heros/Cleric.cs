@@ -31,11 +31,11 @@ public class Cleric : Hero
         , new List<HeroClass>(new HeroClass[] {
                 HeroClass.CLERIC
             }),
-         RaceLoader.GetRace("Human"))
+         RaceLoader.GetRace("Human"),
+         Size.MEDIUM)
     {
-
-        this.visions.Add(Vision.DARKVISION);
-        this.EquipItem(ItemLoader.GetItem("Longsword"));
-        this.items.Add(ItemLoader.GetItem("HeavyShield"));
+        visions.Add(Vision.DARKVISION);
+        EquipItem(ItemLoader.GetItem("Longsword"));
+        items.Add(ItemLoader.GetItem("HeavyShield"));
     }
 }
