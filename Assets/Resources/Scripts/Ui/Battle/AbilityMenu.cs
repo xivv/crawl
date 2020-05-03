@@ -1,108 +1,79 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class AbilityMenu : MonoBehaviour
 {
 
-    public List<Ability> abilities = new List<Ability>();
-
-    private Text[] abilityTextFields;
-
-    [HideInInspector]
-    private Ability selectedAbility;
-
-    public UnitOrderObject source;
+    public static AbilityMenu instance;
+    private List<AbilitySlot> abilities = new List<AbilitySlot>();
+    private Vector2 sourcePosition;
+    private int index = 0;
 
     private bool isMoving = false;
-    [HideInInspector]
-    public bool canAct = false;
+    private bool canAct = false;
+    private bool initialized = false;
 
-    public float movementDelay = 0.2f;
-    private int index = 0;
-    private int maxItems = 8;
-
-    public Ability GetSelectedAbility()
-    {
-        return selectedAbility;
-    }
-
-
-    public bool HasTargetSelected()
-    {
-        return canAct == true && selectedAbility != null;
-    }
-
-    public void StartAbilitySelection(UnitOrderObject unitToAct)
-    {
-        gameObject.SetActive(true);
-        source = unitToAct;
-        setAbilities(unitToAct.unit.abilities);
-        canAct = true;
-    }
-
-    public void StopAbilitySelection()
-    {
-        gameObject.SetActive(false);
-        canAct = false;
-        selectedAbility = null;
-    }
-
-
-    public void setAbilities(List<Ability> list)
-    {
-        resetAbilities();
-        this.abilities = list;
-        for (int i = 0; i < this.abilities.Count; i++)
-        {
-            this.abilityTextFields[i].text = this.abilities[i].name;
-            this.abilityTextFields[i].gameObject.SetActive(true);
-        }
-        this.maxItems = this.abilities.Count;
-        SelectAbility();
-    }
-
-    void SelectAbility()
-    {
-        this.abilityTextFields[index].GetComponentInParent<Image>().color = Color.green;
-        Vector2 startPosition = new Vector2(source.transform.position.x - abilities[index].reach, source.transform.position.y + abilities[index].reach);
-        GridTools.ClearTargetTileMap();
-        if (abilities[index].targetPolygon == TargetPolygon.RECTANGLE)
-        {
-            GridTools.DrawReach(startPosition, source.transform.position, abilities[index].reach);
-        }
-        else if (abilities[index].targetPolygon == TargetPolygon.CONE)
-        {
-            GridTools.DrawCone(source.transform.position, Direction.WEST, abilities[index].targetArea);
-        }
-    }
-
-    void resetAbilities()
-    {
-        for (int i = 0; i < this.abilityTextFields.Length; i++)
-        {
-            this.abilityTextFields[i].text = "";
-            this.abilityTextFields[i].GetComponentInParent<Image>().color = new Color(195, 21, 29);
-            this.abilityTextFields[i].gameObject.SetActive(false);
-        }
-        this.index = 0;
-    }
-
-    void DeselectAbility()
-    {
-        this.abilityTextFields[index].GetComponentInParent<Image>().color = Color.red;
-    }
+    private float movementDelay = 0.2f;
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
-        abilityTextFields = this.GetComponentsInChildren<Text>();
-        selectedAbility = null;
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
+
+    public static void UnLoad()
+    {
+
+        foreach (Transform child in instance.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        instance.index = 0;
+        instance.abilities.Clear();
+        instance.canAct = false;
+        instance.initialized = false;
+        instance.gameObject.SetActive(false);
+    }
+
+    public static void Load(List<Ability> abilities, Vector2 sourcePosition)
+    {
+
+        instance.sourcePosition = sourcePosition;
+        GameObject prefab = Resources.Load<GameObject>("Prefabs/Ui/AbilitySlot");
+
+        foreach (Ability abilty in abilities)
+        {
+            GameObject newObject = Instantiate(prefab, instance.transform);
+
+            AbilitySlot slot = newObject.GetComponent<AbilitySlot>();
+            slot.ability = abilty;
+            instance.abilities.Add(slot);
+        }
+
+        instance.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(350, 55 * abilities.Count);
+        instance.canAct = true;
+        instance.gameObject.SetActive(true);
+        instance.DrawSelectedAbilityReach();
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        //TODO: worst practice this seems not to work in the Load Method...
+        if (!initialized)
+        {
+            instance.abilities[instance.index].Hover();
+            initialized = true;
+        }
 
         if (isMoving || !canAct) return;
 
@@ -111,47 +82,86 @@ public class AbilityMenu : MonoBehaviour
 
         if (vertical != 0)
         {
-            this.isMoving = true;
-            DeselectAbility();
+            isMoving = true;
 
+            abilities[index].Unhover();
             index += vertical;
 
-            if (index >= maxItems)
+            if (index >= abilities.Count)
             {
                 index = 0;
             }
             else if (index < 0)
             {
-                index = this.maxItems - 1;
+                index = this.abilities.Count - 1;
             }
 
-            SelectAbility();
-            Invoke("resetMovement", movementDelay);
+            abilities[index].Hover();
+            DrawSelectedAbilityReach();
+
+            Invoke("ResetMovement", movementDelay);
         }
     }
 
     void OnGUI()
     {
-
-        if (canAct)
+        if (Event.current.Equals(Event.KeyboardEvent(KeyCode.KeypadEnter.ToString())) || Event.current.Equals(Event.KeyboardEvent(KeyCode.Return.ToString())))
         {
-            if (Event.current.Equals(Event.KeyboardEvent(KeyCode.KeypadEnter.ToString())) || Event.current.Equals(Event.KeyboardEvent(KeyCode.Return.ToString())))
-            {
-                // We choose the ability and need to now select targets
-                this.selectedAbility = this.abilities[index];
-            }
-
-            if (Event.current.Equals(Event.KeyboardEvent(KeyCode.Escape.ToString())))
-            {
-                // We cancel
-                this.canAct = false;
-            }
+            // We choose the ability and need to now select targets
+            canAct = !canAct;
+            abilities[index].Select();
         }
 
+        if (Event.current.Equals(Event.KeyboardEvent(KeyCode.Escape.ToString())))
+        {
+            if (!canAct)
+            {
+                abilities[index].Deselect();
+            }
+            else
+            {
+                AbilityMenu.UnLoad();
+            }
+        }
     }
 
-    protected void resetMovement()
+    private void ResetMovement()
     {
-        this.isMoving = false;
+        isMoving = false;
+    }
+
+    private void DrawSelectedAbilityReach()
+    {
+
+        Ability ability = GetSelectedAbility();
+
+        if (ability != null)
+        {
+
+            GridTools.ClearTargetTileMap();
+
+            if (ability.targetPolygon == TargetPolygon.RECTANGLE)
+            {
+                Vector2 startPosition = new Vector2(sourcePosition.x - ability.reach, sourcePosition.y + ability.reach);
+                GridTools.DrawReach(startPosition, sourcePosition, ability.reach);
+            }
+            else if (ability.targetPolygon == TargetPolygon.CONE)
+            {
+                GridTools.DrawCone(sourcePosition, Direction.WEST, ability.targetArea);
+            }
+        }
+    }
+
+    public static Ability GetSelectedAbility()
+    {
+
+        if (instance.abilities[instance.index].selected)
+        {
+            return instance.abilities[instance.index].ability;
+        }
+        else
+        {
+            return null;
+        }
     }
 }

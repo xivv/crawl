@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 
 public class MovingObject : MonoBehaviour
@@ -16,13 +15,6 @@ public class MovingObject : MonoBehaviour
     protected Tilemap groundTilemap;
     protected Tilemap wallTilemap;
     protected Tilemap encounterTilemap;
-    protected Tilemap tavernTilemap;
-
-    // called when the cube hits the floor
-    void OnCollisionEnter2D(Collision2D col)
-    {
-        Debug.Log("OnCollisionEnter2D");
-    }
 
     protected virtual void Start()
     {
@@ -30,13 +22,12 @@ public class MovingObject : MonoBehaviour
         this.encounterTilemap = GameObject.Find("Encounter").GetComponent<Tilemap>();
         this.groundTilemap = GameObject.Find("Ground").GetComponent<Tilemap>();
         this.wallTilemap = GameObject.Find("Wall").GetComponent<Tilemap>();
-        this.tavernTilemap = GameObject.Find("Tavern").GetComponent<Tilemap>();
     }
 
-    protected virtual bool allowMovement(Vector2 targetCell)
+    protected virtual bool canMove(Vector2 targetCell)
     {
-        bool hasGroundTile = getCell(groundTilemap, targetCell) != null; //If target Tile has a ground
-        bool hasObstacleTile = getCell(wallTilemap, targetCell) != null; //if target Tile has an obstacle
+        bool hasGroundTile = GetCell(groundTilemap, targetCell) != null; //If target Tile has a ground
+        bool hasObstacleTile = GetCell(wallTilemap, targetCell) != null; //if target Tile has an obstacle
         bool hitsWall = Physics2D.OverlapCircleAll(targetCell, 0.1f, 1 << 8).Length > 0;
         return hasGroundTile && !hasObstacleTile && !hitsWall;
     }
@@ -68,9 +59,26 @@ public class MovingObject : MonoBehaviour
         }
     }
 
-    protected virtual void AfterMovement()
+    // Used to do something after movement
+    protected virtual void AfterMovement(Vector2 startCell, Vector2 targetCell)
     {
-        // Used to do something after movement
+
+        if (!lastMoveFailed)
+        {
+            TileBase tileBase = GetCell(encounterTilemap, targetCell);
+
+            //if target Tile is an encounter
+
+            Collider2D collider2D = Physics2D.OverlapCircle(targetCell, 0.1f, 1 << 10);
+            bool hasEncounterTile = collider2D != null;
+
+            if (hasEncounterTile)
+            {
+                // Get the component of the object
+                Encounter encounter = collider2D.gameObject.GetComponent<Encounter>();
+                encounter.OnEnter();
+            }
+        }
     }
 
     private IEnumerator Move(int xDir, int yDir)
@@ -81,19 +89,14 @@ public class MovingObject : MonoBehaviour
         Vector2 startCell = transform.position;
         Vector2 targetCell = startCell + new Vector2(xDir, yDir);
 
-        Debug.DrawLine(startCell, targetCell, Color.red, 5f);
-        Debug.Log("Moving in :" + GetDirection());
-
-        bool isOnGround = getCell(groundTilemap, startCell) != null; //If the player is on the ground
-        bool hasEncounterTile = getCell(encounterTilemap, targetCell) != null; //if target Tile is an encounter
-        bool hasTavernTile = getCell(tavernTilemap, targetCell) != null; //if target Tile is an encounter
+        bool isOnGround = GetCell(groundTilemap, startCell) != null; //If the player is on the ground
 
         //If the player starts their movement from a ground tile.
         if (isOnGround)
         {
 
             //If the front tile is a walkable ground tile, the player moves here.
-            if (allowMovement(targetCell))
+            if (canMove(targetCell))
             {
 
                 lastMoveFailed = false;
@@ -109,27 +112,17 @@ public class MovingObject : MonoBehaviour
             }
 
             Invoke("resetMovement", movementDelay);
-            AfterMovement();
-
-            if (hasTavernTile)
-            {
-                // Load the hero selection
-                SceneManager.LoadScene("Tavern");
-            }
-            else if (hasEncounterTile)
-            {
-                // Load the encounter
-                SceneManager.LoadScene("BattleMap");
-            }
+            AfterMovement(startCell, targetCell);
         }
     }
+
 
     protected virtual void resetMovement()
     {
         this.isMoving = false;
     }
 
-    protected TileBase getCell(Tilemap tilemap, Vector2 cellWorldPos)
+    protected TileBase GetCell(Tilemap tilemap, Vector2 cellWorldPos)
     {
         return tilemap.GetTile(tilemap.WorldToCell(cellWorldPos));
     }

@@ -77,9 +77,9 @@ public class CharacterInventory : MonoBehaviour
 
         SceneManager.UnloadSceneAsync("CharacterInventory");
 
-        if (Encounter.instance != null && !Encounter.instance.isRunning)
+        if (Battle.instance != null && !Battle.instance.isRunning)
         {
-            Encounter.Resume();
+            Battle.Resume();
         }
     }
 

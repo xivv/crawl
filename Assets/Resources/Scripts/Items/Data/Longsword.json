@@ -1,5 +1,6 @@
 {
    "name":"Longsword",
+   "rarity" : 0,
    "description": "NO DESCRIPTION",
    "stats":{
       "health":0,

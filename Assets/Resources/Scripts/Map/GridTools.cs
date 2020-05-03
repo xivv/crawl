@@ -9,7 +9,6 @@ public class GridTools : MonoBehaviour
     private Tilemap groundTilemap;
     private Tilemap wallTilemap;
     private Tilemap encounterTilemap;
-    private Tilemap tavernTilemap;
     private Tilemap targetTilemap;
 
     public TileBase targetUnderground;
@@ -33,9 +32,6 @@ public class GridTools : MonoBehaviour
                     break;
                 case "Wall":
                     wallTilemap = child.gameObject.GetComponent<Tilemap>();
-                    break;
-                case "Tavern":
-                    tavernTilemap = child.gameObject.GetComponent<Tilemap>();
                     break;
                 case "Target":
                     targetTilemap = child.gameObject.GetComponent<Tilemap>();

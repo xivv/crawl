@@ -11,7 +11,7 @@ public class TargetSelector : TurnOrderObject
     [HideInInspector]
     public List<UnitOrderObject> participants = new List<UnitOrderObject>();
 
-    public Encounter encounter;
+    public Battle encounter;
 
     [HideInInspector]
     public Ability ability;
@@ -135,10 +135,10 @@ public class TargetSelector : TurnOrderObject
 
     }
 
-    protected override bool allowMovement(Vector2 targetCell)
+    protected override bool canMove(Vector2 targetCell)
     {
         float distance = Vector2.Distance(startingPosition, targetCell);
-        return base.allowMovement(targetCell) && distance < ability.reach + 1;
+        return base.canMove(targetCell) && distance < ability.reach + 1;
     }
 
 
@@ -222,9 +222,9 @@ public class TargetSelector : TurnOrderObject
     }
 
 
-    protected override void AfterMovement()
+    protected override void AfterMovement(Vector2 startCell, Vector2 targetCell)
     {
-        base.AfterMovement();
+        base.AfterMovement(startCell, targetCell);
 
         if (this.pausedMovement == false && ability.targetStartPoint == TargetStartPoint.REGION)
         {

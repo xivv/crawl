@@ -3,10 +3,10 @@
 	"description" : "Bless buffs your teammates with a nice buff that gives you +1 to all stats blabla",
 	"minTargets" : 0, 
 	"maxTargets" : 0,
-	"reach" : 0,
+	"reach" : 3,
 	"targetStartPoint" : 0,
-	"targetPolygon" : 0,
-	"targetArea" : 0,
+	"targetPolygon" : 1,
+	"targetArea" : 3,
 	"effects" : [
 		{
 			"conditions" : [

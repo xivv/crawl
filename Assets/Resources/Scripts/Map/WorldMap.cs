@@ -9,7 +9,7 @@ public class WorldMap : MonoBehaviour
 
     public static void CreatePlayer(Vector3 position)
     {
-        player = Instantiate(Resources.Load<GameObject>("prefabs/Player"), position, Quaternion.identity);
+        player = Instantiate(Resources.Load<GameObject>("prefabs/Player"), new Vector3(0.5f, 0.5f), Quaternion.identity);
     }
 
     // Start is called before the first frame update

@@ -5,9 +5,11 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
-public class Encounter : MonoBehaviour
+public class Battle : MonoBehaviour
 {
-    public static Encounter instance;
+    public static Battle instance;
+    public BattleState battleState;
+    public bool battleStateInitialised;
 
     public List<UnitOrderObject> participants = new List<UnitOrderObject>();
     private List<UnitOrderObject> monster = new List<UnitOrderObject>();
@@ -37,8 +39,6 @@ public class Encounter : MonoBehaviour
 
     // Menu
     public TargetSelector targetSelector;
-    public AbilityMenu abilityMenu;
-    public ActionMenu actionMenu;
     public UnitInfo unitInfo;
 
     // Generating Encounter
@@ -202,11 +202,11 @@ public class Encounter : MonoBehaviour
 
         if (unitIsAbleToMoveNoStandardAction)
         {
-            this.actionMenu.noStandardAction();
+            ActionMenu.NoStandardAction();
         }
         else if (unitCanActAndIsAbleToMove)
         {
-            this.actionMenu.open();
+            ActionMenu.Open();
         }
     }
 
@@ -254,20 +254,66 @@ public class Encounter : MonoBehaviour
         }
     }
 
+
+    void OnGUI()
+    {
+        if (Event.current.Equals(Event.KeyboardEvent(KeyCode.KeypadEnter.ToString())) || Event.current.Equals(Event.KeyboardEvent(KeyCode.Return.ToString())))
+        {
+            // We choose the ability and need to now select targets
+
+        }
+
+        if (Event.current.Equals(Event.KeyboardEvent(KeyCode.Escape.ToString())))
+        {
+            // AbilityMenu2.UnLoad();
+        }
+    }
+
+
+
+    public static void SetState(BattleState state)
+    {
+        instance.battleState = state;
+        instance.battleStateInitialised = false;
+
+        if (state == BattleState.ABILITYSELECTION)
+        {
+            instance.StartAbilitySelection();
+        }
+        else if (state == BattleState.TARGETSELECTION)
+        {
+
+        }
+
+        instance.battleStateInitialised = true;
+    }
+
     // Update is called once per frame
     void Update()
     {
+
+        // State Based
+
+        if (battleState == BattleState.ABILITYSELECTION)
+        {
+
+
+
+        }
+
+
+
 
         if (isRunning && alive && bothPartiesLive())
         {
             RemoveDeadUnits();
 
             // If we selected an ability we grab it here and first activate the target selection
-            if (abilityMenu.HasTargetSelected())
-            {
-                SelectTargets(unitToAct.transform.position, abilityMenu.GetSelectedAbility());
-                abilityMenu.StopAbilitySelection();
-            }
+            //if (abilityMenu.HasTargetSelected())
+            //{
+            //   SelectTargets(unitToAct.transform.position, abilityMenu.GetSelectedAbility());
+            //   abilityMenu.StopAbilitySelection();
+            //}
 
             // We enable - disable actions
             ToggleActionMenu();
@@ -344,20 +390,22 @@ public class Encounter : MonoBehaviour
 
         // Show the panel for the abilities
         // Add the abilities of the unit to the panel
-        abilityMenu.StartAbilitySelection(unitToAct);
-        actionMenu.abilitySelection();
+        ActionMenu.AbilitySelection();
+        AbilityMenu.Load(unitToAct.unit.abilities, unitToAct.transform.position);
+
     }
 
     public void StopAbilitySelection()
     {
-        this.actionMenu.open();
+        ActionMenu.Open();
 
         // Hide the panel for the abilities
         // Add the abilities of the unit to the panel
-        this.abilityMenu.StopAbilitySelection();
         this.unitToAct.pausedMovement = false;
         GridTools.ClearTargetTileMap();
         this.targetSelector.EndTargetSelection();
+
+        AbilityMenu.UnLoad();
     }
 
     public void finishSelection()
@@ -387,10 +435,10 @@ public class Encounter : MonoBehaviour
     public void endTurnAction()
     {
         this.unitToAct.canAct = false;
-        this.abilityMenu.StopAbilitySelection();
         this.targetSelector.pausedMovement = true;
         this.targetSelector.gameObject.SetActive(false);
         GridTools.ClearTargetTileMap();
+        AbilityMenu.UnLoad();
     }
 
     private void CheckConditions(Unit source)
@@ -666,4 +714,12 @@ public class Encounter : MonoBehaviour
 
         // TODO: Disable all UI elements
     }
+}
+
+
+public enum BattleState
+{
+    ACTION,
+    ABILITYSELECTION,
+    TARGETSELECTION
 }

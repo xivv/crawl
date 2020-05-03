@@ -8,9 +8,9 @@ public class UnitOrderObject : TurnOrderObject
 
     public int rolledInit;
 
-    protected override bool allowMovement(Vector2 targetCell)
+    protected override bool canMove(Vector2 targetCell)
     {
-        return base.allowMovement(targetCell) && !hitsUnit(targetCell);
+        return base.canMove(targetCell) && !hitsUnit(targetCell);
     }
 
     public override void AfterTurn()

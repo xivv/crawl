@@ -2,6 +2,9 @@
 
 public class ActionMenu : MonoBehaviour
 {
+
+    public static ActionMenu instance;
+
     // Panels
     public GameObject panel;
 
@@ -17,7 +20,14 @@ public class ActionMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
     }
 
     // Update is called once per frame
@@ -26,45 +36,45 @@ public class ActionMenu : MonoBehaviour
 
     }
 
-    public void noStandardAction()
+    public static void NoStandardAction()
     {
-        this.act.SetActive(false);
-        this.stop.SetActive(false);
-        this.defend.SetActive(false);
-        this.flee.SetActive(false);
-        this.end.SetActive(true);
-        this.finishSelection.SetActive(false);
+        instance.act.SetActive(false);
+        instance.stop.SetActive(false);
+        instance.defend.SetActive(false);
+        instance.flee.SetActive(false);
+        instance.end.SetActive(true);
+        instance.finishSelection.SetActive(false);
     }
 
-    public void abilitySelection()
+    public static void AbilitySelection()
     {
-        this.act.SetActive(false);
-        this.stop.SetActive(true);
-        this.defend.SetActive(true);
-        this.flee.SetActive(true);
-        this.end.SetActive(true);
-        this.finishSelection.SetActive(true);
+        instance.act.SetActive(false);
+        instance.stop.SetActive(true);
+        instance.defend.SetActive(true);
+        instance.flee.SetActive(true);
+        instance.end.SetActive(true);
+        instance.finishSelection.SetActive(true);
     }
 
-    public void close()
+    public static void Close()
     {
-        this.panel.SetActive(false);
-        this.act.SetActive(false);
-        this.stop.SetActive(false);
-        this.defend.SetActive(false);
-        this.flee.SetActive(false);
-        this.end.SetActive(false);
-        this.finishSelection.SetActive(false);
+        instance.panel.SetActive(false);
+        instance.act.SetActive(false);
+        instance.stop.SetActive(false);
+        instance.defend.SetActive(false);
+        instance.flee.SetActive(false);
+        instance.end.SetActive(false);
+        instance.finishSelection.SetActive(false);
     }
 
-    public void open()
+    public static void Open()
     {
-        this.panel.SetActive(true);
-        this.act.SetActive(true);
-        this.stop.SetActive(false);
-        this.defend.SetActive(true);
-        this.flee.SetActive(true);
-        this.end.SetActive(true);
-        this.finishSelection.SetActive(false);
+        instance.panel.SetActive(true);
+        instance.act.SetActive(true);
+        instance.stop.SetActive(false);
+        instance.defend.SetActive(true);
+        instance.flee.SetActive(true);
+        instance.end.SetActive(true);
+        instance.finishSelection.SetActive(false);
     }
 }
