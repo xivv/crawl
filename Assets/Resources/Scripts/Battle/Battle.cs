@@ -9,7 +9,6 @@ public class Battle : MonoBehaviour
 {
     public static Battle instance;
     public BattleState battleState;
-    public bool battleStateInitialised;
 
     public List<UnitOrderObject> participants = new List<UnitOrderObject>();
     private List<UnitOrderObject> monster = new List<UnitOrderObject>();
@@ -269,12 +268,9 @@ public class Battle : MonoBehaviour
         }
     }
 
-
-
     public static void SetState(BattleState state)
     {
         instance.battleState = state;
-        instance.battleStateInitialised = false;
 
         if (state == BattleState.ABILITYSELECTION)
         {
@@ -282,28 +278,21 @@ public class Battle : MonoBehaviour
         }
         else if (state == BattleState.TARGETSELECTION)
         {
-
+            instance.targetSelector.StartTargetSelection(instance.unitToAct, AbilityMenu.GetSelectedAbility(), instance.unitToAct.transform.position, instance.participants);
         }
-
-        instance.battleStateInitialised = true;
+        else if (state == BattleState.ABILITYEXECUTION)
+        {
+            instance.ExecuteAbility(AbilityMenu.GetSelectedAbility(), instance.unitToAct);
+        }
+        else if (state == BattleState.ACTION)
+        {
+            instance.unitToAct.canAct = true;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        // State Based
-
-        if (battleState == BattleState.ABILITYSELECTION)
-        {
-
-
-
-        }
-
-
-
-
         if (isRunning && alive && bothPartiesLive())
         {
             RemoveDeadUnits();
@@ -393,6 +382,16 @@ public class Battle : MonoBehaviour
         ActionMenu.AbilitySelection();
         AbilityMenu.Load(unitToAct.unit.abilities, unitToAct.transform.position);
 
+    }
+
+    public void OpenAbilityMenu()
+    {
+        SetState(BattleState.ABILITYSELECTION);
+    }
+
+    public void CloseAbilityMenu()
+    {
+        SetState(BattleState.ACTION);
     }
 
     public void StopAbilitySelection()
@@ -721,5 +720,6 @@ public enum BattleState
 {
     ACTION,
     ABILITYSELECTION,
+    ABILITYEXECUTION,
     TARGETSELECTION
 }

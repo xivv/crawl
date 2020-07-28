@@ -1587,6 +1587,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d485ca3da354eb0409c74866d31fa97e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  battleState: 0
+  battleStateInitialised: 0
   participants: []
   unitCamera: {fileID: 1492564707}
   smoothTime: 1
@@ -1955,7 +1957,7 @@ PrefabInstance:
     - target: {fileID: 1925422713121912579, guid: bd781b0f97a30414484f8b1d5369761a,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: StartAbilitySelection
+      value: OpenAbilityMenu
       objectReference: {fileID: 0}
     - target: {fileID: 1925422713121912579, guid: bd781b0f97a30414484f8b1d5369761a,
         type: 3}

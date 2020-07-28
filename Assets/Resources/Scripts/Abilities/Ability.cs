@@ -42,6 +42,16 @@ public class Ability
         }
     }
 
+    public void DrawReach(Vector2 startingPosition)
+    {
+        Vector2 startPosition = new Vector2(startingPosition.x - this.reach, startingPosition.y + this.reach);
+
+        if (this.targetPolygon == TargetPolygon.RECTANGLE)
+        {
+            GridTools.DrawReach(startPosition, startingPosition, this.reach);
+        }
+    }
+
     public void DrawReach(UnitOrderObject source, Vector2 startingPosition)
     {
         Vector2 startPosition = new Vector2(source.transform.position.x - this.reach, source.transform.position.y + this.reach);

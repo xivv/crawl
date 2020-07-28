@@ -5,15 +5,12 @@ using UnityEngine.Tilemaps;
 
 public class TargetSelector : TurnOrderObject
 {
-    [HideInInspector]
-    public List<UnitOrderObject> selectedTargets = new List<UnitOrderObject>();
 
-    [HideInInspector]
+    public static TargetSelector instance;
+
+    public List<UnitOrderObject> selectedTargets = new List<UnitOrderObject>();
     public List<UnitOrderObject> participants = new List<UnitOrderObject>();
 
-    public Battle encounter;
-
-    [HideInInspector]
     public Ability ability;
     private UnitOrderObject source;
 
@@ -36,11 +33,11 @@ public class TargetSelector : TurnOrderObject
             }
             else if (abilityEffect.targetType.Equals(TargetType.ALLY))
             {
-                isValid = encounter.IsAlly(source, unitOrderObject) || unitOrderObject.Equals(source);
+                isValid = Battle.instance.IsAlly(source, unitOrderObject) || unitOrderObject.Equals(source);
             }
             else if (abilityEffect.targetType.Equals(TargetType.ENEMY))
             {
-                isValid = !encounter.IsAlly(source, unitOrderObject);
+                isValid = !Battle.instance.IsAlly(source, unitOrderObject);
             }
             else if (abilityEffect.targetType.Equals(TargetType.SELF))
             {

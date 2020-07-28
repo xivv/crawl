@@ -13,6 +13,7 @@ public class AbilitySlot : MonoBehaviour
     void Awake()
     {
         image = GetComponent<Image>();
+        image.color = Color.green;
         text = GetComponentInChildren<Text>();
     }
 
@@ -22,7 +23,6 @@ public class AbilitySlot : MonoBehaviour
         if (ability != null)
         {
             text.text = ability.name;
-            image.color = Color.green;
         }
     }
 

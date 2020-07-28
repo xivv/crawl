@@ -62,44 +62,42 @@ public class AbilityMenu : MonoBehaviour
         instance.canAct = true;
         instance.gameObject.SetActive(true);
         instance.DrawSelectedAbilityReach();
+        instance.abilities[instance.index].Hover();
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        //TODO: worst practice this seems not to work in the Load Method...
-        if (!initialized)
+        if (abilities.Count > 0)
         {
-            instance.abilities[instance.index].Hover();
-            initialized = true;
-        }
 
-        if (isMoving || !canAct) return;
+            if (isMoving || !canAct) return;
 
-        int vertical = 0;
-        vertical = (int)(Input.GetAxisRaw("Vertical")) * -1;
+            int vertical = 0;
+            vertical = (int)(Input.GetAxisRaw("Vertical")) * -1;
 
-        if (vertical != 0)
-        {
-            isMoving = true;
-
-            abilities[index].Unhover();
-            index += vertical;
-
-            if (index >= abilities.Count)
+            if (vertical != 0)
             {
-                index = 0;
-            }
-            else if (index < 0)
-            {
-                index = this.abilities.Count - 1;
-            }
+                isMoving = true;
 
-            abilities[index].Hover();
-            DrawSelectedAbilityReach();
+                abilities[index].Unhover();
+                index += vertical;
 
-            Invoke("ResetMovement", movementDelay);
+                if (index >= abilities.Count)
+                {
+                    index = 0;
+                }
+                else if (index < 0)
+                {
+                    index = this.abilities.Count - 1;
+                }
+
+                abilities[index].Hover();
+                DrawSelectedAbilityReach();
+
+                Invoke("ResetMovement", movementDelay);
+            }
         }
     }
 
@@ -110,6 +108,7 @@ public class AbilityMenu : MonoBehaviour
             // We choose the ability and need to now select targets
             canAct = !canAct;
             abilities[index].Select();
+            Battle.SetState(BattleState.TARGETSELECTION);
         }
 
         if (Event.current.Equals(Event.KeyboardEvent(KeyCode.Escape.ToString())))
