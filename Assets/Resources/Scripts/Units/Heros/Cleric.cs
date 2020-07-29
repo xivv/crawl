@@ -29,7 +29,7 @@ public class Cleric : Hero
             will = 1
         }
         , new List<HeroClass>(new HeroClass[] {
-                HeroClass.CLERIC
+
             }),
          RaceLoader.GetRace("Human"),
          Size.MEDIUM)
@@ -37,6 +37,19 @@ public class Cleric : Hero
         visions.Add(Vision.DARKVISION);
         EquipItem(ItemLoader.GetItem("Longsword"));
         items.Add(ItemLoader.GetItem("HeavyShield"));
+        abilities.Add(AbilityLoader.GetAbility("Bless"));
+        abilities.Add(AbilityLoader.GetAbility("Bless"));
+        abilities.Add(AbilityLoader.GetAbility("Bless"));
+        abilities.Add(AbilityLoader.GetAbility("Bless"));
+        abilities.Add(AbilityLoader.GetAbility("Bless"));
+        abilities.Add(AbilityLoader.GetAbility("Bless"));
+        abilities.Add(AbilityLoader.GetAbility("Bless"));
+        abilities.Add(AbilityLoader.GetAbility("Bless"));
+        abilities.Add(AbilityLoader.GetAbility("Bless"));
+        abilities.Add(AbilityLoader.GetAbility("Bless"));
+        abilities.Add(AbilityLoader.GetAbility("Bless"));
+        abilities.Add(AbilityLoader.GetAbility("Bless"));
+        abilities.Add(AbilityLoader.GetAbility("Bless"));
         abilities.Add(AbilityLoader.GetAbility("Bless"));
     }
 }

@@ -26,4 +26,9 @@ public class Loadable : MonoBehaviour
     {
         isLoaded = true;
     }
+
+    public virtual void Load()
+    {
+
+    }
 }

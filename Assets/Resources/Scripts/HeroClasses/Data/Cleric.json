@@ -2,30 +2,35 @@
 	"name" : "Cleric",
 	"progress" : [
 			{
+				"abilityNames" : ["Bless"],
 				"abilities": [],
 				"visions" : [],
 				"stats" : {
 				}
 			},
 			{
+				"abilityNames" : ["Longsword"],
 				"abilities": [],
 				"visions" : [],
 				"stats" : {
 				}
 			},
 			{
+				"abilityNames" : [],
 				"abilities": [],
 				"visions" : [],
 				"stats" : {
 				}
 			},
 			{
+				"abilityNames" : [],
 				"abilities": [],
 				"visions" : [],
 				"stats" : {
 				}
 			},
 			{
+				"abilityNames" : [],
 				"abilities": [],
 				"visions" : [],
 				"stats" : {

@@ -102,8 +102,6 @@ public class AbilityMenu : MonoBehaviour
         if (Event.current.Equals(Event.KeyboardEvent(KeyCode.KeypadEnter.ToString())) || Event.current.Equals(Event.KeyboardEvent(KeyCode.Return.ToString())))
         {
             // We choose the ability and need to now select targets
-            canAct = !canAct;
-            abilities[index].Select();
             Battle.SetState(BattleState.TARGETSELECTION);
         }
 
@@ -118,6 +116,12 @@ public class AbilityMenu : MonoBehaviour
                 Battle.SetState(BattleState.ACTION);
             }
         }
+    }
+
+    public static void Select()
+    {
+        instance.canAct = !instance.canAct;
+        instance.abilities[instance.index].Select();
     }
 
     public static void Deselect()

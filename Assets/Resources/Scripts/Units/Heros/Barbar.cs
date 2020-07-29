@@ -30,7 +30,7 @@ public class Barbar : Hero
            reflex = 0,
            will = 0
        }, new List<HeroClass>(new HeroClass[] {
-                HeroClass.BARBAR
+
            }),
        RaceLoader.GetRace("Demon"),
          Size.MEDIUM)

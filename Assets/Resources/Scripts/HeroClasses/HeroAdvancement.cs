@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public class Heroadvancement
+public class HeroAdvancement
 {
     public static Dictionary<int, int> table = new Dictionary<int, int>
     {

@@ -30,7 +30,7 @@ public class Wizard : Hero
           will = 0
       }
       , new List<HeroClass>(new HeroClass[] {
-                HeroClass.WIZARD
+
           }),
        RaceLoader.GetRace("Human"),
          Size.MEDIUM)

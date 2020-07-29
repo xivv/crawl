@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 
 public class Unit
@@ -42,28 +41,6 @@ public class Unit
         this.size = size;
     }
 
-    public void CalculateStats(Stats stats, bool apply)
-    {
-        foreach (var field in typeof(Stats).GetFields(BindingFlags.Instance |
-                                                 BindingFlags.NonPublic |
-                                                 BindingFlags.Public))
-        {
-            int newValue = 0;
-
-            if (apply)
-            {
-                newValue = (int)field.GetValue(baseStats) + (int)field.GetValue(stats);
-
-            }
-            else
-            {
-                newValue = (int)field.GetValue(baseStats) - (int)field.GetValue(stats);
-            }
-
-            typeof(Stats).GetField(field.Name).SetValue(this.baseStats, newValue);
-        }
-    }
-
     public void UnequipItem(Item item)
     {
         Item alreadyEquiped = equippedItems[item.itemSlot];
@@ -72,7 +49,7 @@ public class Unit
         {
             items.Add(alreadyEquiped);
             equippedItems.Remove(item.itemSlot);
-            CalculateStats(item.stats, false);
+            StatsTools.CalculateStats(item.stats, baseStats, false);
 
             foreach (var ability in item.abilities)
             {
@@ -102,7 +79,7 @@ public class Unit
             equippedItems.Add(item.itemSlot, item);
         }
 
-        CalculateStats(item.stats, true);
+        StatsTools.CalculateStats(item.stats, baseStats, true);
 
         if (item.abilities.Count > 0)
         {

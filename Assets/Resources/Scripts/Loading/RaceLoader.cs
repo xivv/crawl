@@ -15,14 +15,7 @@ public class RaceLoader : Loadable
     // Use this for initialization
     void Start()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(this);
-        }
+
     }
 
     // Update is called once per frame
@@ -36,8 +29,17 @@ public class RaceLoader : Loadable
         return instance.loaded[name];
     }
 
-    public void Load()
+    public override void Load()
     {
+
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
 
         FileInfo[] info = dir.GetFiles("*.json");
 

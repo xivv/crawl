@@ -291,6 +291,7 @@ public class Battle : MonoBehaviour
         }
         else if (state == BattleState.TARGETSELECTION)
         {
+            AbilityMenu.Select();
             instance.targetSelector.StartTargetSelection(instance.unitToAct, AbilityMenu.GetSelectedAbility(), instance.unitToAct.transform.position, instance.participants);
         }
         else if (state == BattleState.ABILITYEXECUTION)

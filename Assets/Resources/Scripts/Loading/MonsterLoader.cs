@@ -14,14 +14,7 @@ public class MonsterLoader : Loadable
     // Use this for initialization
     void Start()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(this);
-        }
+
     }
 
     // Update is called once per frame
@@ -35,8 +28,17 @@ public class MonsterLoader : Loadable
         return instance.loadedMonsters[name];
     }
 
-    public void Load()
+    public override void Load()
     {
+
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
 
         FileInfo[] info = dir.GetFiles("*.json");
 

@@ -36,22 +36,6 @@ public class Tavern : MonoBehaviour
 
     public Hero generateRandomHero(HeroClass heroClass)
     {
-
-        if (heroClass == HeroClass.BARBAR)
-        {
-            return new Barbar("Herbert");
-        }
-        else if (heroClass == HeroClass.CLERIC)
-        {
-            return new Cleric("Ghoran");
-        }
-        else if (heroClass == HeroClass.WIZARD)
-        {
-            return new Wizard("Merlin");
-        }
-        else
-        {
-            return null;
-        }
+        return new Cleric("Ghoran");
     }
 }
