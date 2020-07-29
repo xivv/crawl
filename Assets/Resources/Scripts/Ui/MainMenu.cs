@@ -60,7 +60,7 @@ public class MainMenu : MonoBehaviour
         save.SetActive(true);
         menu.SetActive(true);
         quit.SetActive(true);
-        this.gameObject.SetActive(true);
+        gameObject.SetActive(true);
     }
 
     public void OutgameMenu()
@@ -71,7 +71,7 @@ public class MainMenu : MonoBehaviour
         save.SetActive(false);
         menu.SetActive(false);
         quit.SetActive(true);
-        this.gameObject.SetActive(true);
+        gameObject.SetActive(true);
     }
 
     private void OnGUI()

@@ -11,8 +11,6 @@ public class AbilityMenu : MonoBehaviour
 
     private bool isMoving = false;
     private bool canAct = false;
-    private bool initialized = false;
-
     private float movementDelay = 0.2f;
 
     // Start is called before the first frame update
@@ -39,13 +37,11 @@ public class AbilityMenu : MonoBehaviour
         instance.index = 0;
         instance.abilities.Clear();
         instance.canAct = false;
-        instance.initialized = false;
         instance.gameObject.SetActive(false);
     }
 
     public static void Load(List<Ability> abilities, Vector2 sourcePosition)
     {
-
         instance.sourcePosition = sourcePosition;
         GameObject prefab = Resources.Load<GameObject>("Prefabs/Ui/AbilitySlot");
 
@@ -115,13 +111,19 @@ public class AbilityMenu : MonoBehaviour
         {
             if (!canAct)
             {
-                abilities[index].Deselect();
+                Battle.SetState(BattleState.ABILITYSELECTION);
             }
             else
             {
-                AbilityMenu.UnLoad();
+                Battle.SetState(BattleState.ACTION);
             }
         }
+    }
+
+    public static void Deselect()
+    {
+        instance.abilities[instance.index].Deselect();
+        instance.canAct = true;
     }
 
     private void ResetMovement()

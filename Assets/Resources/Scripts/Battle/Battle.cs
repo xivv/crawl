@@ -22,8 +22,6 @@ public class Battle : MonoBehaviour
     [Range(0.5f, 2f)]
     public float smoothTime = 1f;
 
-
-
     // By fleeing we can destroy the turn cycle
     [HideInInspector]
     public bool alive = false;
@@ -270,11 +268,26 @@ public class Battle : MonoBehaviour
 
     public static void SetState(BattleState state)
     {
-        instance.battleState = state;
 
         if (state == BattleState.ABILITYSELECTION)
         {
-            instance.StartAbilitySelection();
+            if (instance.battleState == BattleState.TARGETSELECTION)
+            {
+                // CONTINUE HERE
+                AbilityMenu.Deselect();
+                instance.targetSelector.EndTargetSelection();
+                GridTools.ClearTargetTileMap();
+            }
+            else
+            {
+
+                if (instance.battleState == BattleState.ABILITYSELECTION)
+                {
+                    instance.StopAbilitySelection();
+                }
+
+                instance.StartAbilitySelection();
+            }
         }
         else if (state == BattleState.TARGETSELECTION)
         {
@@ -286,8 +299,16 @@ public class Battle : MonoBehaviour
         }
         else if (state == BattleState.ACTION)
         {
+            if (instance.battleState == BattleState.ABILITYSELECTION)
+            {
+                // Normally we would call Unload() but StopAbilitySelection Calls Unload aswell
+                instance.StopAbilitySelection();
+            }
+
             instance.unitToAct.canAct = true;
         }
+
+        instance.battleState = state;
     }
 
     // Update is called once per frame
@@ -400,9 +421,9 @@ public class Battle : MonoBehaviour
 
         // Hide the panel for the abilities
         // Add the abilities of the unit to the panel
-        this.unitToAct.pausedMovement = false;
+        unitToAct.pausedMovement = false;
         GridTools.ClearTargetTileMap();
-        this.targetSelector.EndTargetSelection();
+        targetSelector.EndTargetSelection();
 
         AbilityMenu.UnLoad();
     }

@@ -56,9 +56,17 @@ public class PlayerController : MonoBehaviour
 
     private void OnGUI()
     {
+
+
         if (Event.current.Equals(Event.KeyboardEvent(KeyCode.Escape.ToString())))
         {
-            MainMenu.instance.IngameMenu();
+
+            bool isAbilityMenuActive = AbilityMenu.instance.gameObject.activeSelf;
+
+            if (!isAbilityMenuActive)
+            {
+                MainMenu.instance.IngameMenu();
+            }
         }
     }
 }

@@ -118,10 +118,10 @@ public class TargetSelector : TurnOrderObject
 
     public List<UnitOrderObject> EndTargetSelection()
     {
-        this.pausedMovement = true;
-        this.gameObject.SetActive(false);
-        this.selectedTargetsTileMap.ClearAllTiles();
-        return this.selectedTargets;
+        pausedMovement = true;
+        gameObject.SetActive(false);
+        selectedTargetsTileMap.ClearAllTiles();
+        return selectedTargets;
     }
 
 
