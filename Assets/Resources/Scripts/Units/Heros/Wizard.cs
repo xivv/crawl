@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-public class Wizard : Hero
+﻿public class Wizard : Hero
 {
 
     public Wizard(string unitName) : base("Wizard", "player",
@@ -29,9 +27,7 @@ public class Wizard : Hero
           reflex = 0,
           will = 0
       }
-      , new List<HeroClass>(new HeroClass[] {
-
-          }),
+      ,
        RaceLoader.GetRace("Human"),
          Size.MEDIUM)
     {

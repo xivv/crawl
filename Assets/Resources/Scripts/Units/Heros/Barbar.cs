@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-public class Barbar : Hero
+﻿public class Barbar : Hero
 {
     public Barbar(string unitName) : base(
         "Barbar",
@@ -29,9 +27,7 @@ public class Barbar : Hero
            fortitude = 1,
            reflex = 0,
            will = 0
-       }, new List<HeroClass>(new HeroClass[] {
-
-           }),
+       },
        RaceLoader.GetRace("Demon"),
          Size.MEDIUM)
     {

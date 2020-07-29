@@ -19,17 +19,23 @@ public class CharacterSlot : MonoBehaviour
     public void InsertHero(Hero hero)
     {
         this.hero = hero;
-        this.image.sprite = Resources.Load<Sprite>("Sprites/" + hero.name);
-        this.clazz.text = hero.heroClasses[0].ToString();
-        this.race.text = hero.race.name;
+        image.sprite = Resources.Load<Sprite>("Sprites/" + hero.name);
+        clazz.text = "";
+        race.text = hero.race.name;
+
+        foreach (HeroClass heroClass in hero.progression.Keys)
+        {
+            clazz.text += heroClass.name + " " + hero.progression[heroClass] + "\n";
+        }
+
     }
 
     public void ClearHero()
     {
-        this.hero = null;
-        this.image.sprite = null;
-        this.clazz.text = "";
-        this.race.text = "";
+        hero = null;
+        image.sprite = null;
+        clazz.text = "";
+        race.text = "";
     }
 
     public void OnSelectHeroButton()

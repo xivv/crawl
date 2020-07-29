@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-public class Cleric : Hero
+﻿public class Cleric : Hero
 {
     public Cleric(string unitName) : base("Cleric", "player",
         new MetaInformation
@@ -28,28 +26,15 @@ public class Cleric : Hero
             reflex = 0,
             will = 1
         }
-        , new List<HeroClass>(new HeroClass[] {
-
-            }),
+        ,
          RaceLoader.GetRace("Human"),
          Size.MEDIUM)
     {
+        HeroClassLoader.getHeroClass("Cleric").ApplyLevelUp(this, 1);
+        HeroClassLoader.getHeroClass("Wizard").ApplyLevelUp(this, 3);
+
         visions.Add(Vision.DARKVISION);
         EquipItem(ItemLoader.GetItem("Longsword"));
         items.Add(ItemLoader.GetItem("HeavyShield"));
-        abilities.Add(AbilityLoader.GetAbility("Bless"));
-        abilities.Add(AbilityLoader.GetAbility("Bless"));
-        abilities.Add(AbilityLoader.GetAbility("Bless"));
-        abilities.Add(AbilityLoader.GetAbility("Bless"));
-        abilities.Add(AbilityLoader.GetAbility("Bless"));
-        abilities.Add(AbilityLoader.GetAbility("Bless"));
-        abilities.Add(AbilityLoader.GetAbility("Bless"));
-        abilities.Add(AbilityLoader.GetAbility("Bless"));
-        abilities.Add(AbilityLoader.GetAbility("Bless"));
-        abilities.Add(AbilityLoader.GetAbility("Bless"));
-        abilities.Add(AbilityLoader.GetAbility("Bless"));
-        abilities.Add(AbilityLoader.GetAbility("Bless"));
-        abilities.Add(AbilityLoader.GetAbility("Bless"));
-        abilities.Add(AbilityLoader.GetAbility("Bless"));
     }
 }

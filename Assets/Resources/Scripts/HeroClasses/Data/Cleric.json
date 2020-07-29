@@ -4,8 +4,9 @@
 			{
 				"abilityNames" : ["Bless"],
 				"abilities": [],
-				"visions" : [],
+				"visions" : [0,1],
 				"stats" : {
+					"ac" : 100
 				}
 			},
 			{

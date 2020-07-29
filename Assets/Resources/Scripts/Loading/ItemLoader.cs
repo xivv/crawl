@@ -48,19 +48,7 @@ public class ItemLoader : Loadable
             ItemWrapper itemWrapper = JsonUtility.FromJson<ItemWrapper>(json);
             Item item = itemWrapper;
 
-            foreach (string abilityName in item.abilityNames)
-            {
-                Ability ability = AbilityLoader.GetAbility(abilityName);
-
-                if (ability != null)
-                {
-                    item.abilities.Add(ability);
-                }
-                else
-                {
-                    Debug.LogError("Ability " + abilityName + " could not be found! Check the folder in Assets/Resources/Scripts/Abilities/Data");
-                }
-            }
+            LoadAbilities(item.abilityNames, item.abilities);
 
             try
             {

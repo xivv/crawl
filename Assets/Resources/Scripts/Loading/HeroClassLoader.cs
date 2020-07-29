@@ -46,6 +46,12 @@ public class HeroClassLoader : Loadable
             HeroClassWrapper heroClassWrapper = JsonUtility.FromJson<HeroClassWrapper>(json);
             HeroClass heroClass = heroClassWrapper;
 
+            // Load abilities
+            foreach (ClassProgress classProgress in heroClass.progress)
+            {
+                LoadAbilities(classProgress.abilityNames, classProgress.abilities);
+            }
+
             try
             {
                 loadedHeroClasses.Add(heroClass.name, heroClass);

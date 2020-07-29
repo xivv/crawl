@@ -1,6 +1,4 @@
-﻿using System;
-using UnityEngine;
-using Random = UnityEngine.Random;
+﻿using UnityEngine;
 
 public class Tavern : MonoBehaviour
 {
@@ -28,7 +26,7 @@ public class Tavern : MonoBehaviour
     {
         for (var i = 0; i < maxHeroesAvailable; i++)
         {
-            int random = Random.Range(0, Enum.GetNames(typeof(HeroClass)).Length);
+            //int random = Random.Range(0, Enum.GetNames(typeof(HeroClass)).Length);
             characterSlots[i].InsertHero(new Cleric("Gans"));
             // characterSlots[i].InsertHero(generateRandomHero((HeroClass)random));
         }

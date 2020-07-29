@@ -2,13 +2,13 @@
 
 public abstract class Hero : Unit
 {
-    public List<HeroClass> heroClasses = new List<HeroClass>();
+    public Dictionary<HeroClass, int> progression = new Dictionary<HeroClass, int>();
+
     public Race race;
     public bool levelUpAvailable = false;
 
-    public Hero(string unitName, string spriteName, MetaInformation metaInformation, Stats baseStats, List<HeroClass> heroClasses, Race race, Size size) : base(unitName, spriteName, metaInformation, baseStats, TypeClass.HERO, size)
+    public Hero(string unitName, string spriteName, MetaInformation metaInformation, Stats baseStats, Race race, Size size) : base(unitName, spriteName, metaInformation, baseStats, TypeClass.HERO, size)
     {
-        this.heroClasses = heroClasses;
         this.race = race;
 
         // We apply the race modifier
@@ -19,12 +19,6 @@ public abstract class Hero : Unit
         {
             abilities.Add(ability);
         }
-    }
-
-
-    public void LevelUp()
-    {
-
     }
 
     public void AwardExperience(int experience)
@@ -42,13 +36,12 @@ public abstract class Hero : Unit
 
     public int GetClassLevel(HeroClass targetHeroClass)
     {
-        int counter = 0;
 
-        foreach (HeroClass heroClass in this.heroClasses)
+        foreach (HeroClass heroClass in progression.Keys)
         {
-            if (heroClass == targetHeroClass) counter++;
+            if (heroClass == targetHeroClass) return progression[heroClass];
         }
 
-        return counter;
+        return 0;
     }
 }
