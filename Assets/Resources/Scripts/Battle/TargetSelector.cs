@@ -189,7 +189,7 @@ public class TargetSelector : TurnOrderObject
 
             if (ability.targetStartPoint == TargetStartPoint.REGION)
             {
-                selectedUnit = this.UnitAtPosition(regionPosition).transform.gameObject.GetComponent<UnitOrderObject>();
+                selectedUnit = UnitAtPosition(regionPosition).transform.gameObject.GetComponent<UnitOrderObject>();
             }
             else
             {

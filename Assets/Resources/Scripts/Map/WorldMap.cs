@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class WorldMap : MonoBehaviour
@@ -7,6 +8,8 @@ public class WorldMap : MonoBehaviour
     public static GameObject player;
     private Vector3 offset;
 
+    private TimeStatus timeStatus = TimeStatus.DAY;
+    public Sunlight sunlight;
 
 
     public static void CreatePlayer(Vector3 position)
@@ -46,6 +49,29 @@ public class WorldMap : MonoBehaviour
     {
         PlayerController.position = player.transform.position;
         Camera.main.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10);
+        return;
+        DateTime time = DateTime.Now;
+
+        if (time.Minute <= 15 && timeStatus != TimeStatus.DAY)
+        {
+            sunlight.Day();
+            timeStatus = TimeStatus.DAY;
+        }
+        else if (time.Minute > 15 && time.Minute <= 30 && timeStatus != TimeStatus.DAWN)
+        {
+            sunlight.Dawn();
+            timeStatus = TimeStatus.DAWN;
+        }
+        else if (time.Minute > 30 && time.Minute <= 45 && timeStatus != TimeStatus.NIGHT)
+        {
+            sunlight.Night();
+            timeStatus = TimeStatus.NIGHT;
+        }
+        else if (time.Minute > 45 && time.Minute <= 60 && timeStatus != TimeStatus.DUSK)
+        {
+            sunlight.Dusk();
+            timeStatus = TimeStatus.DUSK;
+        }
     }
 
     // LateUpdate is called after Update each frame

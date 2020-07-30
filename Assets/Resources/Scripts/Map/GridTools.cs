@@ -102,6 +102,26 @@ public class GridTools : MonoBehaviour
         }
     }
 
+    // We accept that there can only be one interactable at a position at one time,
+    // This may change when flying later,
+    // Can return null
+    // This takes longer but is the correct approach
+    public static GameObject GetInteractableAtPosition(Vector2 position, int layerIndex)
+    {
+        Collider2D[] col2d = Physics2D.OverlapCircleAll(position, 0.1f, 1 << layerIndex);
+
+        foreach (var col in col2d)
+        {
+
+            if (col.gameObject.GetComponent<Interactable>() != null)
+            {
+                return col.gameObject;
+            }
+        }
+
+        return null;
+    }
+
 
     // Start is for example top left corner and indicate is from where the distance is measured
     public static void DrawReach(Vector2 startPosition, Vector2 indicatePosition, int reach, TargetLayer targetLayer)

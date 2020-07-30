@@ -29,7 +29,8 @@ public class MovingObject : MonoBehaviour
         bool hasGroundTile = GetCell(groundTilemap, targetCell) != null; //If target Tile has a ground
         bool hasObstacleTile = GetCell(wallTilemap, targetCell) != null; //if target Tile has an obstacle
         bool hitsWall = Physics2D.OverlapCircleAll(targetCell, 0.1f, 1 << 8).Length > 0;
-        return hasGroundTile && !hasObstacleTile && !hitsWall;
+        bool hitsInteractableOrUnit = Physics2D.OverlapCircleAll(targetCell, 0.1f, 1 << 9).Length > 0;
+        return hasGroundTile && !hasObstacleTile && !hitsWall && !hitsInteractableOrUnit;
     }
 
     // Update is called once per frame
