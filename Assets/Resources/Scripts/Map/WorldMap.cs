@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class WorldMap : MonoBehaviour
 {
@@ -7,9 +8,18 @@ public class WorldMap : MonoBehaviour
     private Vector3 offset;
 
 
+
     public static void CreatePlayer(Vector3 position)
     {
         player = Instantiate(Resources.Load<GameObject>("prefabs/Player"), new Vector3(0.5f, 0.5f), Quaternion.identity);
+    }
+
+    private void Awake()
+    {
+        if (PlayerController.instance == null)
+        {
+            SceneManager.LoadScene("GameData", LoadSceneMode.Single);
+        }
     }
 
     // Start is called before the first frame update

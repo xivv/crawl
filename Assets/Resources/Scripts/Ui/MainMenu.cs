@@ -25,6 +25,8 @@ public class MainMenu : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
+
+        NewGame();
     }
 
     public void NewGame()

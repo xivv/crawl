@@ -5,11 +5,24 @@ public class Encounter : MonoBehaviour
 {
 
     public EncounterType encounterType;
+    private SpriteRenderer spriteRenderer;
 
     // Use this for initialization
     void Start()
     {
 
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
+        Sprite sprite = Resources.Load<Sprite>("Sprites/Encounter/" + encounterType);
+
+        if (sprite != null)
+        {
+            spriteRenderer.sprite = sprite;
+        }
+        else
+        {
+            Debug.LogWarning("Sprite for EncounterType " + encounterType + " not available");
+        }
     }
 
     // Update is called once per frame

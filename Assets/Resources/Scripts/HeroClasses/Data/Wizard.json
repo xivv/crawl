@@ -1,0 +1,41 @@
+{
+	"name" : "Wizard",
+	"progress" : [
+			{
+				"abilityNames" : ["Bless"],
+				"abilities": [],
+				"visions" : [0,1],
+				"stats" : {
+					"ac" : 100
+				}
+			},
+			{
+				"abilityNames" : ["Longsword"],
+				"abilities": [],
+				"visions" : [],
+				"stats" : {
+				}
+			},
+			{
+				"abilityNames" : [],
+				"abilities": [],
+				"visions" : [],
+				"stats" : {
+				}
+			},
+			{
+				"abilityNames" : [],
+				"abilities": [],
+				"visions" : [],
+				"stats" : {
+				}
+			},
+			{
+				"abilityNames" : [],
+				"abilities": [],
+				"visions" : [],
+				"stats" : {
+				}
+			}	
+	]
+}
