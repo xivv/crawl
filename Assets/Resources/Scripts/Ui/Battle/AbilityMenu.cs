@@ -102,7 +102,11 @@ public class AbilityMenu : MonoBehaviour
         if (Event.current.Equals(Event.KeyboardEvent(KeyCode.KeypadEnter.ToString())) || Event.current.Equals(Event.KeyboardEvent(KeyCode.Return.ToString())))
         {
             // We choose the ability and need to now select targets
-            Battle.SetState(BattleState.TARGETSELECTION);
+            // But this will also trigger if we want to select a target instead
+            if (canAct)
+            {
+                Battle.SetState(BattleState.TARGETSELECTION);
+            }
         }
 
         if (Event.current.Equals(Event.KeyboardEvent(KeyCode.Escape.ToString())))

@@ -6,8 +6,6 @@ public class GameData : MonoBehaviour
 {
     List<Loadable> loadables = new List<Loadable>();
 
-    private bool dataLoaded = false;
-
     // Start is called before the first frame update
     void Start()
     {

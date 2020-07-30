@@ -11,14 +11,26 @@ public class WorldMap : MonoBehaviour
 
     public static void CreatePlayer(Vector3 position)
     {
-        player = Instantiate(Resources.Load<GameObject>("prefabs/Player"), new Vector3(0.5f, 0.5f), Quaternion.identity);
+        if (PlayerController.position != null)
+        {
+            player = Instantiate(Resources.Load<GameObject>("prefabs/Player"), new Vector3(PlayerController.position.x, PlayerController.position.y), Quaternion.identity);
+        }
+        else
+        {
+            player = Instantiate(Resources.Load<GameObject>("prefabs/Player"), new Vector3(0.5f, 0.5f), Quaternion.identity);
+        }
     }
 
     private void Awake()
     {
+        // This way we can start from the worldmap in the unity editor
         if (PlayerController.instance == null)
         {
             SceneManager.LoadScene("GameData", LoadSceneMode.Single);
+        }
+        else
+        {
+            PlayerController.instance.heroes.Add(new Cleric("Bruder Jakob"));
         }
     }
 

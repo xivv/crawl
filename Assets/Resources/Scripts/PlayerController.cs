@@ -40,6 +40,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        Debug.Log("Hello Again");
+    }
+
     private void Awake()
     {
         if (instance != null)
