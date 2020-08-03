@@ -10,6 +10,16 @@ public class PlayerController : MonoBehaviour
     public static Vector3 position;
     public static Direction direction;
 
+    public static void SetCanMove(bool can)
+    {
+        WorldMap.player.GetComponent<MovingObject>().pausedMovement = !can;
+    }
+
+    public static bool CanMove()
+    {
+        return !WorldMap.player.GetComponent<MovingObject>().pausedMovement;
+    }
+
     public static List<UnitOrderObject> GenerateHeroes()
     {
 
@@ -58,6 +68,7 @@ public class PlayerController : MonoBehaviour
     {
 
 
+
         if (Event.current.Equals(Event.KeyboardEvent(KeyCode.Escape.ToString())))
         {
 
@@ -70,34 +81,36 @@ public class PlayerController : MonoBehaviour
         }
         else if (Event.current.Equals(Event.KeyboardEvent(KeyCode.Return.ToString())) || Event.current.Equals(Event.KeyboardEvent(KeyCode.KeypadEnter.ToString())))
         {
-            // Check if NPC or Interactable is in Range         
-            MovementDirection direction = WorldMap.player.GetComponent<MovingObject>().GetDirection();
-            Vector3 newPosition = new Vector3();
+            if (CanMove())
+            {
+                // Check if NPC or Interactable is in Range         
+                MovementDirection direction = WorldMap.player.GetComponent<MovingObject>().GetDirection();
+                Vector3 newPosition = new Vector3();
 
-            if (direction == MovementDirection.EAST)
-            {
-                newPosition = position + new Vector3(1, 0);
-            }
-            else if (direction == MovementDirection.WEST)
-            {
-                newPosition = position + new Vector3(-1, 0);
-            }
-            else if (direction == MovementDirection.NORTH)
-            {
-                newPosition = position + new Vector3(0, 1);
-            }
-            else if (direction == MovementDirection.SOUTH)
-            {
-                newPosition = position + new Vector3(0, -1);
-            }
+                if (direction == MovementDirection.EAST)
+                {
+                    newPosition = position + new Vector3(1, 0);
+                }
+                else if (direction == MovementDirection.WEST)
+                {
+                    newPosition = position + new Vector3(-1, 0);
+                }
+                else if (direction == MovementDirection.NORTH)
+                {
+                    newPosition = position + new Vector3(0, 1);
+                }
+                else if (direction == MovementDirection.SOUTH)
+                {
+                    newPosition = position + new Vector3(0, -1);
+                }
 
-            GameObject gameObject = GridTools.GetInteractableAtPosition(newPosition, 9);
+                GameObject gameObject = GridTools.GetInteractableAtPosition(newPosition, 9);
 
-            if (gameObject != null)
-            {
-                gameObject.GetComponent<Interactable>().Interact();
+                if (gameObject != null)
+                {
+                    gameObject.GetComponent<Interactable>().Interact();
+                }
             }
-
         }
     }
 }

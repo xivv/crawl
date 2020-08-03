@@ -3,6 +3,30 @@
 public class PartyQuickInfo : MonoBehaviour
 {
 
+    public static PartyQuickInfo instance;
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
+
+    public static void Hide()
+    {
+        instance.gameObject.SetActive(false);
+    }
+
+    public static void Show()
+    {
+        instance.gameObject.SetActive(true);
+    }
 
     // Start is called before the first frame update
     void Start()

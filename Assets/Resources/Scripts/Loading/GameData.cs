@@ -16,6 +16,9 @@ public class GameData : MonoBehaviour
             loadable.Load();
         }
 
+        // Load Dialog Control
+
+
         if (IsDataLoaded())
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);

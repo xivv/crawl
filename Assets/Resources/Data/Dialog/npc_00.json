@@ -1,0 +1,63 @@
+{
+    "id": 0,
+    "comment": "In diesem Dialog geht es um die Drachen. Der NPC ist ein unwichtiger, hat jedoch eine Mission für den Spieler..",
+    "opening": -1,
+    "ending": -2,
+    "answers": [
+        {
+            "id": -2,
+            "text": [
+                "Tschüss!"
+            ]
+        },
+        {
+            "id": -1,
+            "text": [
+                "Hallo"
+            ]
+        },
+        {
+            "id": 0,
+            "text": [
+                "Na Gut. Ein Drache sollte sein Gold schließlich immer horten!"
+            ]
+        },
+        {
+            "id": 1,
+            "text": [
+                "Was willst du denn Wissen?"
+            ]
+        },
+        {
+            "id": 2,
+            "text": [
+                "Rote Drachen sind..."
+            ]
+        }
+    ],
+    "choices": [
+        {
+            "id": 0,
+            "requisites": [],
+            "choice": "Ich möchte nicht, Danke",
+            "answer": 0
+        },
+        {
+            "id": 1,
+            "requisites": [
+                0
+            ],
+            "choice": "Kannst du mir mehr über die Drachen erzählen?",
+            "answer": 1
+        },
+        {
+            "id": 2,
+            "requisites": [
+                1
+            ],
+            "choice": "Ich möchte gerne mehr über die roten Drachen wissen",
+            "answer": 2
+        }
+    ],
+    "used": []
+}

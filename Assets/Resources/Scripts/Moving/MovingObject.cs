@@ -9,6 +9,13 @@ public class MovingObject : MonoBehaviour
     private static float movementDelay = 0.1f;
 
     protected bool lastMoveFailed = true;
+
+    // If we want to block movement cause of animation or target selection
+    public bool pausedMovement = false;
+
+    public bool isAllowedToMove;
+
+
     protected Vector2 direction;
 
     protected BoxCollider2D boxCollider;
@@ -37,7 +44,7 @@ public class MovingObject : MonoBehaviour
     protected virtual void Update()
     {
 
-        if (isMoving) return;
+        if (isMoving || pausedMovement) return;
 
         //To store move directions.
         int horizontal = 0;

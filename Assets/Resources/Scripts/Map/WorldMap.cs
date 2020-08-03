@@ -44,11 +44,16 @@ public class WorldMap : MonoBehaviour
         offset = transform.position - player.transform.position;
     }
 
-    // Update is called once per frame
-    void Update()
+    public static void ZoomOnPlayer()
     {
         PlayerController.position = player.transform.position;
         Camera.main.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        ZoomOnPlayer();
         return;
         DateTime time = DateTime.Now;
 

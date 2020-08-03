@@ -9,8 +9,6 @@ public class TurnOrderObject : MovingObject
 
     // If its the turn of the unit
     public bool canAct = false;
-    // If we want to block movement cause of animation or target selection
-    public bool pausedMovement = false;
 
     // Start is called before the first frame update
     protected override void Start()
@@ -22,7 +20,7 @@ public class TurnOrderObject : MovingObject
     // Update is called once per frame
     protected override void Update()
     {
-        if (!canAct || pausedMovement) return;
+        if (!canAct) return;
 
         base.Update();
     }
