@@ -13,7 +13,7 @@
         {
             "id": -1,
             "text": [
-                "Hallo"
+                "Hallo. Ouh man, du hast ja Beine wie Stämme!"
             ]
         },
         {
@@ -32,6 +32,12 @@
             "id": 2,
             "text": [
                 "Rote Drachen sind..."
+            ]
+        },
+        {
+            "id": 3,
+            "text": [
+                "Schwarze Drachen sind..."
             ]
         }
     ],
@@ -57,6 +63,14 @@
             ],
             "choice": "Ich möchte gerne mehr über die roten Drachen wissen",
             "answer": 2
+        },
+        {
+            "id": 3,
+            "requisites": [
+                1
+            ],
+            "choice": "Ich möchte gerne mehr über die schwarzen Drachen wissen",
+            "answer": 3
         }
     ],
     "used": []

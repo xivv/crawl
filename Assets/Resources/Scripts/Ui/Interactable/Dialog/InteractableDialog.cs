@@ -14,7 +14,6 @@ public class InteractableDialog
 
     public DialogState dialogState = DialogState.OPENING;
 
-
     public Answer GetAnswer(int id)
     {
 

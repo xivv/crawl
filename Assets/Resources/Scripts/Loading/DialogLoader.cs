@@ -16,11 +16,6 @@ public class DialogLoader : Loadable
         return instance.loadedDialogs[id];
     }
 
-    public void Awake()
-    {
-        Load();
-    }
-
     public override void Load()
     {
         if (instance == null)

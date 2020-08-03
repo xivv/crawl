@@ -24,7 +24,7 @@ public class DialogControl : MonoBehaviour
             Destroy(this);
         }
 
-        DialogControl.StartDialog(DialogLoader.GetDialog(0));
+        //DialogControl.StartDialog(DialogLoader.GetDialog(0));
     }
 
     // Update is called once per frame
@@ -42,21 +42,22 @@ public class DialogControl : MonoBehaviour
         interactableDialog.Choose(dialogChoice);
         instance.choosing = false;
         queue = new Queue<string>(interactableDialog.GetAnswer(dialogChoice.answer).text);
+        instance.panel.SetActive(false);
     }
 
     public static void StopDialog()
     {
         instance.textElement.text = "";
         SceneManager.UnloadSceneAsync("DialogModule");
-        //   PlayerController.SetCanMove(true);
-        //  PartyQuickInfo.Show();
+        PlayerController.SetCanMove(true);
+        PartyQuickInfo.Show();
 
     }
 
     public static void StartDialog(InteractableDialog intercomDialog)
     {
-        //  PlayerController.SetCanMove(false);
-        // PartyQuickInfo.Hide();
+        PlayerController.SetCanMove(false);
+        PartyQuickInfo.Hide();
         interactableDialog = intercomDialog;
         queue = new Queue<string>(interactableDialog.GetOpener().text);
     }
@@ -94,6 +95,7 @@ public class DialogControl : MonoBehaviour
                 {
                     // Enable Choice Selection
                     choosing = true;
+                    instance.panel.SetActive(true);
                     interactableDialog.dialogState = DialogState.CHOICE;
 
                     foreach (DialogChoice choice in choices)

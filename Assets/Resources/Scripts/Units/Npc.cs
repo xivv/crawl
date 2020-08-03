@@ -12,7 +12,7 @@ public class Npc : Interactable
     public void Talk()
     {
         SceneManager.LoadSceneAsync("DialogModule", LoadSceneMode.Additive);
-        //   DialogControl.ShowText(null);
+        DialogControl.StartDialog(DialogLoader.GetDialog(0));
 
     }
 
