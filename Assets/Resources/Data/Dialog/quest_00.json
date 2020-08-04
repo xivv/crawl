@@ -27,6 +27,18 @@
             "text": [
                 "Komm einfach wieder, wenn du es dir überlegt hast?"
             ]
+        },
+        {
+            "id": 2,
+            "text": [
+                "Du weißt ganz schön viel. Hier {0} habe ich ihn gesehen"
+            ]
+        },
+        {
+            "id": 3,
+            "text": [
+                "Regen gefällt mir lieber."
+            ]
         }
     ],
     "choices": [
@@ -35,15 +47,32 @@
             "requisites": [],
             "choice": "Ja ich würde das gerne machen",
             "answer": 0,
-			"exits" : [1],
+			"exits" : [2],
 			"quest" : [0]
         },
-        {
+		{
             "id": 1,
+            "requisites": [],
+            "choice": "Man sagt mir du hast einen Zyklopen gesehen?",
+            "answer": 2,
+			"exits" : [],
+			"quest" : [1]
+        },
+        {
+            "id": 2,
             "requisites": [],
             "choice": "Ne, gerade nicht.",
             "answer": 1,
-			"exits" : [0]
+			"exits" : [0],
+			"repeatable" : true
+        },
+        {
+            "id": 3,
+            "requisites": [],
+            "choice": "Schönes Wetter, nicht?",
+            "answer": 3,
+			"exits" : [],
+			"repeatable" : true
         }
     ],
     "used": []

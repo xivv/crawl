@@ -12,6 +12,56 @@ public class PlayerController : MonoBehaviour
     public static Vector3 position;
     public static Direction direction;
 
+    public static Quest GetQuest(int id)
+    {
+        foreach (Quest quest in instance.journal)
+        {
+            if (id == quest.id)
+            {
+                return quest;
+            }
+        }
+
+        return null;
+    }
+
+
+    public static bool QualifiesForQuest(List<int> quests)
+    {
+
+        foreach (int id in quests)
+        {
+
+            Quest choiceQuest = QuestLoader.Get(id);
+
+            foreach (int questId in choiceQuest.requisites)
+            {
+
+                Quest reqQuest = QuestLoader.Get(questId);
+
+                if (!HasQuest(reqQuest.id) || !GetQuest(reqQuest.id).done)
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public static bool HasQuest(int id)
+    {
+        foreach (Quest quest in instance.journal)
+        {
+            if (id == quest.id)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static void NewQuest(Quest quest)
     {
         instance.journal.Add(quest);

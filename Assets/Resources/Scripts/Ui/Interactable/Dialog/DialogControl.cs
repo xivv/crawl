@@ -47,6 +47,40 @@ public class DialogControl : MonoBehaviour
 
     public static void StopDialog()
     {
+
+        // Check for repeatable dialogChoices
+
+        foreach (DialogChoice dialogChoice in interactableDialog.choices)
+        {
+            if (dialogChoice.repeatable)
+            {
+
+                // Check for exits this will happen with quests where you can say no but want to come back later to accept the quest
+                if (dialogChoice.exits.Count == 0)
+                {
+                    interactableDialog.used.Remove(dialogChoice.id);
+                }
+                else if (dialogChoice.exits.Count > 0)
+                {
+                    foreach (int id in dialogChoice.exits)
+                    {
+                        if (!interactableDialog.used.Contains(id))
+                        {
+                            interactableDialog.used.Remove(dialogChoice.id);
+                        }
+                        else if (interactableDialog.used.Contains(id) && interactableDialog.choosen.Contains(dialogChoice.id))
+                        {
+                            interactableDialog.used.Remove(id);
+                            interactableDialog.used.Remove(dialogChoice.id);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Reset dialog but we maybe wanna decide the state on different values
+        interactableDialog.dialogState = DialogState.OPENING;
+        interactableDialog.choosen.Clear();
         instance.textElement.text = "";
         SceneManager.UnloadSceneAsync("DialogModule");
         PlayerController.SetCanMove(true);
@@ -68,6 +102,12 @@ public class DialogControl : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+    }
+
+    void CreateExitButton()
+    {
+        GameObject exitButton = Resources.Load<GameObject>("Prefabs/Ui/Dialog/DialogChoiceExit");
+        Instantiate(exitButton, panel.transform);
     }
 
     void CreateChoiceButton(DialogChoice dialogChoice)
@@ -99,7 +139,7 @@ public class DialogControl : MonoBehaviour
                         // Enable Choice Selection
                         choosing = true;
                         instance.panel.SetActive(true);
-                        instance.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(700, 150 * choices.Count);
+                        instance.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(700, 300 * choices.Count);
 
                         interactableDialog.dialogState = DialogState.CHOICE;
 
@@ -109,6 +149,7 @@ public class DialogControl : MonoBehaviour
                         {
                             CreateChoiceButton(choice);
                         }
+                        CreateExitButton();
                     }
                     else
                     {

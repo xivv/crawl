@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class Quest : Identifier
 {
@@ -36,13 +37,19 @@ public class Quest : Identifier
         return true;
     }
 
-    void OnFailure()
+    public List<Item> OnFailure()
     {
         done = false;
+        Debug.Log("Quest " + id + " not successfull");
+
+        return requiredItems;
     }
 
-    void OnSuccess()
+    public List<Item> OnSuccess()
     {
         done = true;
+        Debug.Log("Quest " + id + " successfull");
+
+        return loot;
     }
 }

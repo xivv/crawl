@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class InteractableDialog
 {
     public List<int> used;
+    public List<int> choosen;
 
     public int id;
     public int opening;
@@ -13,6 +14,21 @@ public class InteractableDialog
     public List<DialogChoice> choices;
 
     public DialogState dialogState = DialogState.OPENING;
+
+    public DialogChoice GetChoice(int id)
+    {
+
+        foreach (DialogChoice choice in choices)
+        {
+            if (choice.id == id)
+            {
+                return choice;
+
+            }
+        }
+
+        return null;
+    }
 
     public Answer GetAnswer(int id)
     {
@@ -33,6 +49,7 @@ public class InteractableDialog
     {
         used.Add(dialogChoice.id);
         used.AddRange(dialogChoice.exits);
+        choosen.Add(dialogChoice.id);
 
         foreach (int id in dialogChoice.quest)
         {
@@ -89,7 +106,7 @@ public class InteractableDialog
 
         foreach (DialogChoice choice in possible)
         {
-            if (used.Contains(choice.id))
+            if (used.Contains(choice.id) || !PlayerController.QualifiesForQuest(choice.quest))
             {
                 available.Remove(choice);
             }

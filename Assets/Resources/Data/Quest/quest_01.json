@@ -1,0 +1,11 @@
+{
+	"id" : 1,
+	"name" : "Zyklopenauge",
+	"description" : "Es soll eine Zyklopenauge gefunden und gebracht werden",
+	"comment" : "Die Quest gibt ein schwarzer Bongotrommler in Schleswig",
+	"requisites" : [0],
+	"requiredItems" : [],
+	"requiredItemIds" : [3],
+	"loot" : [],
+	"lootItemIds" : [3]
+}
