@@ -1,0 +1,50 @@
+{
+    "id": 1,
+    "comment": "In diesem Dialog geht es um eine Quest für Drachen",
+    "opening": -1,
+    "ending": -2,
+    "answers": [
+        {
+            "id": -2,
+            "text": [
+                "Tschüss!"
+            ]
+        },
+        {
+            "id": -1,
+            "text": [
+                "Hey, hast du Lust dir ein paar Münzen zu verdienen?"
+            ]
+        },
+        {
+            "id": 0,
+            "text": [
+                "Cool, besorg mir einfach ein paar Drachen Schuppen!"
+            ]
+        },
+        {
+            "id": 1,
+            "text": [
+                "Komm einfach wieder, wenn du es dir überlegt hast?"
+            ]
+        }
+    ],
+    "choices": [
+        {
+            "id": 0,
+            "requisites": [],
+            "choice": "Ja ich würde das gerne machen",
+            "answer": 0,
+			"exits" : [1],
+			"quest" : [0]
+        },
+        {
+            "id": 1,
+            "requisites": [],
+            "choice": "Ne, gerade nicht.",
+            "answer": 1,
+			"exits" : [0]
+        }
+    ],
+    "used": []
+}

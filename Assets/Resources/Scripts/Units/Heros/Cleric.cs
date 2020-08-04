@@ -27,14 +27,14 @@
             will = 1
         }
         ,
-         RaceLoader.GetRace("Human"),
+         RaceLoader.Get(1),
          Size.MEDIUM)
     {
-        HeroClassLoader.getHeroClass("Cleric").ApplyLevelUp(this, 1);
-        HeroClassLoader.getHeroClass("Wizard").ApplyLevelUp(this, 3);
+        HeroClassLoader.Get(0).ApplyLevelUp(this, 1);
+        HeroClassLoader.Get(1).ApplyLevelUp(this, 3);
 
         visions.Add(Vision.DARKVISION);
-        EquipItem(ItemLoader.GetItem("Longsword"));
-        items.Add(ItemLoader.GetItem("HeavyShield"));
+        EquipItem(ItemLoader.Get(1));
+        items.Add(ItemLoader.Get(0));
     }
 }

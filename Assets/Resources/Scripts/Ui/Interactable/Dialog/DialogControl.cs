@@ -81,37 +81,45 @@ public class DialogControl : MonoBehaviour
     {
         if (Event.current.Equals(Event.KeyboardEvent(KeyCode.KeypadEnter.ToString())) || Event.current.Equals(Event.KeyboardEvent(KeyCode.Return.ToString())))
         {
-            if (queue.Count > 1 && !choosing)
-            {
-                queue.Dequeue();
-            }
-            else if (interactableDialog.dialogState == DialogState.OPENING || interactableDialog.dialogState == DialogState.CHOICE)
-            {
 
-                // We check if we have available answers
-                List<DialogChoice> choices = interactableDialog.GetAvailableChoices();
-
-                if (choices.Count > 0)
+            if (!choosing)
+            {
+                if (queue.Count > 1 && !choosing)
                 {
-                    // Enable Choice Selection
-                    choosing = true;
-                    instance.panel.SetActive(true);
-                    interactableDialog.dialogState = DialogState.CHOICE;
+                    queue.Dequeue();
+                }
+                else if (interactableDialog.dialogState == DialogState.OPENING || interactableDialog.dialogState == DialogState.CHOICE)
+                {
 
-                    foreach (DialogChoice choice in choices)
+                    // We check if we have available answers
+                    List<DialogChoice> choices = interactableDialog.GetAvailableChoices();
+
+                    if (choices.Count > 0)
                     {
-                        CreateChoiceButton(choice);
+                        // Enable Choice Selection
+                        choosing = true;
+                        instance.panel.SetActive(true);
+                        instance.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(700, 150 * choices.Count);
+
+                        interactableDialog.dialogState = DialogState.CHOICE;
+
+
+
+                        foreach (DialogChoice choice in choices)
+                        {
+                            CreateChoiceButton(choice);
+                        }
+                    }
+                    else
+                    {
+                        queue = new Queue<string>(interactableDialog.GetEnding().text);
+                        interactableDialog.dialogState = DialogState.ENDING;
                     }
                 }
-                else
+                else if (interactableDialog.dialogState == DialogState.ENDING)
                 {
-                    queue = new Queue<string>(interactableDialog.GetEnding().text);
-                    interactableDialog.dialogState = DialogState.ENDING;
+                    StopDialog();
                 }
-            }
-            else if (interactableDialog.dialogState == DialogState.ENDING)
-            {
-                StopDialog();
             }
         }
     }

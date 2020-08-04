@@ -32,6 +32,12 @@ public class InteractableDialog
     public void Choose(DialogChoice dialogChoice)
     {
         used.Add(dialogChoice.id);
+        used.AddRange(dialogChoice.exits);
+
+        foreach (int id in dialogChoice.quest)
+        {
+            PlayerController.NewQuest(QuestLoader.Get(id));
+        }
     }
 
     public Answer GetOpener()

@@ -3,10 +3,10 @@
 public class MonsterBreeder : MonoBehaviour
 {
 
-    public static GameObject Breed(string name, Vector2 position)
+    public static GameObject Breed(int id, Vector2 position)
     {
 
-        Monster monster = MonsterLoader.GetMonster(name);
+        Monster monster = MonsterLoader.Get(id);
         GameObject newObject = new GameObject();
 
         switch (monster.size)

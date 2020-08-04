@@ -1,16 +1,13 @@
 ﻿
 using System;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class ItemLoader : Loadable
+public class ItemLoader : Loadable<Item>
 {
 
     public static ItemLoader instance;
-
-    public Dictionary<string, Item> loadedItems = new Dictionary<string, Item>();
-    private DirectoryInfo dir = new DirectoryInfo("Assets/Resources/Scripts/Items/Data");
+    private DirectoryInfo dir = new DirectoryInfo("Assets/Resources/Data/Items/");
 
     // Use this for initialization
     void Start()
@@ -24,9 +21,9 @@ public class ItemLoader : Loadable
 
     }
 
-    public static Item GetItem(string name)
+    public static Item Get(int id)
     {
-        return instance.loadedItems[name];
+        return instance.loaded[id];
     }
 
     public override void Load()
@@ -48,11 +45,11 @@ public class ItemLoader : Loadable
             ItemWrapper itemWrapper = JsonUtility.FromJson<ItemWrapper>(json);
             Item item = itemWrapper;
 
-            LoadAbilities(item.abilityNames, item.abilities);
+            LoadAbilities(itemWrapper.abilityIds, item.abilities);
 
             try
             {
-                loadedItems.Add(item.name, item);
+                loaded.Add(item.id, item);
             }
             catch (ArgumentException)
             {

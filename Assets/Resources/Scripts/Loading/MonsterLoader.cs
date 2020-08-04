@@ -1,31 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class MonsterLoader : Loadable
+public class MonsterLoader : Loadable<Monster>
 {
 
     public static MonsterLoader instance;
+    public DirectoryInfo dir = new DirectoryInfo("Assets/Resources/Data/Monster/");
 
-    public Dictionary<string, Monster> loadedMonsters = new Dictionary<string, Monster>();
-    public DirectoryInfo dir = new DirectoryInfo("Assets/Resources/Scripts/Units/Monster/");
-
-    // Use this for initialization
-    void Start()
+    public static Monster Get(int id)
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    public static Monster GetMonster(string name)
-    {
-        return instance.loadedMonsters[name];
+        return instance.loaded[id];
     }
 
     public override void Load()
@@ -51,9 +36,9 @@ public class MonsterLoader : Loadable
             monster.typeClass = TypeClass.MONSTER;
             monster.encounterStats = monster.baseStats;
 
-            foreach (string abilityName in wrapper.abilityNames)
+            foreach (int abilityId in wrapper.abilityIds)
             {
-                Ability ability = AbilityLoader.GetAbility(abilityName);
+                Ability ability = AbilityLoader.Get(abilityId);
 
                 if (ability != null)
                 {
@@ -61,13 +46,13 @@ public class MonsterLoader : Loadable
                 }
                 else
                 {
-                    Debug.LogError("Ability " + abilityName + " could not be found! Check the folder in Assets/Resources/Scripts/Abilities/Data");
+                    Debug.LogError("Ability " + abilityId + " could not be found! Check the folder in Assets/Resources/Scripts/Abilities/Data");
                 }
             }
 
             try
             {
-                loadedMonsters.Add(monster.name, monster);
+                loaded.Add(monster.id, monster);
             }
             catch (ArgumentException)
             {

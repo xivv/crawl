@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 
-public class HeroClass
+public class HeroClass : Identifier
 {
 
     public string name;

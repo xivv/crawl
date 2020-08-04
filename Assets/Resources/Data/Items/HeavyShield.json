@@ -1,0 +1,29 @@
+{
+   "id" : 0,
+   "name":"HeavyShield",
+   "rarity" : 0,
+   "description": "NO DESCRIPTION",
+   "stats":{
+      "health":0,
+      "ac":2,
+      "init":0,
+      "speed":0,
+      "bab":0,
+      "strength":0,
+      "dexterity":0,
+      "constitution":0,
+      "intelligence":0,
+      "wisdom":0,
+      "charisma":0,
+      "fortitude":0,
+      "reflex":0,
+      "will":0
+   },
+   "itemSlot":6,
+   "abilities":[
+		
+   ],
+   "abilityIds" : [
+
+   ]
+}

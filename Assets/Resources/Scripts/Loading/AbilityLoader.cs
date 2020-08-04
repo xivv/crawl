@@ -1,32 +1,17 @@
 ﻿
 using System;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class AbilityLoader : Loadable
+public class AbilityLoader : Loadable<Ability>
 {
 
     public static AbilityLoader instance;
+    private DirectoryInfo dir = new DirectoryInfo("Assets/Resources/Data/Abilities/");
 
-    public Dictionary<string, Ability> loadedAbilities = new Dictionary<string, Ability>();
-    private DirectoryInfo dir = new DirectoryInfo("Assets/Resources/Scripts/Abilities/Data");
-
-    // Use this for initialization
-    void Start()
+    public static Ability Get(int id)
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    public static Ability GetAbility(string name)
-    {
-        return instance.loadedAbilities[name];
+        return instance.loaded[id];
     }
 
     public override void Load()
@@ -50,7 +35,7 @@ public class AbilityLoader : Loadable
 
             try
             {
-                loadedAbilities.Add(ability.name, ability);
+                loaded.Add(ability.id, ability);
             }
             catch (ArgumentException)
             {

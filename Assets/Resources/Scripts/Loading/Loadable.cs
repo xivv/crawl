@@ -1,43 +1,15 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
-public class Loadable : MonoBehaviour
+public class Loadable<T> : LoadableEscape
 {
 
-    private bool isLoaded = false;
+    protected Dictionary<int, T> loaded = new Dictionary<int, T>();
 
-    // Use this for initialization
-    void Start()
+    public void LoadAbilities(List<int> abilityIds, List<Ability> target)
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    public bool IsLoaded()
-    {
-        return isLoaded;
-    }
-
-    public void SetLoaded()
-    {
-        isLoaded = true;
-    }
-
-    public virtual void Load()
-    {
-
-    }
-
-    public void LoadAbilities(List<string> abilityNames, List<Ability> target)
-    {
-        foreach (string abilityName in abilityNames)
+        foreach (int abilityId in abilityIds)
         {
-            Ability ability = AbilityLoader.GetAbility(abilityName);
+            Ability ability = AbilityLoader.Get(abilityId);
 
             if (ability != null)
             {
@@ -45,7 +17,7 @@ public class Loadable : MonoBehaviour
             }
             else
             {
-                throw new System.Exception("Ability " + abilityName + " could not be found! Check the folder in Assets/Resources/Scripts/Abilities/Data");
+                throw new System.Exception("Ability " + abilityId + " could not be found! Check the folder in Assets/Resources/Scripts/Abilities/Data");
             }
         }
     }

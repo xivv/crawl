@@ -101,7 +101,7 @@ public class Battle : MonoBehaviour
         {
             Vector2 randomPosition = new Vector2(Convert.ToSingle(Random.Range(1, width - 1) + 0.5), Convert.ToSingle(Random.Range(1, height - 1) + 0.5));
             // Vector2 randomPosition = new Vector2(Convert.ToSingle(Random.Range(1, width - 1)), Convert.ToSingle(Random.Range(1, height - 1)));
-            GameObject monster = MonsterBreeder.Breed("Skeleton", randomPosition);
+            GameObject monster = MonsterBreeder.Breed(1, randomPosition);
             UnitOrderObject unitOrderObject = monster.GetComponent<UnitOrderObject>();
             this.participants.Add(unitOrderObject);
         }

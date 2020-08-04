@@ -5,10 +5,19 @@ public class PlayerController : MonoBehaviour
 {
 
     public List<Unit> heroes = new List<Unit>();
+    public List<Quest> journal = new List<Quest>();
+
     public static PlayerController instance;
 
     public static Vector3 position;
     public static Direction direction;
+
+    public static void NewQuest(Quest quest)
+    {
+        instance.journal.Add(quest);
+        Debug.Log("New Quest " + quest.description);
+        // Aniation etc.
+    }
 
     public static void SetCanMove(bool can)
     {

@@ -1,0 +1,35 @@
+{
+	"id" : 1,
+	"name" : "Skeleton",
+	"metaInformation" : {
+		"level" : 10,
+		"exp" : 10000
+	},
+	"size" : 2,
+	"baseStats": {
+	  "health": 68,
+      "ac":0,
+      "init":-10,
+      "speed":10,
+      "bab":0,
+      "strength":0,
+      "dexterity":0,
+      "constitution":0,
+      "intelligence":0,
+      "wisdom":0,
+      "charisma":0,
+      "fortitude":0,
+      "reflex":0,
+      "will":0
+	},
+	"visions" : [0,1],
+	"abilities" : [],
+	"abilityIds" : [],
+	"resistances": [],
+	"weaknesses" : [],
+	"conditions" : [],
+	"items" : [],
+	"itemIds" : [],
+	"equippedItems" : [],
+	"equippedItemIds" : []
+}

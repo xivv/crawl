@@ -1,32 +1,18 @@
 ﻿
 using System;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class RaceLoader : Loadable
+public class RaceLoader : Loadable<Race>
 {
 
     public static RaceLoader instance;
 
-    public Dictionary<string, Race> loaded = new Dictionary<string, Race>();
-    private DirectoryInfo dir = new DirectoryInfo("Assets/Resources/Scripts/Races/Data");
+    private DirectoryInfo dir = new DirectoryInfo("Assets/Resources/Data/Races/");
 
-    // Use this for initialization
-    void Start()
+    public static Race Get(int id)
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    public static Race GetRace(string name)
-    {
-        return instance.loaded[name];
+        return instance.loaded[id];
     }
 
     public override void Load()
@@ -49,9 +35,9 @@ public class RaceLoader : Loadable
             RaceWrapper wrapper = JsonUtility.FromJson<RaceWrapper>(json);
             Race race = wrapper;
 
-            foreach (string abilityName in wrapper.abilityNames)
+            foreach (int abilityId in wrapper.abilityIds)
             {
-                Ability ability = AbilityLoader.GetAbility(abilityName);
+                Ability ability = AbilityLoader.Get(abilityId);
 
                 if (ability != null)
                 {
@@ -59,17 +45,17 @@ public class RaceLoader : Loadable
                 }
                 else
                 {
-                    Debug.LogError("Ability " + abilityName + " could not be found! Check the folder in Assets/Resources/Scripts/Abilities/Data");
+                    Debug.LogError("Ability " + abilityId + " could not be found! Check the folder in Assets/Resources/Scripts/Abilities/Data");
                 }
             }
 
             try
             {
-                loaded.Add(race.name, race);
+                loaded.Add(race.id, race);
             }
             catch (ArgumentException)
             {
-                Debug.LogError("Race " + race.name + " found duplicated! Check the folder in Assets/Resources/Scripts/Races/Data");
+                Debug.LogError("Race " + race.name + " found duplicated! Check the folder in " + dir.ToString());
             }
         }
 

@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class Npc : Interactable
 {
+
     public override void Interact()
     {
         Talk();
@@ -12,7 +13,7 @@ public class Npc : Interactable
     public void Talk()
     {
         SceneManager.LoadSceneAsync("DialogModule", LoadSceneMode.Additive);
-        DialogControl.StartDialog(DialogLoader.GetDialog(0));
+        DialogControl.StartDialog(DialogLoader.Get(dialogId));
 
     }
 

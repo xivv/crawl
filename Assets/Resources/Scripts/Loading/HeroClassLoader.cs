@@ -1,30 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class HeroClassLoader : Loadable
+public class HeroClassLoader : Loadable<HeroClass>
 {
     public static HeroClassLoader instance;
+    private DirectoryInfo dir = new DirectoryInfo("Assets/Resources/Data/HeroClasses/");
 
-    public Dictionary<string, HeroClass> loadedHeroClasses = new Dictionary<string, HeroClass>();
-    private DirectoryInfo dir = new DirectoryInfo("Assets/Resources/Scripts/HeroClasses/Data");
-
-    // Use this for initialization
-    void Start()
+    public static HeroClass Get(int id)
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    public static HeroClass getHeroClass(string name)
-    {
-        return instance.loadedHeroClasses[name];
+        return instance.loaded[id];
     }
 
     public override void Load()
@@ -49,12 +34,12 @@ public class HeroClassLoader : Loadable
             // Load abilities
             foreach (ClassProgress classProgress in heroClass.progress)
             {
-                LoadAbilities(classProgress.abilityNames, classProgress.abilities);
+                LoadAbilities(classProgress.abilityIds, classProgress.abilities);
             }
 
             try
             {
-                loadedHeroClasses.Add(heroClass.name, heroClass);
+                loaded.Add(heroClass.id, heroClass);
             }
             catch (ArgumentException)
             {

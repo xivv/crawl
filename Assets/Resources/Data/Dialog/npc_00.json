@@ -13,13 +13,14 @@
         {
             "id": -1,
             "text": [
-                "Hallo. Ouh man, du hast ja Beine wie Stämme!"
+                "Hallo. Ouh man, du hast ja Beine wie Stämme!",
+				"Wenn ich auch solche hätte wäre ich killer man!"
             ]
         },
         {
             "id": 0,
             "text": [
-                "Na Gut. Ein Drache sollte sein Gold schließlich immer horten!"
+                "Ja sogar ziemlich viel man!"
             ]
         },
         {
@@ -37,7 +38,9 @@
         {
             "id": 3,
             "text": [
-                "Schwarze Drachen sind..."
+                "Schwarze Drachen sind...",
+				 "wirklich...",
+				 "einzigartig..."
             ]
         }
     ],
@@ -45,7 +48,7 @@
         {
             "id": 0,
             "requisites": [],
-            "choice": "Ich möchte nicht, Danke",
+            "choice": "Weißt du was über Drachen?",
             "answer": 0
         },
         {

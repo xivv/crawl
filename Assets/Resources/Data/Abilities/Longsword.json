@@ -1,0 +1,26 @@
+{
+	"id" : 1,
+	"name" : "Longsword",
+	"description" : "Longsword",
+	"minTargets" : 1, 
+	"maxTargets" : 1,
+	"reach" : 1,
+	"targetStartPoint" : 0,
+	"targetPolygon" : 0,
+	"targetArea" : 0,
+	"effects" : [
+		{
+			"conditions" : [
+			],
+			"targetType": 1,
+			"dc" : 0,
+			"savingThrow" : 0,
+			"damageDie" : 1,
+			"damageDice" : 8,
+			"damageType" : 0,
+			"confirmHit" : true,
+			"abilityScoreBonus" : 0
+		}
+	]
+
+}

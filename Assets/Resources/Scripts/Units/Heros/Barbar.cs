@@ -28,10 +28,10 @@
            reflex = 0,
            will = 0
        },
-       RaceLoader.GetRace("Demon"),
+       RaceLoader.Get(0),
          Size.MEDIUM)
     {
         this.visions.Add(Vision.DARKVISION);
-        this.EquipItem(ItemLoader.GetItem("Longsword"));
+        this.EquipItem(ItemLoader.Get(1));
     }
 }

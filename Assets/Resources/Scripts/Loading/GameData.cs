@@ -4,14 +4,14 @@ using UnityEngine.SceneManagement;
 
 public class GameData : MonoBehaviour
 {
-    List<Loadable> loadables = new List<Loadable>();
+    List<LoadableEscape> loadables = new List<LoadableEscape>();
 
     // Start is called before the first frame update
     void Start()
     {
-        loadables.AddRange(GetComponents<Loadable>());
+        loadables.AddRange(GetComponents<LoadableEscape>());
 
-        foreach (Loadable loadable in loadables)
+        foreach (LoadableEscape loadable in loadables)
         {
             loadable.Load();
         }
@@ -31,7 +31,7 @@ public class GameData : MonoBehaviour
 
     public bool IsDataLoaded()
     {
-        foreach (Loadable loadable in loadables)
+        foreach (LoadableEscape loadable in loadables)
         {
             if (!loadable.IsLoaded())
             {

@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class DialogLoader : Loadable
+public class DialogLoader : Loadable<InteractableDialog>
 {
 
     public static DialogLoader instance;
     private DirectoryInfo dir = new DirectoryInfo("Assets/Resources/Data/Dialog");
-    private Dictionary<int, InteractableDialog> loadedDialogs = new Dictionary<int, InteractableDialog>();
 
 
-    public static InteractableDialog GetDialog(int id)
+    public static InteractableDialog Get(int id)
     {
-        return instance.loadedDialogs[id];
+        return instance.loaded[id];
     }
 
     public override void Load()
@@ -36,7 +34,7 @@ public class DialogLoader : Loadable
 
             try
             {
-                loadedDialogs.Add(interactableDialog.id, interactableDialog);
+                loaded.Add(interactableDialog.id, interactableDialog);
             }
             catch (ArgumentException)
             {

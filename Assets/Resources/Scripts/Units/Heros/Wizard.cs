@@ -28,7 +28,7 @@
           will = 0
       }
       ,
-       RaceLoader.GetRace("Human"),
+       RaceLoader.Get(1),
          Size.MEDIUM)
     {
 

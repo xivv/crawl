@@ -1,0 +1,11 @@
+{
+	"id" : 0,
+	"name" : "Drachenschuppe",
+	"description" : "Es soll eine Drachenschuppe gefunden und gebracht werden",
+	"comment" : "Die Quest gibt ein Bongotrommler in Schleswig",
+	"requisites" : [],
+	"requiredItems" : [],
+	"requiredItemIds" : [0,1],
+	"loot" : [],
+	"lootItemIds" : [2]
+}
