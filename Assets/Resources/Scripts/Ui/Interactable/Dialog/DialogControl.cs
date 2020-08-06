@@ -88,8 +88,15 @@ public class DialogControl : MonoBehaviour
 
     }
 
+
+    public static void StartDialog(int id)
+    {
+        StartDialog(DialogLoader.Get(id));
+    }
+
     public static void StartDialog(InteractableDialog intercomDialog)
     {
+        SceneManager.LoadSceneAsync("DialogModule", LoadSceneMode.Additive);
         PlayerController.SetCanMove(false);
         PartyQuickInfo.Hide();
         interactableDialog = intercomDialog;
@@ -153,7 +160,11 @@ public class DialogControl : MonoBehaviour
                     }
                     else
                     {
-                        queue = new Queue<string>(interactableDialog.GetEnding().text);
+
+                        if (interactableDialog.GetEnding() != null)
+                        {
+                            queue = new Queue<string>(interactableDialog.GetEnding().text);
+                        }
                         interactableDialog.dialogState = DialogState.ENDING;
                     }
                 }

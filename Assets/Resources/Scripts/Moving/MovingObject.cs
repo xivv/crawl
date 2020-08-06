@@ -89,7 +89,12 @@ public class MovingObject : MonoBehaviour
         }
     }
 
-    private IEnumerator Move(int xDir, int yDir)
+    public void Move(Vector2 vector2)
+    {
+        StartCoroutine(Move((int)vector2.x, (int)vector2.y));
+    }
+
+    public IEnumerator Move(int xDir, int yDir)
     {
         isMoving = true;
         lastMoveFailed = true;

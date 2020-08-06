@@ -1,0 +1,17 @@
+{
+    "id": 2,
+    "comment": "Standarddialog für Banditen",
+    "opening": -1,
+    "ending": null,
+    "answers": [
+        {
+            "id": -1,
+            "text": [
+                "Gib mir deine Geldbörse!"
+            ]
+        }
+    ],
+    "choices": [
+    ],
+    "used": []
+}

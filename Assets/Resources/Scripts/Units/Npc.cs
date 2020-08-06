@@ -1,19 +1,15 @@
-﻿using System.Collections;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-
-public class Npc : Interactable
+﻿public class Npc : Interactable
 {
 
     public override void Interact()
     {
+        base.Interact();
         Talk();
     }
 
     public void Talk()
     {
-        SceneManager.LoadSceneAsync("DialogModule", LoadSceneMode.Additive);
-        DialogControl.StartDialog(DialogLoader.Get(dialogId));
+        DialogControl.StartDialog(dialogId);
 
     }
 
@@ -27,17 +23,6 @@ public class Npc : Interactable
     void Update()
     {
 
-    }
-
-    private IEnumerator LoadScene(string scene)
-    {
-        // Start loading the scene
-        UnityEngine.AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync(scene, LoadSceneMode.Single);
-        // Wait until the level finish loading
-        while (!asyncLoadLevel.isDone)
-            yield return null;
-        // Wait a frame so every Awake and Start method is called
-        yield return new WaitForEndOfFrame();
     }
 
 }

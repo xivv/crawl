@@ -1,9 +1,14 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-public abstract class Interactable : MonoBehaviour
+public class Interactable : MonoBehaviour
 {
     public int dialogId;
-    public abstract void Interact();
+
+    public virtual void Interact()
+    {
+        CheckQuestFinished();
+    }
 
     // Ids of quests that can be finished here
     // We will check this on interact
@@ -18,9 +23,9 @@ public abstract class Interactable : MonoBehaviour
 
             Quest quest = PlayerController.GetQuest(id);
 
-            if (quest != null && quest.IsSuccessFull(null))
+            if (quest != null && quest.IsSuccessFull(PlayerController.GetAllItems()))
             {
-                quest.OnSuccess();
+                List<Item> loot = quest.OnSuccess();
             }
         }
     }

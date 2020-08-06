@@ -5,7 +5,7 @@
 	"comment" : "Die Quest gibt ein Bongotrommler in Schleswig",
 	"requisites" : [],
 	"requiredItems" : [],
-	"requiredItemIds" : [0,1],
+	"requiredItemIds" : [0],
 	"loot" : [],
 	"lootItemIds" : [2]
 }

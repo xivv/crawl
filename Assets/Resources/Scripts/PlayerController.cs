@@ -12,6 +12,22 @@ public class PlayerController : MonoBehaviour
     public static Vector3 position;
     public static Direction direction;
 
+    public static List<Item> GetAllItems()
+    {
+        List<Item> allItems = new List<Item>();
+
+        foreach (Unit unit in instance.heroes)
+        {
+            // Check for equipped items aswell? NO?
+            foreach (Item item in unit.items)
+            {
+                allItems.Add(item);
+            }
+        }
+
+        return allItems;
+    }
+
     public static Quest GetQuest(int id)
     {
         foreach (Quest quest in instance.journal)
@@ -125,8 +141,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnGUI()
     {
-
-
 
         if (Event.current.Equals(Event.KeyboardEvent(KeyCode.Escape.ToString())))
         {
