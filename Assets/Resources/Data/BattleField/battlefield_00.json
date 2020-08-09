@@ -1,0 +1,9 @@
+{
+    "id": 0,
+    "width": 10,
+    "height": 10,
+	"fieldIds" : {
+		0 : 1
+	},
+	"terrain" : 0
+}

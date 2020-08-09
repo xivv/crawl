@@ -1,0 +1,12 @@
+{
+	"id" : 0,
+	"opening" : 0,
+	"onWin" : 0,
+	"onLoose" : 0,
+	"enemies" : [],
+	"enemyIds" : [0,0,0,0],
+	"allies": [],
+	"allyIds" : [],
+	"loot": [],
+	"lootIds" : []
+}

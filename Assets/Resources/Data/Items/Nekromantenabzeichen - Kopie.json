@@ -1,0 +1,15 @@
+{
+   "id" : 5,
+   "name":"Gesiegelter Brief vom Seargent",
+   "rarity" : 1,
+   "description": "Ein Brief mit einem besonderen Siegel",
+   "stats":{
+   },
+   "itemSlot":11,
+   "abilities":[
+		
+   ],
+   "abilityIds" : [
+
+   ]
+}

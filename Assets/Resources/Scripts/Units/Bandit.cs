@@ -2,13 +2,15 @@
 
 public class Bandit : Npc
 {
-    private MovingObject movingObject;
+    private SpriteRenderer spriteRenderer;
     public MovementDirection movementDirection;
-    public int fieldsOfView = 6;
+    public int fieldsOfView = 1;
+    public int fight = -1;
 
     private BoxCollider2D boxCollider2D;
     private bool surprised = false;
     private bool isWatching = true;
+    public bool hiding = false;
 
     private GameObject target;
 
@@ -18,14 +20,20 @@ public class Bandit : Npc
         isWatching = false;
         PlayerController.SetCanMove(false);
         target = gameObject;
+        spriteRenderer.enabled = true;
     }
 
     // Start is called before the first frame update
     void Start()
     {
         boxCollider2D = GetComponent<BoxCollider2D>();
-        movingObject = GetComponent<MovingObject>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         boxCollider2D.enabled = false;
+
+        if (hiding == true)
+        {
+            spriteRenderer.enabled = false;
+        }
     }
 
     // Update is called once per frame
@@ -47,18 +55,14 @@ public class Bandit : Npc
 
             if (distance <= 1)
             {
+
                 target = null;
                 surprised = false;
                 isWatching = false;
-
+                boxCollider2D.enabled = true;
                 DialogControl.StartDialog(dialogId);
             }
         }
-    }
-
-    void WalkTo(GameObject gameObject)
-    {
-
     }
 
     GameObject Watch()
@@ -66,7 +70,7 @@ public class Bandit : Npc
 
         RaycastHit2D raycastHit2D = Physics2D.Raycast(gameObject.transform.position + GetRayOffset(), GetRayDirection(), fieldsOfView, 1 << 9);
 
-        if (raycastHit2D.collider != null)
+        if (raycastHit2D.collider != null && Vector2.Distance(gameObject.transform.position, raycastHit2D.collider.gameObject.transform.position) <= fieldsOfView)
         {
             Surprise(raycastHit2D.collider.gameObject);
         }

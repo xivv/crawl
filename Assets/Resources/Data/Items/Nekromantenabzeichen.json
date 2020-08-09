@@ -1,0 +1,15 @@
+{
+   "id" : 4,
+   "name":"Nekromantenabzeichen",
+   "rarity" : 3,
+   "description": "Das Abzeichen des Nekromanten, der einen Fleischgolem beschwören wollte um das Fort zu zerstören. Gut das wir ihn erledigt haben, bevor etwas schlimmeres passieren konnte...",
+   "stats":{
+   },
+   "itemSlot":11,
+   "abilities":[
+		
+   ],
+   "abilityIds" : [
+
+   ]
+}

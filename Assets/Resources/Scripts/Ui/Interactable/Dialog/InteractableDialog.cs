@@ -6,6 +6,7 @@ public class InteractableDialog
 {
     public List<int> used;
     public List<int> choosen;
+    public List<int> answered;
 
     public int id;
     public int opening;
@@ -54,6 +55,11 @@ public class InteractableDialog
         foreach (int id in dialogChoice.quest)
         {
             PlayerController.NewQuest(QuestLoader.Get(id));
+        }
+
+        foreach (int id in dialogChoice.items)
+        {
+            PlayerController.AwardLoot(ItemLoader.Get(id));
         }
     }
 

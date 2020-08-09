@@ -1,0 +1,53 @@
+{
+    "id": 3,
+    "comment": "Dialog mit einem Ritter der einem die Quest für das Finden des Nekromanten gibt ",
+    "opening": -1,
+    "ending": -2,
+    "answers": [
+        {
+            "id": -2,
+            "text": [
+                "Möge der Himmel über euch wachen!"
+            ]
+        },
+		 {
+            "id": -1,
+			"repeatable" : false,
+            "text": [
+                "Ich habe bereits auf euch gewartet...",
+				"Man sagte mir, dass ihr fähig genug seid um die Aufklärungsmission zu übernehmen",
+				"Die weiße Bande, eine organisierte Gruppe von Wilden hat vor das Fort anzugreifen. Gerüchten zu folge soll sich unter ihnen auch ein Nekromant befinden. Geht und kundschaftet dies aus. Verteidigt euch bei allem Maße wenn nötig. Sollte dieser Nekromant wirklich existieren und ihr die Chance haben, beendet sein Leben. Seid ihr bereit dafür?"
+            ]
+        },
+		 {
+            "id": 0,
+            "text": [
+                "Gut, hier ist eure gesiegelte Erlaubnis das Fort zu verlassen. Die Wachen werden euch das Tor öffnen."
+            ]
+        },
+		 {
+            "id": 1,
+            "text": [
+                "Beeilt euch bitte. Wir vermuten, dass die Banditen nicht mehr lange warten werden."
+            ]
+        }
+    ],
+    "choices": [
+	 {
+            "id": 0,
+            "choice": "Ja, ich werde mich gleich auf den Weg machen",
+            "answer": 0,
+			"exits" : [1],
+			"quest" : [2],
+			"items" : [5]
+        },
+		 {
+            "id": 1,
+			"repeatable": true,
+            "choice": "Ich brauche noch meine Ausrüstung...",
+            "answer": 1,
+			"exits" : [0]
+        }
+    ],
+    "used": []
+}

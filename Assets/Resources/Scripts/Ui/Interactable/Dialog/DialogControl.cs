@@ -41,7 +41,7 @@ public class DialogControl : MonoBehaviour
         instance.ClearChoices();
         interactableDialog.Choose(dialogChoice);
         instance.choosing = false;
-        queue = new Queue<string>(interactableDialog.GetAnswer(dialogChoice.answer).text);
+        ShowAnswer(interactableDialog.GetAnswer(dialogChoice.answer));
         instance.panel.SetActive(false);
     }
 
@@ -94,13 +94,28 @@ public class DialogControl : MonoBehaviour
         StartDialog(DialogLoader.Get(id));
     }
 
+    private static bool ShowAnswer(Answer answer)
+    {
+        if (answer.repeatable || (!answer.repeatable && !interactableDialog.answered.Contains(answer.id)))
+        {
+            queue = new Queue<string>(answer.text);
+            interactableDialog.answered.Add(answer.id);
+            return true;
+        }
+
+
+        Progress();
+        return false;
+    }
+
     public static void StartDialog(InteractableDialog intercomDialog)
     {
         SceneManager.LoadSceneAsync("DialogModule", LoadSceneMode.Additive);
         PlayerController.SetCanMove(false);
         PartyQuickInfo.Hide();
         interactableDialog = intercomDialog;
-        queue = new Queue<string>(interactableDialog.GetOpener().text);
+
+        ShowAnswer(interactableDialog.GetOpener());
     }
 
     void ClearChoices()
@@ -111,68 +126,73 @@ public class DialogControl : MonoBehaviour
         }
     }
 
-    void CreateExitButton()
+    private static void CreateExitButton()
     {
         GameObject exitButton = Resources.Load<GameObject>("Prefabs/Ui/Dialog/DialogChoiceExit");
-        Instantiate(exitButton, panel.transform);
+        Instantiate(exitButton, instance.panel.transform);
     }
 
-    void CreateChoiceButton(DialogChoice dialogChoice)
+    private static void CreateChoiceButton(DialogChoice dialogChoice)
     {
         GameObject newChoiceButton = Resources.Load<GameObject>("Prefabs/Ui/Dialog/DialogChoiceSlot");
         newChoiceButton.GetComponent<DialogChoiceSlot>().dialogChoice = dialogChoice;
-        Instantiate(newChoiceButton, panel.transform);
+        Instantiate(newChoiceButton, instance.panel.transform);
+    }
+
+
+    public static void Progress()
+    {
+        if (!instance.choosing)
+        {
+            if (queue.Count > 1 && !instance.choosing)
+            {
+                queue.Dequeue();
+            }
+            else if (interactableDialog.dialogState == DialogState.OPENING || interactableDialog.dialogState == DialogState.CHOICE)
+            {
+
+                // We check if we have available answers
+                List<DialogChoice> choices = interactableDialog.GetAvailableChoices();
+
+                if (choices.Count > 0)
+                {
+                    // Enable Choice Selection
+                    instance.choosing = true;
+                    instance.panel.SetActive(true);
+                    instance.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(700, 300 * choices.Count);
+
+                    interactableDialog.dialogState = DialogState.CHOICE;
+
+
+
+                    foreach (DialogChoice choice in choices)
+                    {
+                        CreateChoiceButton(choice);
+                    }
+                    CreateExitButton();
+                }
+                else
+                {
+
+                    if (interactableDialog.GetEnding() != null)
+                    {
+                        ShowAnswer(interactableDialog.GetEnding());
+                    }
+                    interactableDialog.dialogState = DialogState.ENDING;
+                }
+            }
+            else if (interactableDialog.dialogState == DialogState.ENDING)
+            {
+                StopDialog();
+            }
+        }
     }
 
     void OnGUI()
     {
         if (Event.current.Equals(Event.KeyboardEvent(KeyCode.KeypadEnter.ToString())) || Event.current.Equals(Event.KeyboardEvent(KeyCode.Return.ToString())))
         {
-
-            if (!choosing)
-            {
-                if (queue.Count > 1 && !choosing)
-                {
-                    queue.Dequeue();
-                }
-                else if (interactableDialog.dialogState == DialogState.OPENING || interactableDialog.dialogState == DialogState.CHOICE)
-                {
-
-                    // We check if we have available answers
-                    List<DialogChoice> choices = interactableDialog.GetAvailableChoices();
-
-                    if (choices.Count > 0)
-                    {
-                        // Enable Choice Selection
-                        choosing = true;
-                        instance.panel.SetActive(true);
-                        instance.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(700, 300 * choices.Count);
-
-                        interactableDialog.dialogState = DialogState.CHOICE;
-
-
-
-                        foreach (DialogChoice choice in choices)
-                        {
-                            CreateChoiceButton(choice);
-                        }
-                        CreateExitButton();
-                    }
-                    else
-                    {
-
-                        if (interactableDialog.GetEnding() != null)
-                        {
-                            queue = new Queue<string>(interactableDialog.GetEnding().text);
-                        }
-                        interactableDialog.dialogState = DialogState.ENDING;
-                    }
-                }
-                else if (interactableDialog.dialogState == DialogState.ENDING)
-                {
-                    StopDialog();
-                }
-            }
+            Progress();
         }
     }
 }

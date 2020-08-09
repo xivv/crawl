@@ -117,11 +117,17 @@ public class PlayerController : MonoBehaviour
         return list;
     }
 
+    public static void AwardLoot(Item loot)
+    {
+        instance.heroes[0].items.Add(loot);
+        Debug.Log("Awarded item " + loot.name);
+    }
+
     public static void AwardLoot(List<Item> loot)
     {
         foreach (Item item in loot)
         {
-            instance.heroes[0].items.Add(item);
+            AwardLoot(item);
         }
     }
 

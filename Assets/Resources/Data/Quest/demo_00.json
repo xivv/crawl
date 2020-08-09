@@ -1,0 +1,11 @@
+{
+	"id" : 2,
+	"name" : "Banditen bereiten einen Angriff vor",
+	"description" : "Die Banditen wurden dabei gesichtet sich auf einen Angriff vor zu bereiten. Unter ihnen soll sich ein Nekromant befinden. Bitte erkunde das Gebiet und erledige alle Feinde. Das Leben der Leute im Tal steht auf dem Spiel!",
+	"comment" : "Demo starter Mission",
+	"requisites" : [],
+	"requiredItems" : [],
+	"requiredItemIds" : [4],
+	"loot" : [],
+	"lootItemIds" : []
+}

@@ -14,4 +14,5 @@ public class DialogChoice
 
     public List<int> exits = new List<int>();
     public List<int> quest = new List<int>();
+    public List<int> items = new List<int>();
 }
