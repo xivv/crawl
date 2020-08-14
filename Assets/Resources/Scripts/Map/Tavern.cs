@@ -1,39 +1,29 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Tavern : MonoBehaviour
 {
-    public int maxHeroesAvailable = 4;
-    public CharacterSlot[] characterSlots;
+    private static List<Hero> heroesAvailable;
 
-    void Awake()
+    public CharacterSlot[] characterSlots;
+    public GameObject characterSlotParent;
+
+    private void Start()
     {
+        foreach (Hero hero in heroesAvailable)
+        {
+            GameObject prefab = Resources.Load<GameObject>("Prefabs/Encounter/Tavern/CharacterSlot");
+            GameObject newObject = Instantiate(prefab, characterSlotParent.transform);
+            newObject.GetComponent<CharacterSlot>().hero = hero;
+        }
+
         characterSlots = GetComponentsInChildren<CharacterSlot>();
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public static void Show(List<Hero> heroes)
     {
-        generateNewHeroes();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    public void generateNewHeroes()
-    {
-        for (var i = 0; i < maxHeroesAvailable; i++)
-        {
-            //int random = Random.Range(0, Enum.GetNames(typeof(HeroClass)).Length);
-            characterSlots[i].InsertHero(new Cleric("Gans"));
-            // characterSlots[i].InsertHero(generateRandomHero((HeroClass)random));
-        }
-    }
-
-    public Hero generateRandomHero(HeroClass heroClass)
-    {
-        return new Cleric("Ghoran");
+        SceneManager.LoadScene("Tavern");
+        heroesAvailable = heroes;
     }
 }

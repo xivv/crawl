@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class Encounter : MonoBehaviour
 {
-
+    public int? encounterId;
     public EncounterType encounterType;
     private SpriteRenderer spriteRenderer;
 
@@ -39,7 +39,7 @@ public class Encounter : MonoBehaviour
                 SceneManager.LoadScene("BattleMap");
                 break;
             case EncounterType.TAVERN:
-                SceneManager.LoadScene("Tavern");
+                encounterId = TavernControl.LoadTavern(encounterId);
                 break;
             case EncounterType.SHOP:
                 SceneManager.LoadScene("ItemShop");
