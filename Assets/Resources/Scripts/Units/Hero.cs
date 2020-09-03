@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 
-public abstract class Hero : Unit
+public class Hero : Unit
 {
     public Dictionary<HeroClass, int> progression = new Dictionary<HeroClass, int>();
 
     public Race race;
     public bool levelUpAvailable = false;
 
-    public Hero(string unitName, string spriteName, MetaInformation metaInformation, Stats baseStats, Race race, Size size) : base(unitName, spriteName, metaInformation, baseStats, TypeClass.HERO, size)
+    public Hero(string unitName, string spriteName, MetaInformation metaInformation, Stats baseStats, Race race) : base(unitName, spriteName, metaInformation, baseStats, TypeClass.HERO, race.GetRandomSize())
     {
         this.race = race;
 

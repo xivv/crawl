@@ -1,0 +1,17 @@
+{
+    "id": 5,
+    "comment": "Dialog der bei der Tür abgespielt wird",
+    "opening": 0,
+    "ending": -1,
+    "answers": [
+        {
+            "id": 0,
+            "text": [
+                "Ich sollte wirklich vorsichtig sein..."
+            ]
+        }
+    ],
+    "choices": [
+    ],
+    "used": []
+}

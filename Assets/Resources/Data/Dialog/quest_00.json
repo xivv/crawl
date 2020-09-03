@@ -1,17 +1,17 @@
 {
     "id": 1,
     "comment": "In diesem Dialog geht es um eine Quest für Drachen",
-    "opening": -1,
-    "ending": -2,
+    "opening": 4,
+    "ending": 5,
     "answers": [
         {
-            "id": -2,
+            "id": 5,
             "text": [
                 "Tschüss!"
             ]
         },
         {
-            "id": -1,
+            "id": 4,
             "text": [
                 "Hey, hast du Lust dir ein paar Münzen zu verdienen?"
             ]

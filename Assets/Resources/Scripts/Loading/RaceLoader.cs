@@ -61,4 +61,9 @@ public class RaceLoader : Loadable<Race>
 
         SetLoaded();
     }
+
+    public static Race GenerateRandom()
+    {
+        return instance.GetRandom();
+    }
 }

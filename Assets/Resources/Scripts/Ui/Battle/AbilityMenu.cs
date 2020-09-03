@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class AbilityMenu : MonoBehaviour
+public class AbilityMenu : ControllingElement
 {
 
     public static AbilityMenu instance;
@@ -10,7 +10,6 @@ public class AbilityMenu : MonoBehaviour
     private int index = 0;
 
     private bool isMoving = false;
-    private bool canAct = false;
     private float movementDelay = 0.2f;
 
     // Start is called before the first frame update
@@ -97,29 +96,9 @@ public class AbilityMenu : MonoBehaviour
         }
     }
 
-    void OnGUI()
+    public static bool CanAct()
     {
-        if (Event.current.Equals(Event.KeyboardEvent(KeyCode.KeypadEnter.ToString())) || Event.current.Equals(Event.KeyboardEvent(KeyCode.Return.ToString())))
-        {
-            // We choose the ability and need to now select targets
-            // But this will also trigger if we want to select a target instead
-            if (canAct)
-            {
-                Battle.SetState(BattleState.TARGETSELECTION);
-            }
-        }
-
-        if (Event.current.Equals(Event.KeyboardEvent(KeyCode.Escape.ToString())))
-        {
-            if (!canAct)
-            {
-                Battle.SetState(BattleState.ABILITYSELECTION);
-            }
-            else
-            {
-                Battle.SetState(BattleState.ACTION);
-            }
-        }
+        return instance.canAct;
     }
 
     public static void Select()
@@ -172,5 +151,16 @@ public class AbilityMenu : MonoBehaviour
         {
             return null;
         }
+    }
+
+    public new static bool IsKeyBlocking()
+    {
+
+        if (instance == null)
+        {
+            return false;
+        }
+
+        return instance.gameObject.activeSelf;
     }
 }

@@ -19,5 +19,6 @@
    },
 	"abilities" : [],
 	"abilityIds" : [],
-	"visions" : [0]
+	"visions" : [0],
+	"sizes" : [2,3,4]
 }

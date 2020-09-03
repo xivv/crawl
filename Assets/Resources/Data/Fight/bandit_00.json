@@ -4,7 +4,7 @@
 	"onWin" : 0,
 	"onLoose" : 0,
 	"enemies" : [],
-	"enemyIds" : [0,0,0,0],
+	"enemyIds" : [2,2,2,2],
 	"allies": [],
 	"allyIds" : [],
 	"loot": [],

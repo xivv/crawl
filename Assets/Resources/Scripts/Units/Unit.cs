@@ -31,7 +31,7 @@ public class Unit : Identifier
     public bool isDead = false;
     public bool hasStandardAction = true;
 
-    public Unit(String unitName, String spriteName, MetaInformation metaInformation, Stats baseStats, TypeClass typeClass, Size size)
+    public Unit(string unitName, string spriteName, MetaInformation metaInformation, Stats baseStats, TypeClass typeClass, Size size)
     {
         this.name = unitName;
         this.metaInformation = metaInformation;

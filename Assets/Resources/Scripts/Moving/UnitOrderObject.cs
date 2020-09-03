@@ -8,6 +8,11 @@ public class UnitOrderObject : TurnOrderObject
 
     public int rolledInit;
 
+    public UnitOrderObject(Unit unit)
+    {
+        this.unit = unit;
+    }
+
     protected override bool canMove(Vector2 targetCell)
     {
         return base.canMove(targetCell) && !hitsUnit(targetCell);
@@ -44,9 +49,9 @@ public class UnitOrderObject : TurnOrderObject
         }
     }
 
-    public void RollInitiative()
+    public double RollInitiative()
     {
-        this.rolledInit = (int)Random.Range(1, 20 + this.unit.encounterStats.init);
+        return Random.Range(1, 20 + unit.encounterStats.init) + (unit.encounterStats.init * 0.1);
     }
 
 

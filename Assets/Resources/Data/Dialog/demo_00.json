@@ -1,17 +1,17 @@
 {
     "id": 3,
     "comment": "Dialog mit einem Ritter der einem die Quest für das Finden des Nekromanten gibt ",
-    "opening": -1,
-    "ending": -2,
+    "opening": 2,
+    "ending": 3,
     "answers": [
         {
-            "id": -2,
+            "id": 3,
             "text": [
                 "Möge der Himmel über euch wachen!"
             ]
         },
 		 {
-            "id": -1,
+            "id": 2,
 			"repeatable" : false,
             "text": [
                 "Ich habe bereits auf euch gewartet...",

@@ -3,9 +3,14 @@ using UnityEngine.SceneManagement;
 
 public class Encounter : MonoBehaviour
 {
-    public int? encounterId;
+    public int encounterId;
     public EncounterType encounterType;
     private SpriteRenderer spriteRenderer;
+
+    private void Awake()
+    {
+        EncounterRegister.Register(gameObject, encounterId);
+    }
 
     // Use this for initialization
     void Start()
@@ -39,7 +44,7 @@ public class Encounter : MonoBehaviour
                 SceneManager.LoadScene("BattleMap");
                 break;
             case EncounterType.TAVERN:
-                encounterId = TavernControl.LoadTavern(encounterId);
+                TavernControl.LoadTavern(encounterId);
                 break;
             case EncounterType.SHOP:
                 SceneManager.LoadScene("ItemShop");

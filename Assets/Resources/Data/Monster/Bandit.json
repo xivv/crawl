@@ -1,0 +1,35 @@
+{
+	"id" : 2,
+	"name" : "Bandit",
+	"metaInformation" : {
+		"level" : 1,
+		"exp" : 200
+	},
+	"size" : 2,
+	"baseStats": {
+	  "health": 8,
+      "ac": 12,
+      "init": 0,
+      "speed": 6,
+      "bab": 1,
+      "strength":1,
+      "dexterity":1,
+      "constitution":0,
+      "intelligence": -1,
+      "wisdom":0,
+      "charisma":0,
+      "fortitude":0,
+      "reflex":0,
+      "will":0
+	},
+	"visions" : [],
+	"abilities" : [],
+	"abilityIds" : [2],
+	"resistances": [],
+	"weaknesses" : [],
+	"conditions" : [],
+	"items" : [],
+	"itemIds" : [],
+	"equippedItems" : [],
+	"equippedItemIds" : []
+}

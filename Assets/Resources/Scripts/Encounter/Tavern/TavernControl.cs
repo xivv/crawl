@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class TavernControl
 {
@@ -8,27 +9,32 @@ public class TavernControl
 
     private static List<Hero> GenerateHeroes()
     {
-        return new List<Hero>(new Hero[] {
-            new Cleric("Base"),
-            new Cleric("Hammel"),
-            new Cleric("Anime")
-        });
+
+        List<Hero> newHeroes = new List<Hero>();
+
+        int numberOfHeros = Random.Range(1, 5);
+
+        for (var i = 0; i < numberOfHeros; i++)
+        {
+            newHeroes.Add(HeroBreeder.Breed(4));
+        }
+        return newHeroes;
     }
 
-    public static int LoadTavern(int? id)
+    public static void LoadTavern(int id)
     {
-        if (id == null)
+        if (!taverns.ContainsKey(id))
         {
-            int newId = taverns.Count;
-            taverns[newId] = GenerateHeroes();
-            Tavern.Show(taverns[newId]);
-            return newId;
+            taverns[id] = GenerateHeroes();
         }
-        else
-        {
-            Tavern.Show(taverns[id.GetValueOrDefault()]);
-            return id.GetValueOrDefault();
-        }
+
+        Tavern.Show(taverns[id], id);
+    }
+
+    public static void UpdateTavern(int id, Hero hero)
+    {
+        taverns[id].Remove(hero);
+        PlayerController.instance.heroes.Add(hero);
     }
 
     public static int RegisterTavern()

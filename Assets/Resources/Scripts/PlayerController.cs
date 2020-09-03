@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     public static PlayerController instance;
 
     public static Vector3 position;
+    public static Vector3 previousPosition;
+
     public static Direction direction;
 
     public static List<Item> GetAllItems()
@@ -28,6 +30,22 @@ public class PlayerController : MonoBehaviour
         return allItems;
     }
 
+    public static List<int> GetAllItemIds()
+    {
+        List<int> allItems = new List<int>();
+
+        foreach (Unit unit in instance.heroes)
+        {
+            // Check for equipped items aswell? NO?
+            foreach (Item item in unit.items)
+            {
+                allItems.Add(item.id);
+            }
+        }
+
+        return allItems;
+    }
+
     public static Quest GetQuest(int id)
     {
         foreach (Quest quest in instance.journal)
@@ -39,6 +57,21 @@ public class PlayerController : MonoBehaviour
         }
 
         return null;
+    }
+
+    public static bool HasItems(List<int> itemIds)
+    {
+        List<int> allItems = GetAllItemIds();
+
+        foreach (int id in itemIds)
+        {
+            if (!allItems.Contains(id))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 
@@ -131,6 +164,40 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public static void Interact()
+    {
+        if (CanMove())
+        {
+            // Check if NPC or Interactable is in Range         
+            MovementDirection direction = WorldMap.player.GetComponent<MovingObject>().GetDirection();
+            Vector3 newPosition = new Vector3();
+
+            if (direction == MovementDirection.EAST)
+            {
+                newPosition = position + new Vector3(1, 0);
+            }
+            else if (direction == MovementDirection.WEST)
+            {
+                newPosition = position + new Vector3(-1, 0);
+            }
+            else if (direction == MovementDirection.NORTH)
+            {
+                newPosition = position + new Vector3(0, 1);
+            }
+            else if (direction == MovementDirection.SOUTH)
+            {
+                newPosition = position + new Vector3(0, -1);
+            }
+
+            GameObject gameObject = GridTools.GetInteractableAtPosition(newPosition, 9);
+
+            if (gameObject != null)
+            {
+                gameObject.GetComponent<Interactable>().Interact();
+            }
+        }
+    }
+
     private void Awake()
     {
         if (instance != null)
@@ -142,54 +209,6 @@ public class PlayerController : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
-        }
-    }
-
-    private void OnGUI()
-    {
-
-        if (Event.current.Equals(Event.KeyboardEvent(KeyCode.Escape.ToString())))
-        {
-
-            bool isAbilityMenuActive = AbilityMenu.instance.gameObject.activeSelf;
-
-            if (!isAbilityMenuActive)
-            {
-                MainMenu.instance.IngameMenu();
-            }
-        }
-        else if (Event.current.Equals(Event.KeyboardEvent(KeyCode.Return.ToString())) || Event.current.Equals(Event.KeyboardEvent(KeyCode.KeypadEnter.ToString())))
-        {
-            if (CanMove())
-            {
-                // Check if NPC or Interactable is in Range         
-                MovementDirection direction = WorldMap.player.GetComponent<MovingObject>().GetDirection();
-                Vector3 newPosition = new Vector3();
-
-                if (direction == MovementDirection.EAST)
-                {
-                    newPosition = position + new Vector3(1, 0);
-                }
-                else if (direction == MovementDirection.WEST)
-                {
-                    newPosition = position + new Vector3(-1, 0);
-                }
-                else if (direction == MovementDirection.NORTH)
-                {
-                    newPosition = position + new Vector3(0, 1);
-                }
-                else if (direction == MovementDirection.SOUTH)
-                {
-                    newPosition = position + new Vector3(0, -1);
-                }
-
-                GameObject gameObject = GridTools.GetInteractableAtPosition(newPosition, 9);
-
-                if (gameObject != null)
-                {
-                    gameObject.GetComponent<Interactable>().Interact();
-                }
-            }
         }
     }
 }

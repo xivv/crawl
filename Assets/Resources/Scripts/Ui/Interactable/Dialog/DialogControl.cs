@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class DialogControl : MonoBehaviour
+public class DialogControl : ControllingElement
 {
     public static DialogControl instance;
     private static InteractableDialog interactableDialog;
@@ -23,8 +23,6 @@ public class DialogControl : MonoBehaviour
         {
             Destroy(this);
         }
-
-        //DialogControl.StartDialog(DialogLoader.GetDialog(0));
     }
 
     // Update is called once per frame
@@ -32,6 +30,7 @@ public class DialogControl : MonoBehaviour
     {
         if (instance != null && interactableDialog != null)
         {
+            instance.isAwake = true;
             textElement.text = queue.Peek();
         }
     }
@@ -47,6 +46,8 @@ public class DialogControl : MonoBehaviour
 
     public static void StopDialog()
     {
+
+        instance.isAwake = false;
 
         // Check for repeatable dialogChoices
 
@@ -103,7 +104,6 @@ public class DialogControl : MonoBehaviour
             return true;
         }
 
-
         Progress();
         return false;
     }
@@ -114,7 +114,6 @@ public class DialogControl : MonoBehaviour
         PlayerController.SetCanMove(false);
         PartyQuickInfo.Hide();
         interactableDialog = intercomDialog;
-
         ShowAnswer(interactableDialog.GetOpener());
     }
 
@@ -142,6 +141,7 @@ public class DialogControl : MonoBehaviour
 
     public static void Progress()
     {
+
         if (!instance.choosing)
         {
             if (queue.Count > 1 && !instance.choosing)
@@ -158,27 +158,32 @@ public class DialogControl : MonoBehaviour
                 {
                     // Enable Choice Selection
                     instance.choosing = true;
-                    instance.panel.SetActive(true);
-                    instance.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(700, 300 * choices.Count);
 
                     interactableDialog.dialogState = DialogState.CHOICE;
-
-
 
                     foreach (DialogChoice choice in choices)
                     {
                         CreateChoiceButton(choice);
                     }
                     CreateExitButton();
+                    instance.gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 700);
+                    instance.gameObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 300 * choices.Count);
+                    instance.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(500, 1000);
+                    instance.panel.SetActive(true);
                 }
                 else
                 {
+
+                    interactableDialog.dialogState = DialogState.ENDING;
 
                     if (interactableDialog.GetEnding() != null)
                     {
                         ShowAnswer(interactableDialog.GetEnding());
                     }
-                    interactableDialog.dialogState = DialogState.ENDING;
+                    else
+                    {
+                        Progress();
+                    }
                 }
             }
             else if (interactableDialog.dialogState == DialogState.ENDING)
@@ -188,11 +193,13 @@ public class DialogControl : MonoBehaviour
         }
     }
 
-    void OnGUI()
+    public new static bool IsKeyBlocking()
     {
-        if (Event.current.Equals(Event.KeyboardEvent(KeyCode.KeypadEnter.ToString())) || Event.current.Equals(Event.KeyboardEvent(KeyCode.Return.ToString())))
+        if (instance == null)
         {
-            Progress();
+            return false;
         }
+
+        return instance.isAwake;
     }
 }

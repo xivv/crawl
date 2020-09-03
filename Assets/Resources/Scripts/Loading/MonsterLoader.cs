@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -42,6 +43,12 @@ public class MonsterLoader : Loadable<Monster>
 
                 if (ability != null)
                 {
+
+                    if (monster.abilities == null)
+                    {
+                        monster.abilities = new List<Ability>();
+                    }
+
                     monster.abilities.Add(ability);
                 }
                 else

@@ -1,17 +1,17 @@
 {
     "id": 0,
     "comment": "In diesem Dialog geht es um die Drachen. Der NPC ist ein unwichtiger, hat jedoch eine Mission für den Spieler..",
-    "opening": -1,
-    "ending": -2,
+    "opening": 4,
+    "ending": 5,
     "answers": [
         {
-            "id": -2,
+            "id": 5,
             "text": [
                 "Tschüss!"
             ]
         },
         {
-            "id": -1,
+            "id": 4,
             "text": [
                 "Hallo. Ouh man, du hast ja Beine wie Stämme!",
 				"Wenn ich auch solche hätte wäre ich killer man!"

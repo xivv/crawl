@@ -33,7 +33,7 @@ public class WorldMap : MonoBehaviour
         }
         else
         {
-            PlayerController.instance.heroes.Add(new Cleric("Bruder Jakob"));
+            PlayerController.instance.heroes.Add(HeroBreeder.Breed(1));
         }
     }
 
@@ -44,9 +44,15 @@ public class WorldMap : MonoBehaviour
         offset = transform.position - player.transform.position;
     }
 
+    public static void MoveBack()
+    {
+        player.GetComponent<MovingObject>().MoveBack();
+    }
+
     public static void ZoomOnPlayer()
     {
         PlayerController.position = player.transform.position;
+        PlayerController.previousPosition = player.GetComponent<MovingObject>().previousPosition;
         Camera.main.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10);
     }
 

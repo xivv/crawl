@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainMenu : MonoBehaviour
+public class MainMenu : ControllingElement
 {
 
     public static MainMenu instance;
@@ -31,56 +31,63 @@ public class MainMenu : MonoBehaviour
 
     public void NewGame()
     {
-        this.gameObject.SetActive(false);
+        gameObject.SetActive(false);
         SceneManager.LoadScene("WorldMap", LoadSceneMode.Single);
         PlayerController.position = new Vector2(0.5f, 0.5f);
     }
 
     public void QuitGame()
     {
-        this.gameObject.SetActive(false);
+        gameObject.SetActive(false);
         Application.Quit();
     }
 
     public void LoadCharacterMenu()
     {
-        this.gameObject.SetActive(false);
+        gameObject.SetActive(false);
         SceneManager.LoadScene("CharacterMenu", LoadSceneMode.Additive);
     }
 
     public void BackToMenu()
     {
         SceneManager.LoadScene("Menu", LoadSceneMode.Single);
-        OutgameMenu();
+        CloseMenu();
     }
 
-    public void IngameMenu()
+    public static void OpenMenu()
     {
-        start.SetActive(false);
-        characters.SetActive(true);
-        load.SetActive(true);
-        save.SetActive(true);
-        menu.SetActive(true);
-        quit.SetActive(true);
-        gameObject.SetActive(true);
+        instance.start.SetActive(false);
+        instance.characters.SetActive(true);
+        instance.load.SetActive(true);
+        instance.save.SetActive(true);
+        instance.menu.SetActive(true);
+        instance.quit.SetActive(true);
+        instance.gameObject.SetActive(true);
     }
 
-    public void OutgameMenu()
+    public static void CloseMenu()
     {
-        start.SetActive(true);
-        characters.SetActive(false);
-        load.SetActive(true);
-        save.SetActive(false);
-        menu.SetActive(false);
-        quit.SetActive(true);
-        gameObject.SetActive(true);
+        instance.start.SetActive(true);
+        instance.characters.SetActive(false);
+        instance.load.SetActive(true);
+        instance.save.SetActive(false);
+        instance.menu.SetActive(false);
+        instance.quit.SetActive(true);
+        instance.gameObject.SetActive(true);
     }
 
-    private void OnGUI()
+    public static void HideMenu()
     {
-        if (Event.current.Equals(Event.KeyboardEvent(KeyCode.Escape.ToString())))
+        instance.gameObject.SetActive(false);
+    }
+
+    public new static bool IsKeyBlocking()
+    {
+        if (instance == null)
         {
-            this.gameObject.SetActive(false);
+            return false;
         }
+
+        return instance.gameObject.activeSelf;
     }
 }

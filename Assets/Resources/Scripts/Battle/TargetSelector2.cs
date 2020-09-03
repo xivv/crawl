@@ -61,17 +61,4 @@ public class TargetSelector2 : MonoBehaviour
     {
 
     }
-
-    void OnGUI()
-    {
-        if (canAct)
-        {
-            if (Event.current.Equals(Event.KeyboardEvent(KeyCode.KeypadEnter.ToString())) || Event.current.Equals(Event.KeyboardEvent(KeyCode.Return.ToString())))
-            {
-
-                // Validate Target
-
-            }
-        }
-    }
 }

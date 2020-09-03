@@ -44,27 +44,27 @@ public class Ability : Identifier
 
     public void DrawReach(Vector2 startingPosition)
     {
-        Vector2 startPosition = new Vector2(startingPosition.x - this.reach, startingPosition.y + this.reach);
+        Vector2 startPosition = new Vector2(startingPosition.x - reach, startingPosition.y + reach);
 
-        if (this.targetPolygon == TargetPolygon.RECTANGLE)
+        if (targetPolygon == TargetPolygon.RECTANGLE)
         {
-            GridTools.DrawReach(startPosition, startingPosition, this.reach);
+            GridTools.DrawReach(startPosition, startingPosition, reach);
         }
     }
 
     public void DrawReach(UnitOrderObject source, Vector2 startingPosition)
     {
-        Vector2 startPosition = new Vector2(source.transform.position.x - this.reach, source.transform.position.y + this.reach);
+        Vector2 startPosition = new Vector2(source.transform.position.x - reach, source.transform.position.y + reach);
 
-        if (this.targetPolygon == TargetPolygon.RECTANGLE)
+        if (targetPolygon == TargetPolygon.RECTANGLE)
         {
-            GridTools.DrawReach(startPosition, startingPosition, this.reach);
+            GridTools.DrawReach(startPosition, startingPosition, reach);
         }
     }
 
     public bool IsSelfTargeting()
     {
-        return this.reach == 0;
+        return reach == 0;
     }
 
     public bool IsAOE()

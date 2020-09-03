@@ -3,7 +3,7 @@
     "width": 10,
     "height": 10,
 	"fieldIds" : {
-		0 : 1
+		"0" : 1
 	},
 	"terrain" : 0
 }

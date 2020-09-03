@@ -23,7 +23,7 @@ public class TargetSelector : TurnOrderObject
     {
         // We need to check if atleast one effect can target the target
 
-        Boolean isValid = false;
+        bool isValid = false;
 
         foreach (AbilityEffect abilityEffect in ability.effects)
         {
@@ -299,42 +299,44 @@ public class TargetSelector : TurnOrderObject
         }
     }
 
-    void OnGUI()
+    public static bool IsKeyBlocking()
     {
-        if (canAct && !this.pausedMovement)
+        if (instance == null)
         {
-            if (Event.current.Equals(Event.KeyboardEvent(KeyCode.KeypadEnter.ToString())) || Event.current.Equals(Event.KeyboardEvent(KeyCode.Return.ToString())))
+            return false;
+        }
+
+        return instance.gameObject.activeSelf && instance.canAct && !instance.pausedMovement;
+    }
+
+    public static void CheckForTarget()
+    {
+        if (instance.ability.IsAOE())
+        {
+            instance.SelectAOETargets(instance.ability);
+        }
+        else if (instance.ability.IsSelfTargeting())
+        {
+            instance.AddTarget(instance.source);
+        }
+        else
+        {
+
+            if (instance.ability.targetStartPoint == TargetStartPoint.REGION)
             {
 
-                if (ability.IsAOE())
+                if (instance.ability.targetPolygon == TargetPolygon.RECTANGLE)
                 {
-                    this.SelectAOETargets(ability);
+                    instance.CheckRectanglePosition();
                 }
-                else if (ability.IsSelfTargeting())
+                else if (instance.ability.targetPolygon == TargetPolygon.CONE)
                 {
-                    this.AddTarget(source);
+                    instance.CheckConePosition();
                 }
-                else
-                {
-
-                    if (ability.targetStartPoint == TargetStartPoint.REGION)
-                    {
-
-                        if (ability.targetPolygon == TargetPolygon.RECTANGLE)
-                        {
-                            CheckRectanglePosition();
-                        }
-                        else if (ability.targetPolygon == TargetPolygon.CONE)
-                        {
-                            CheckConePosition();
-                        }
-                    }
-                    else if (ability.targetStartPoint == TargetStartPoint.SELF)
-                    {
-                        AddTargetAtPosition(this.transform.position);
-                    }
-                }
-
+            }
+            else if (instance.ability.targetStartPoint == TargetStartPoint.SELF)
+            {
+                instance.AddTargetAtPosition(instance.transform.position);
             }
         }
     }

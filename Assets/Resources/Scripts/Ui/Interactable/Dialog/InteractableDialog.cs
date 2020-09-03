@@ -65,12 +65,14 @@ public class InteractableDialog
 
     public Answer GetOpener()
     {
-
-        foreach (Answer answer in answers)
+        if (opening >= 0)
         {
-            if (answer.id == opening)
+            foreach (Answer answer in answers)
             {
-                return answer;
+                if (answer.id == opening)
+                {
+                    return answer;
+                }
             }
         }
 
@@ -80,11 +82,15 @@ public class InteractableDialog
     public Answer GetEnding()
     {
 
-        foreach (Answer answer in answers)
+        if (ending >= 0)
         {
-            if (answer.id == ending)
+
+            foreach (Answer answer in answers)
             {
-                return answer;
+                if (answer.id == ending)
+                {
+                    return answer;
+                }
             }
         }
 

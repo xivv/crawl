@@ -1,11 +1,16 @@
 ﻿using System;
 using System.IO;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class HeroClassLoader : Loadable<HeroClass>
 {
     public static HeroClassLoader instance;
     private DirectoryInfo dir = new DirectoryInfo("Assets/Resources/Data/HeroClasses/");
+
+    // Generating configuration
+    private static int chanceOfMultiClass = 10;
+    private static int chanceOfMultiMultiClass = 5;
 
     public static HeroClass Get(int id)
     {
@@ -48,5 +53,51 @@ public class HeroClassLoader : Loadable<HeroClass>
         }
 
         SetLoaded();
+    }
+
+    public static HeroClass[] GenerateHeroClasses(int level)
+    {
+        HeroClass[] classes = new HeroClass[level];
+
+        int chance = Random.Range(0, 100);
+        bool multiClass = chance <= chanceOfMultiClass;
+
+        if (multiClass)
+        {
+
+            if (chance <= chanceOfMultiMultiClass)
+            {
+                for (var i = 0; i < level; i++)
+                {
+                    classes[i] = GenerateRandom();
+                }
+            }
+            else
+            {
+                HeroClass[] heroClasses = new HeroClass[] { GenerateRandom(), GenerateRandom() };
+
+                for (var i = 0; i < level; i++)
+                {
+                    classes[i] = heroClasses[Random.Range(0, heroClasses.Length)];
+                }
+            }
+        }
+        else
+        {
+
+            HeroClass heroClass = GenerateRandom();
+
+            for (var i = 0; i < level; i++)
+            {
+                classes[i] = heroClass;
+            }
+        }
+
+        return classes;
+    }
+
+    public static HeroClass GenerateRandom()
+    {
+        return instance.GetRandom();
     }
 }

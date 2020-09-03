@@ -5,8 +5,8 @@ using UnityEngine.Tilemaps;
 public class MovingObject : MonoBehaviour
 {
     protected bool isMoving;
-    private static float moveTime = 0.1f;
-    private static float movementDelay = 0.1f;
+    public float moveTime = 0.2f;
+    public float movementDelay = 0.2f;
 
     protected bool lastMoveFailed = true;
 
@@ -15,8 +15,8 @@ public class MovingObject : MonoBehaviour
 
     public bool isAllowedToMove;
 
-
     protected Vector2 direction;
+    public Vector2 previousPosition;
 
     protected BoxCollider2D boxCollider;
     protected Tilemap groundTilemap;
@@ -63,6 +63,7 @@ public class MovingObject : MonoBehaviour
         if (horizontal != 0 || vertical != 0)
         {
             direction = new Vector2(horizontal, vertical);
+            previousPosition = new Vector2(transform.position.x, transform.position.y);
             StartCoroutine(Move(horizontal, vertical));
         }
     }
@@ -84,7 +85,18 @@ public class MovingObject : MonoBehaviour
             {
                 // Get the component of the object
                 Encounter encounter = collider2D.gameObject.GetComponent<Encounter>();
-                encounter.OnEnter();
+
+                if (encounter != null)
+                {
+                    encounter.OnEnter();
+                }
+
+                GameEvent gameEvent = collider2D.gameObject.GetComponent<GameEvent>();
+
+                if (gameEvent != null)
+                {
+                    gameEvent.Call();
+                }
             }
         }
     }
@@ -92,6 +104,31 @@ public class MovingObject : MonoBehaviour
     public void Move(Vector2 vector2)
     {
         StartCoroutine(Move((int)vector2.x, (int)vector2.y));
+    }
+
+    public void MoveBack()
+    {
+        MovementDirection direction = GetDirection();
+        Vector3 newPosition = new Vector3();
+
+        if (direction == MovementDirection.EAST)
+        {
+            newPosition = new Vector3(-1, 0);
+        }
+        else if (direction == MovementDirection.WEST)
+        {
+            newPosition = new Vector3(1, 0);
+        }
+        else if (direction == MovementDirection.NORTH)
+        {
+            newPosition = new Vector3(0, -1);
+        }
+        else if (direction == MovementDirection.SOUTH)
+        {
+            newPosition = new Vector3(0, 1);
+        }
+
+        Move(newPosition);
     }
 
     public IEnumerator Move(int xDir, int yDir)

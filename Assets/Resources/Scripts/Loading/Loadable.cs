@@ -1,9 +1,15 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class Loadable<T> : LoadableEscape
 {
 
     protected Dictionary<int, T> loaded = new Dictionary<int, T>();
+
+    protected T GetRandom()
+    {
+        return loaded[Random.Range(0, loaded.Keys.Count)];
+    }
 
     public void LoadAbilities(List<int> abilityIds, List<Ability> target)
     {

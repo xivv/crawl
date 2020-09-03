@@ -1,0 +1,42 @@
+{
+	"id" : 3,
+	"name" : "Necromancer",
+	"progress" : [
+			{
+				"abilityIds" : [0],
+				"abilities": [],
+				"visions" : [0,1],
+				"stats" : {
+					"ac" : 100
+				}
+			},
+			{
+				"abilityIds" : [1],
+				"abilities": [],
+				"visions" : [],
+				"stats" : {
+				}
+			},
+			{
+				"abilityIds" : [],
+				"abilities": [],
+				"visions" : [],
+				"stats" : {
+				}
+			},
+			{
+				"abilityIds" : [],
+				"abilities": [],
+				"visions" : [],
+				"stats" : {
+				}
+			},
+			{
+				"abilityIds" : [],
+				"abilities": [],
+				"visions" : [],
+				"stats" : {
+				}
+			}	
+	]
+}

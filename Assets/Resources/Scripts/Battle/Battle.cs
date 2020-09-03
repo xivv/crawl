@@ -50,16 +50,16 @@ public class Battle : MonoBehaviour
     // Vision
     public bool isDay = true;
 
-    public Boolean IsAlly(UnitOrderObject source, UnitOrderObject target)
+    public bool IsAlly(UnitOrderObject source, UnitOrderObject target)
     {
 
-        if (this.monster.Contains(source))
+        if (monster.Contains(source))
         {
-            return this.monster.Contains(target);
+            return monster.Contains(target);
         }
-        else if (this.heroes.Contains(source))
+        else if (heroes.Contains(source))
         {
-            return this.heroes.Contains(target);
+            return heroes.Contains(target);
         }
 
         return false;
@@ -69,7 +69,6 @@ public class Battle : MonoBehaviour
     {
 
         int number = Random.Range(0, 10);
-        isDay = false;
 
         if (isDay)
         {
@@ -101,7 +100,7 @@ public class Battle : MonoBehaviour
         {
             Vector2 randomPosition = new Vector2(Convert.ToSingle(Random.Range(1, width - 1) + 0.5), Convert.ToSingle(Random.Range(1, height - 1) + 0.5));
             // Vector2 randomPosition = new Vector2(Convert.ToSingle(Random.Range(1, width - 1)), Convert.ToSingle(Random.Range(1, height - 1)));
-            GameObject monster = MonsterBreeder.Breed(1, randomPosition);
+            GameObject monster = MonsterBreeder.Breed(2, randomPosition);
             UnitOrderObject unitOrderObject = monster.GetComponent<UnitOrderObject>();
             this.participants.Add(unitOrderObject);
         }
@@ -194,8 +193,8 @@ public class Battle : MonoBehaviour
 
     void ToggleActionMenu()
     {
-        bool unitCanActAndIsAbleToMove = this.unitToAct.unit.hasStandardAction && !this.unitToAct.pausedMovement;
-        bool unitIsAbleToMoveNoStandardAction = !this.unitToAct.unit.hasStandardAction && !this.unitToAct.pausedMovement;
+        bool unitCanActAndIsAbleToMove = unitToAct.unit.hasStandardAction && !unitToAct.pausedMovement;
+        bool unitIsAbleToMoveNoStandardAction = !unitToAct.unit.hasStandardAction && !unitToAct.pausedMovement;
 
         if (unitIsAbleToMoveNoStandardAction)
         {
@@ -237,32 +236,17 @@ public class Battle : MonoBehaviour
     void ExecuteAbility(Ability ability, UnitOrderObject source)
     {
 
-        this.unitToAct.pausedMovement = false;
+        unitToAct.pausedMovement = false;
 
-        ability.Execute(this.unitToAct.unit, this.UnitOrderObjectsToUnits(this.targetSelector.EndTargetSelection()));
+        ability.Execute(unitToAct.unit, UnitOrderObjectsToUnits(targetSelector.EndTargetSelection()));
 
-        if (this.unitToAct.remainingMovementSpeed <= 0)
+        if (unitToAct.remainingMovementSpeed <= 0)
         {
-            this.unitToAct.canAct = false;
+            unitToAct.canAct = false;
         }
         else
         {
-            this.unitToAct.unit.hasStandardAction = false;
-        }
-    }
-
-
-    void OnGUI()
-    {
-        if (Event.current.Equals(Event.KeyboardEvent(KeyCode.KeypadEnter.ToString())) || Event.current.Equals(Event.KeyboardEvent(KeyCode.Return.ToString())))
-        {
-            // We choose the ability and need to now select targets
-
-        }
-
-        if (Event.current.Equals(Event.KeyboardEvent(KeyCode.Escape.ToString())))
-        {
-            // AbilityMenu2.UnLoad();
+            unitToAct.unit.hasStandardAction = false;
         }
     }
 
@@ -455,9 +439,9 @@ public class Battle : MonoBehaviour
     // Reset everything to starting state
     public void endTurnAction()
     {
-        this.unitToAct.canAct = false;
-        this.targetSelector.pausedMovement = true;
-        this.targetSelector.gameObject.SetActive(false);
+        unitToAct.canAct = false;
+        targetSelector.pausedMovement = true;
+        targetSelector.gameObject.SetActive(false);
         GridTools.ClearTargetTileMap();
         AbilityMenu.UnLoad();
     }
@@ -694,8 +678,8 @@ public class Battle : MonoBehaviour
 
         if (!living)
         {
-            this.unitToAct.canAct = false;
-            this.alive = false;
+            unitToAct.canAct = false;
+            alive = false;
 
             if (heroesLive())
             {
